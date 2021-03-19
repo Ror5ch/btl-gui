@@ -20,16 +20,20 @@ def gettext():
     f.write("\nValue: %i" % (value))
     f.close()
 
-def assign_address():                   #Assigns address
+def SCAConnect():                       
     TxValue = address.get()             #Get User input address
-    print int(TxValue, 0)               #Convert hex into int
+    print int(TxValue, 16)              #Convert hex into int
     print "write address =", TxValue
 
-def button_assign():                    #Assign address by pushing button
-    TxValue = 0x10001001                #Address for specific button
-    print int(TxValue)
-    print "write address =", hex(TxValue)
+def SCAEnableGPIO():                    
+    TxValue = address2.get()            #Get User input address
+    print int(TxValue, 16)              #Convert hex into int
+    print "write address =", TxValue
 
+def SCABread():
+    TxValue = address6.get()            #Get User input address
+    print int(TxValue, 16)              #Convert hex into int
+    print "write address =", TxValue
 
 #######################################################################
 window = tk.Tk()
@@ -62,11 +66,11 @@ enter = tk.Button(
 )
 enter.pack(side=tk.TOP)
 
-# Create Frame for Address Entry
+# Create Frame for SCAConnect
 frame3 = tk.Frame(window)
 frame3.pack(side=tk.LEFT)
 
-label2 = tk.Label(master=frame3, text="Typer Address (hex)")
+label2 = tk.Label(master=frame3, text="SCAConnect")
 label2.pack(side=tk.TOP)
 
 address = tk.Entry(master=frame3, width = 20)
@@ -74,23 +78,71 @@ address.pack(side=tk.TOP)
 
 enter1 = tk.Button(                     
     master=frame3,
-    text="Enter Address",
-    command=assign_address
+    text="Run SCAConnect",
+    command=SCAConnect
 )
 enter1.pack(side=tk.TOP)
 
-#Create Frame for hard coded Address
+#Create Frame for SCAEnableGPIO
 frame4 = tk.Frame(window)
 frame4.pack(side=tk.LEFT)
 
-label3 = tk.Label(master=frame4, text="Push Button Address")
+label3 = tk.Label(master=frame4, text="SCAEnableGPIO")
 label3.pack(side=tk.TOP)
+label4 = tk.Label(master=frame4, text="Write Control Register B")
+label4.pack(side=tk.TOP)
 
-enter2 = tk.Button(                   
+address2 = tk.Entry(master=frame4, width = 20)
+address2.pack(side=tk.TOP)
+
+label5 = tk.Label(master=frame4, text="Write Data Field")
+label5.pack(side=tk.TOP)
+
+address3 = tk.Entry(master=frame4, width = 20)
+address3.pack(side=tk.TOP)
+
+label6 = tk.Label(master=frame4, text="Read Control Register B")
+label6.pack(side=tk.TOP)
+
+address4 = tk.Entry(master=frame4, width = 20)
+address4.pack(side=tk.TOP)
+
+label7 = tk.Label(master=frame4, text="Read Data Field")
+label7.pack(side=tk.TOP)
+
+address5 = tk.Entry(master=frame4, width = 20)
+address5.pack(side=tk.TOP)
+
+enter2 = tk.Button(                     
     master=frame4,
-    text="Set Address",
-    command=button_assign
+    text="Run SCAEnableGPIO",
+    command=SCAEnableGPIO
 )
 enter2.pack(side=tk.TOP)
+
+#Create Frame for SCABread
+frame5=tk.Frame(window)
+frame5.pack(side=tk.LEFT)
+
+label8 = tk.Label(master=frame5, text="SCABread")
+label8.pack(side=tk.TOP)
+label9 = tk.Label(master=frame5, text="Read Control Register D")
+label9.pack(side=tk.TOP)
+
+address6 = tk.Entry(master=frame5, width = 20)
+address6.pack(side=tk.TOP)
+
+label10 = tk.Label(master=frame5, text="Read Data Field")
+label10.pack(side=tk.TOP)
+
+address7 = tk.Entry(master=frame5, width = 20)
+address7.pack(side=tk.TOP)
+
+enter3 = tk.Button(
+    master=frame5,
+    text="Run SCABread",
+    command=SCABread
+)
+enter3.pack(side=tk.TOP)
 
 window.mainloop()
