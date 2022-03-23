@@ -2,7 +2,7 @@
 <details><summary>How to download</summary>
 
 - To use this repo, you must first login to a computer connected to the teststand (remotely via openVPN or in person)
-- Go to the directory in which you would like to run this repo from
+- Go to the directory in which you would like to run from
 - Download/update files with the following command sequence:
 
 </details>
@@ -45,4 +45,4 @@ GUI_getNode_functions.py
 # Communicating with the LpGBTs on the board
 LpGBT_functions.py
 - This script is in ***** python 3 ******
-- 
+- This is script is still in editing and not provided in the repo yet
