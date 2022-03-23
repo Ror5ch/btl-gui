@@ -1,11 +1,14 @@
 # Command for running GUI:
 <details><summary>How to download</summary>
 To use this repo, you must first login to a computer connected to the teststand (remotely via openVPN or in person)
+
 Go to the directory in which you would like to run this repo from
+
 Download/update files with the following command sequence:
 
 </details>
 Once you are in the directory run:
+
 - python2 GUI_board_test.py
 This will bring up the interface
 
