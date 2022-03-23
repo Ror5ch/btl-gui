@@ -4,8 +4,9 @@ import uhal
 import time
 import Tkinter as tk
 import GUI_getNode_functions as getNode_functions
+import GUI_global as Gg
 
-def Connect(output_textbox, sentarg):
+def Connect(sentarg):
     wait = .2
     connectionFilePath = "GUI_Real_connections.xml";
     deviceId = "KCU105real";
@@ -14,7 +15,7 @@ def Connect(output_textbox, sentarg):
     connectionMgr = uhal.ConnectionManager("file://" + connectionFilePath);
     hw = connectionMgr.getDevice(deviceId);
 
-    output_textbox.insert(tk.END, "\n************************************************")
+    Gg.output_textbox.insert(tk.END, "\n************************************************")
     # Read SCA ID frame
     # SCA v2
 
@@ -22,27 +23,27 @@ def Connect(output_textbox, sentarg):
     TxValue = 0x00000000  # Address field
     getNode_functions.EC_Tx_Elink_Header(sentarg, hw).write(int(TxValue)); 
     hw.dispatch();
-    output_textbox.insert(tk.END, "\n write address = " + (hex(TxValue)))
+    Gg.output_textbox.insert(tk.END, "\n write address = " + (hex(TxValue)))
     if TxValue != 0x00000000:
         return False
 
     TxValue = 1;
-    output_textbox.insert(tk.END, "\n send SCA reset CMD!")
-    output_textbox.insert(tk.END, "\n ************************************************")
+    Gg.output_textbox.insert(tk.END, "\n send SCA reset CMD!")
+    Gg.output_textbox.insert(tk.END, "\n ************************************************")
     getNode_functions.SCA_Rst_CMD(sentarg, hw).write(int(TxValue)); 
     hw.dispatch();
     wait = 1
     time.sleep(wait) # wait 1 sec
 
-    output_textbox.insert(tk.END, "\n send SCA connect CMD!")
-    output_textbox.insert(tk.END, "\n************************************************")
+    Gg.output_textbox.insert(tk.END, "\n send SCA connect CMD!")
+    Gg.output_textbox.insert(tk.END, "\n************************************************")
     getNode_functions.SCA_Connect_CMD(sentarg, hw).write(int(TxValue)); 
     hw.dispatch();
 
     return True
 ##############################################################################
 
-def EnableGPIO(output_textbox, sentarg):
+def EnableGPIO(sentarg):
     
     wait = .2
     connectionFilePath = "GUI_Real_connections.xml";
@@ -60,20 +61,20 @@ def EnableGPIO(output_textbox, sentarg):
     TxValue = 0x02040001  # CMD & LEN & CH & Tr.ID field
     getNode_functions.EC_Tx_SCA_Header(sentarg, hw).write(int(TxValue)); 
     hw.dispatch();
-    output_textbox.insert(tk.END, "\n write CMD & LEN & CH & Tr.ID = " + (hex(TxValue)))
+    Gg.output_textbox.insert(tk.END, "\n write CMD & LEN & CH & Tr.ID = " + (hex(TxValue)))
     if TxValue != 0x02040001:
         return False
 
     TxValue = 0x04000000  # data field
     getNode_functions.EC_Tx_SCA_Data(sentarg, hw).write(int(TxValue)); 
     hw.dispatch();
-    output_textbox.insert(tk.END, "\n write Data = " + (hex(TxValue)))
+    Gg.output_textbox.insert(tk.END, "\n write Data = " + (hex(TxValue)))
     if TxValue != 0x04000000:
         return False
 
-    output_textbox.insert(tk.END, "\n send SCA start CMD!")
-    output_textbox.insert(tk.END, "\n Write control register D (Enable Serial Number reading)")
-    output_textbox.insert(tk.END, "\n ************************************************")
+    Gg.output_textbox.insert(tk.END, "\n send SCA start CMD!")
+    Gg.output_textbox.insert(tk.END, "\n Write control register D (Enable Serial Number reading)")
+    Gg.output_textbox.insert(tk.END, "\n ************************************************")
     getNode_functions.SCA_Start_CMD(sentarg, hw).write(int(TxValue)); 
     hw.dispatch();
     time.sleep(wait) # wait 1 sec
@@ -81,34 +82,34 @@ def EnableGPIO(output_textbox, sentarg):
     # read SCA results from RxRAM
     RxValue = getNode_functions.EC_Rx_SCA_Header(sentarg, hw).read();
     hw.dispatch();
-    output_textbox.insert(tk.END, "\n LEN & ERR & CH & Tr.ID = " + (hex(RxValue)))
+    Gg.output_textbox.insert(tk.END, "\n LEN & ERR & CH & Tr.ID = " + (hex(RxValue)))
 
     if RxValue != 0x20001:
         return False
 
     RxValue = getNode_functions.EC_Rx_SCA_Data(sentarg, hw).read();
     hw.dispatch();
-    output_textbox.insert(tk.END, "\n Data = " + (hex(RxValue)))
+    Gg.output_textbox.insert(tk.END, "\n Data = " + (hex(RxValue)))
 
     #------------------------------------------------------------------------------
     # read control register D
     TxValue = 0x03040002  # CMD & LEN & CH & Tr.ID field
     getNode_functions.EC_Tx_SCA_Header(sentarg, hw).write(int(TxValue)); 
     hw.dispatch();
-    output_textbox.insert(tk.END, "\n write CMD & LEN & CH & Tr.ID = " + (hex(TxValue)))
+    Gg.output_textbox.insert(tk.END, "\n write CMD & LEN & CH & Tr.ID = " + (hex(TxValue)))
     if TxValue != 0x03040002:
         return False
 
     TxValue = 0x00000000  # data field
     getNode_functions.EC_Tx_SCA_Data(sentarg, hw).write(int(TxValue)); 
     hw.dispatch();
-    output_textbox.insert(tk.END, "\n write Data = " + (hex(TxValue)))
+    Gg.output_textbox.insert(tk.END, "\n write Data = " + (hex(TxValue)))
     if TxValue != 0x00000000:
         return False
 
-    output_textbox.insert(tk.END, "\n send SCA start CMD!")
-    output_textbox.insert(tk.END, "\n Read control register D (Enable Serial Number reading)")
-    output_textbox.insert(tk.END, "\n ************************************************")
+    Gg.output_textbox.insert(tk.END, "\n send SCA start CMD!")
+    Gg.output_textbox.insert(tk.END, "\n Read control register D (Enable Serial Number reading)")
+    Gg.output_textbox.insert(tk.END, "\n ************************************************")
     getNode_functions.SCA_Start_CMD(sentarg, hw).write(int(TxValue)); 
     hw.dispatch();
     time.sleep(wait) # wait 1 sec
@@ -116,14 +117,14 @@ def EnableGPIO(output_textbox, sentarg):
     # read SCA results from RxRAM
     RxValue = getNode_functions.EC_Rx_SCA_Header(sentarg, hw).read();
     hw.dispatch();
-    output_textbox.insert(tk.END, "\n LEN & ERR & CH & Tr.ID = " + (hex(RxValue)))
+    Gg.output_textbox.insert(tk.END, "\n LEN & ERR & CH & Tr.ID = " + (hex(RxValue)))
     if RxValue != 0x20002:
         return False
 
     RxValue = getNode_functions.EC_Rx_SCA_Data(sentarg, hw).read();
     hw.dispatch();
-    output_textbox.insert(tk.END, "\n Data = " + (hex(RxValue)))
-    output_textbox.insert(tk.END, "\n ************************************************")
+    Gg.output_textbox.insert(tk.END, "\n Data = " + (hex(RxValue)))
+    Gg.output_textbox.insert(tk.END, "\n ************************************************")
 
     if RxValue != 0x04000000:
         return False
@@ -131,7 +132,7 @@ def EnableGPIO(output_textbox, sentarg):
     return True
 ##############################################################################
 
-def EnableAtoD(output_textbox, sentarg):
+def EnableAtoD(sentarg):
     wait = .2
     connectionFilePath = "GUI_Real_connections.xml";
     deviceId = "KCU105real";
@@ -148,20 +149,20 @@ def EnableAtoD(output_textbox, sentarg):
     TxValue = 0x06040001  # CMD & LEN & CH & Tr.ID field
     getNode_functions.EC_Tx_SCA_Header(sentarg, hw).write(int(TxValue)); 
     hw.dispatch();
-    output_textbox.insert(tk.END, "\n write CMD & LEN & CH & Tr. ID = " + (hex(TxValue)))
+    Gg.output_textbox.insert(tk.END, "\n write CMD & LEN & CH & Tr. ID = " + (hex(TxValue)))
     if TxValue != 0x06040001:
         return False
 
     TxValue = 0x10000000  # data field
     getNode_functions.EC_Tx_SCA_Data(sentarg, hw).write(int(TxValue)); 
     hw.dispatch();
-    output_textbox.insert(tk.END, "\n write Data = " + (hex(TxValue)))
+    Gg.output_textbox.insert(tk.END, "\n write Data = " + (hex(TxValue)))
     if TxValue != 0x10000000:
         return False
 
-    output_textbox.insert(tk.END, "\n send SCA start CMD!")
-    output_textbox.insert(tk.END, "\n Write control register D (Enable Serial Number reading)")
-    output_textbox.insert(tk.END, "\n ************************************************")
+    Gg.output_textbox.insert(tk.END, "\n send SCA start CMD!")
+    Gg.output_textbox.insert(tk.END, "\n Write control register D (Enable Serial Number reading)")
+    Gg.output_textbox.insert(tk.END, "\n ************************************************")
     getNode_functions.SCA_Start_CMD(sentarg, hw).write(int(TxValue)); 
     hw.dispatch();
     time.sleep(wait) # wait 1 sec
@@ -169,33 +170,33 @@ def EnableAtoD(output_textbox, sentarg):
     # read SCA results from RxRAM
     RxValue = getNode_functions.EC_Rx_SCA_Header(sentarg, hw).read();
     hw.dispatch();
-    output_textbox.insert(tk.END, "\n LEN & ERR & CH & Tr.ID = " + (hex(RxValue)))
+    Gg.output_textbox.insert(tk.END, "\n LEN & ERR & CH & Tr.ID = " + (hex(RxValue)))
     if RxValue != 0x20001:
         return False
 
     RxValue = getNode_functions.EC_Rx_SCA_Data(sentarg, hw).read();
     hw.dispatch();
-    output_textbox.insert(tk.END, "\n Data = " + (hex(RxValue)))
+    Gg.output_textbox.insert(tk.END, "\n Data = " + (hex(RxValue)))
 
     #------------------------------------------------------------------------------
     # read control register D
     TxValue = 0x07040002  # CMD & LEN & CH & Tr.ID field
     getNode_functions.EC_Tx_SCA_Header(sentarg, hw).write(int(TxValue)); 
     hw.dispatch();
-    output_textbox.insert(tk.END, "\n write CMD & LEN & CH & Tr.ID = " + (hex(TxValue)))
+    Gg.output_textbox.insert(tk.END, "\n write CMD & LEN & CH & Tr.ID = " + (hex(TxValue)))
     if TxValue != 0x07040002:
         return False
 
     TxValue = 0x00000000  # data field
     getNode_functions.EC_Tx_SCA_Data(sentarg, hw).write(int(TxValue)); 
     hw.dispatch();
-    output_textbox.insert(tk.END, "\n write Data = " + (hex(TxValue)))
+    Gg.output_textbox.insert(tk.END, "\n write Data = " + (hex(TxValue)))
     if TxValue != 0x00000000:
         return False
 
-    output_textbox.insert(tk.END, "\n send SCA start CMD!")
-    output_textbox.insert(tk.END, "\n Read control register D (Enable Serial Number reading)")
-    output_textbox.insert(tk.END, "\n ************************************************")
+    Gg.output_textbox.insert(tk.END, "\n send SCA start CMD!")
+    Gg.output_textbox.insert(tk.END, "\n Read control register D (Enable Serial Number reading)")
+    Gg.output_textbox.insert(tk.END, "\n ************************************************")
     getNode_functions.SCA_Start_CMD(sentarg, hw).write(int(TxValue)); 
     hw.dispatch();
     time.sleep(wait) # wait 1 sec
@@ -203,19 +204,19 @@ def EnableAtoD(output_textbox, sentarg):
     # read SCA results from RxRAM
     RxValue = getNode_functions.EC_Rx_SCA_Header(sentarg, hw).read();
     hw.dispatch();
-    output_textbox.insert(tk.END, "\n LEN & ERR & CH & Tr.ID = " + (hex(RxValue)))
+    Gg.output_textbox.insert(tk.END, "\n LEN & ERR & CH & Tr.ID = " + (hex(RxValue)))
     if RxValue != 0x20002:
         return False
 
     RxValue = getNode_functions.EC_Rx_SCA_Data(sentarg, hw).read();
     hw.dispatch();
-    output_textbox.insert(tk.END, "\n Data = " + (hex(RxValue)))
-    output_textbox.insert(tk.END, "\n *********************************************")
+    Gg.output_textbox.insert(tk.END, "\n Data = " + (hex(RxValue)))
+    Gg.output_textbox.insert(tk.END, "\n *********************************************")
 
     return True
 ########################################################################
 
-def Bread(Bread_label, output_textbox, sentarg):
+def Bread(sentarg):
     wait = .2
     connectionFilePath = "GUI_Real_connections.xml";
     deviceId = "KCU105real";
@@ -230,20 +231,20 @@ def Bread(Bread_label, output_textbox, sentarg):
     TxValue = 0x03040002  # CMD & LEN & CH & Tr.ID field
     getNode_functions.EC_Tx_SCA_Header(sentarg, hw).write(int(TxValue)); 
     hw.dispatch();
-    output_textbox.insert(tk.END, "\n write CMD & LEN & CH & Tr.ID = " + (hex(TxValue)))
+    Gg.output_textbox.insert(tk.END, "\n write CMD & LEN & CH & Tr.ID = " + (hex(TxValue)))
     if TxValue != 0x03040002:
         return False
 
     TxValue = 0x00000000  # data field
     getNode_functions.EC_Tx_SCA_Data(sentarg, hw).write(int(TxValue)); 
     hw.dispatch();
-    output_textbox.insert(tk.END, "\n write Data = " + (hex(TxValue)))
+    Gg.output_textbox.insert(tk.END, "\n write Data = " + (hex(TxValue)))
     if TxValue != 0x00000000:
         return False
 
-    output_textbox.insert(tk.END, "\n send SCA start CMD!")
-    output_textbox.insert(tk.END, "\n Read control register D (Enable Serial Number reading)")
-    output_textbox.insert(tk.END, "\n ************************************************")
+    Gg.output_textbox.insert(tk.END, "\n send SCA start CMD!")
+    Gg.output_textbox.insert(tk.END, "\n Read control register D (Enable Serial Number reading)")
+    Gg.output_textbox.insert(tk.END, "\n ************************************************")
     getNode_functions.SCA_Start_CMD(sentarg, hw).write(int(TxValue)); 
     hw.dispatch();
     time.sleep(wait) # wait 1 sec
@@ -251,20 +252,20 @@ def Bread(Bread_label, output_textbox, sentarg):
     # read SCA results from RxRAM
     RxValue = getNode_functions.EC_Rx_SCA_Header(sentarg, hw).read();
     hw.dispatch();
-    output_textbox.insert(tk.END, "\n LEN & ERR & CH & Tr.ID = " + (hex(RxValue)))
+    Gg.output_textbox.insert(tk.END, "\n LEN & ERR & CH & Tr.ID = " + (hex(RxValue)))
     if RxValue != 0x20002:
         return False
 
     RxValue = getNode_functions.EC_Rx_SCA_Data(sentarg, hw).read();
     hw.dispatch();
-    Bread_label.configure(text=hex(RxValue))
-    output_textbox.insert(tk.END, "\n Data = " + (hex(RxValue)))
-    output_textbox.insert(tk.END, "\n *************************************************")
+    Gg.Bread_label.configure(text=hex(RxValue))
+    Gg.output_textbox.insert(tk.END, "\n Data = " + (hex(RxValue)))
+    Gg.output_textbox.insert(tk.END, "\n *************************************************")
 
     return True
 ##############################################################################
 
-def DIRread(DIRread_label, output_textbox, sentarg):
+def DIRread(sentarg):
     wait = .2
     connectionFilePath = "GUI_Real_connections.xml";
     deviceId = "KCU105real";
@@ -279,19 +280,19 @@ def DIRread(DIRread_label, output_textbox, sentarg):
     TxValue = 0x21010202  # CMD & LEN & CH & Tr.ID field
     getNode_functions.EC_Tx_SCA_Header(sentarg, hw).write(int(TxValue)); 
     hw.dispatch();
-    output_textbox.insert(tk.END, "\n write CMD & LEN & CH & Tr.ID = " + (hex(TxValue)))
+    Gg.output_textbox.insert(tk.END, "\n write CMD & LEN & CH & Tr.ID = " + (hex(TxValue)))
     if TxValue != 0x21010202:
         return False
 
     TxValue = 0x00000000  # data field
     getNode_functions.EC_Tx_SCA_Data(sentarg, hw).write(int(TxValue)); 
     hw.dispatch();
-    output_textbox.insert(tk.END, "\n write Data = " + (hex(TxValue)))
+    Gg.output_textbox.insert(tk.END, "\n write Data = " + (hex(TxValue)))
     if TxValue != 0x00000000:
         return False
 
-    output_textbox.insert(tk.END, "\n send SCA start CMD!")
-    output_textbox.insert(tk.END, "\n Read GPIO Direction")
+    Gg.output_textbox.insert(tk.END, "\n send SCA start CMD!")
+    Gg.output_textbox.insert(tk.END, "\n Read GPIO Direction")
     getNode_functions.SCA_Start_CMD(sentarg, hw).write(int(TxValue)); 
     hw.dispatch();
     time.sleep(wait) # wait 1 sec
@@ -299,20 +300,20 @@ def DIRread(DIRread_label, output_textbox, sentarg):
     # read SCA results from RxRAM
     RxValue = getNode_functions.EC_Rx_SCA_Header(sentarg, hw).read();
     hw.dispatch();
-    output_textbox.insert(tk.END, "\n Response LEN & ERR & CH & Tr.ID = " + (hex(RxValue)))
+    Gg.output_textbox.insert(tk.END, "\n Response LEN & ERR & CH & Tr.ID = " + (hex(RxValue)))
     if RxValue != 0x40202:
         return False
 
     RxValue = getNode_functions.EC_Rx_SCA_Data(sentarg, hw).read();
     hw.dispatch();
-    DIRread_label.configure(text=hex(RxValue))
-    output_textbox.insert(tk.END, "\n Direction Register = " + (hex(RxValue)))
-    output_textbox.insert(tk.END, "\n ************************************************")
+    Gg.DIRread_label.configure(text=hex(RxValue))
+    Gg.output_textbox.insert(tk.END, "\n Direction Register = " + (hex(RxValue)))
+    Gg.output_textbox.insert(tk.END, "\n ************************************************")
     
     return True
 ####################################################################
 
-def DATAOUTread(DATAOUTread_label, output_textbox, sentarg):
+def DATAOUTread(sentarg):
     wait = .2
     connectionFilePath = "GUI_Real_connections.xml";
     deviceId = "KCU105real";
@@ -327,19 +328,19 @@ def DATAOUTread(DATAOUTread_label, output_textbox, sentarg):
     TxValue = 0x11010202  # CMD & LEN & CH & Tr.ID field
     getNode_functions.EC_Tx_SCA_Header(sentarg, hw).write(int(TxValue)); 
     hw.dispatch();
-    output_textbox.insert(tk.END, "\n write CMD & LEN & CH & Tr.ID = " + (hex(TxValue)))
+    Gg.output_textbox.insert(tk.END, "\n write CMD & LEN & CH & Tr.ID = " + (hex(TxValue)))
     if TxValue != 0x11010202:
         return False
 
     TxValue = 0x00000000  # data field
     getNode_functions.EC_Tx_SCA_Data(sentarg, hw).write(int(TxValue)); 
     hw.dispatch();
-    output_textbox.insert(tk.END, "\n write Data = " + (hex(TxValue)))
+    Gg.output_textbox.insert(tk.END, "\n write Data = " + (hex(TxValue)))
     if TxValue != 0x00000000:
         return False
 
-    output_textbox.insert(tk.END, "\n send SCA start CMD!")
-    output_textbox.insert(tk.END, "\n Read GPIO Direction")
+    Gg.output_textbox.insert(tk.END, "\n send SCA start CMD!")
+    Gg.output_textbox.insert(tk.END, "\n Read GPIO Direction")
     getNode_functions.SCA_Start_CMD(sentarg, hw).write(int(TxValue)); 
     hw.dispatch();
     time.sleep(wait) # wait 1 sec
@@ -347,20 +348,20 @@ def DATAOUTread(DATAOUTread_label, output_textbox, sentarg):
     # read SCA results from RxRAM
     RxValue = getNode_functions.EC_Rx_SCA_Header(sentarg, hw).read();
     hw.dispatch();
-    output_textbox.insert(tk.END, "\n Response LEN & ERR & CH & Tr.ID = " + (hex(RxValue)))
+    Gg.output_textbox.insert(tk.END, "\n Response LEN & ERR & CH & Tr.ID = " + (hex(RxValue)))
     if RxValue != 0x40202:
         return False
 
     RxValue = getNode_functions.EC_Rx_SCA_Data(sentarg, hw).read();
     hw.dispatch();
-    DATAOUTread_label.configure(text=hex(RxValue))
-    output_textbox.insert(tk.END, "\n Direction Register = " + (hex(RxValue)))
-    output_textbox.insert(tk.END, "\n ************************************************")
+    Gg.DATAOUTread_label.configure(text=hex(RxValue))
+    Gg.output_textbox.insert(tk.END, "\n Direction Register = " + (hex(RxValue)))
+    Gg.output_textbox.insert(tk.END, "\n ************************************************")
 
     return True
 #########################################################################
 
-def IDread(IDread_label, output_textbox, sentarg):
+def IDread(sentarg):
     wait = .2
     connectionFilePath = "GUI_Real_connections.xml";
     deviceId = "KCU105real";
@@ -377,21 +378,21 @@ def IDread(IDread_label, output_textbox, sentarg):
     TxValue = 0xD1041403  # CMD & LEN & CH & Tr.ID field
     getNode_functions.EC_Tx_SCA_Header(sentarg, hw).write(int(TxValue)); 
     hw.dispatch();
-#    output_textbox.delete("1.0", "50.100") #delete previous lines in textbox
-    output_textbox.insert(tk.END, "\n write CMD & LEN & CH & Tr.ID = " + (hex(TxValue)))
+    
+    Gg.output_textbox.insert(tk.END, "\n write CMD & LEN & CH & Tr.ID = " + (hex(TxValue)))
     if TxValue != 0xD1041403:
         return False
 
     TxValue = 0x00000001  # data field
     getNode_functions.EC_Tx_SCA_Data(sentarg, hw).write(int(TxValue)); 
     hw.dispatch();
-    output_textbox.insert(tk.END, "\n write Data = " + (hex(TxValue)))
+    Gg.output_textbox.insert(tk.END, "\n write Data = " + (hex(TxValue)))
     if TxValue != 0x00000001:
         return False
 
-    output_textbox.insert(tk.END, "\n send SCA start CMD!")
-    output_textbox.insert(tk.END, "\n Read SCA ID register")
-    output_textbox.insert(tk.END, "\n ************************************************")
+    Gg.output_textbox.insert(tk.END, "\n send SCA start CMD!")
+    Gg.output_textbox.insert(tk.END, "\n Read SCA ID register")
+    Gg.output_textbox.insert(tk.END, "\n ************************************************")
     getNode_functions.SCA_Start_CMD(sentarg, hw).write(int(TxValue)); 
     hw.dispatch();
     time.sleep(wait) # wait 1 sec
@@ -399,24 +400,24 @@ def IDread(IDread_label, output_textbox, sentarg):
     # read SCA results from RxRAM
     RxValue = getNode_functions.EC_Rx_SCA_Header(sentarg, hw).read();
     hw.dispatch();
-    output_textbox.insert(tk.END, "\n LEN & ERR & CH & Tr.ID = " + (hex(RxValue)))
+    Gg.output_textbox.insert(tk.END, "\n LEN & ERR & CH & Tr.ID = " + (hex(RxValue)))
     if RxValue != 0x41403:
         return False
 
     RxValue = getNode_functions.EC_Rx_SCA_Data(sentarg, hw).read();
     hw.dispatch();
-    output_textbox.insert(tk.END, "\n Data = " + (hex(RxValue)))
-    IDread_label.configure(text=hex(RxValue))
+    Gg.output_textbox.insert(tk.END, "\n Data = " + (hex(RxValue)))
+    Gg.IDread_label.configure(text=hex(RxValue))
        
-    output_textbox.insert(tk.END, "\n ")
-    output_textbox.insert(tk.END, "\n SCA ID value = " + (hex(RxValue)))
-    output_textbox.insert(tk.END, "\n End!")
-    output_textbox.insert(tk.END, "\n ************************************************")
+    Gg.output_textbox.insert(tk.END, "\n ")
+    Gg.output_textbox.insert(tk.END, "\n SCA ID value = " + (hex(RxValue)))
+    Gg.output_textbox.insert(tk.END, "\n End!")
+    Gg.output_textbox.insert(tk.END, "\n ************************************************")
     
     return True
 ########################################################################
 
-def GPIOon(passedarg, output_textbox, sentarg):
+def GPIOon(passedarg, sentarg):
     wait = .2
     connectionFilePath = "GUI_Real_connections.xml";
     deviceId = "KCU105real";
@@ -431,7 +432,7 @@ def GPIOon(passedarg, output_textbox, sentarg):
     TxValue = 0x21010202  # CMD & LEN & CH & Tr.ID field
     getNode_functions.EC_Tx_SCA_Header(sentarg, hw).write(int(TxValue)); 
     hw.dispatch();
-    output_textbox.insert(tk.END, "\n write CMD & LEN & CH & Tr.ID = " + (hex(TxValue)))
+    Gg.output_textbox.insert(tk.END, "\n write CMD & LEN & CH & Tr.ID = " + (hex(TxValue)))
     if TxValue != 0x21010202:
         return False
 
@@ -439,12 +440,12 @@ def GPIOon(passedarg, output_textbox, sentarg):
     TxValue = 0x00000000  # data field
     getNode_functions.EC_Tx_SCA_Data(sentarg, hw).write(int(TxValue)); 
     hw.dispatch();
-    output_textbox.insert(tk.END, "\n write Data = " + (hex(TxValue)))
+    Gg.output_textbox.insert(tk.END, "\n write Data = " + (hex(TxValue)))
     if TxValue != 0x00000000:
         return False
 
-    output_textbox.insert(tk.END, "\n send SCA start CMD!")
-    output_textbox.insert(tk.END, "\n Read GPIO Direction")
+    Gg.output_textbox.insert(tk.END, "\n send SCA start CMD!")
+    Gg.output_textbox.insert(tk.END, "\n Read GPIO Direction")
     getNode_functions.SCA_Start_CMD(sentarg, hw).write(int(TxValue)); 
     hw.dispatch();
     time.sleep(wait) # wait 1 sec
@@ -454,19 +455,19 @@ def GPIOon(passedarg, output_textbox, sentarg):
     # read SCA results from RxRAM
     RxValue = getNode_functions.EC_Rx_SCA_Header(sentarg, hw).read();
     hw.dispatch();
-    output_textbox.insert(tk.END, "\n Response LEN & ERR & CH & Tr.ID = " + (hex(RxValue)))
+    Gg.output_textbox.insert(tk.END, "\n Response LEN & ERR & CH & Tr.ID = " + (hex(RxValue)))
     if RxValue != 0x40202:
         return False
 
     RxValue = getNode_functions.EC_Rx_SCA_Data(sentarg, hw).read();
     hw.dispatch();
-    output_textbox.insert(tk.END, "\n Direction Register = " + (hex(RxValue)))
-    output_textbox.insert(tk.END, "\n ************************************************")
-    output_textbox.insert(tk.END, "\n passedarg = " + (hex(passedarg)))
+    Gg.output_textbox.insert(tk.END, "\n Direction Register = " + (hex(RxValue)))
+    Gg.output_textbox.insert(tk.END, "\n ************************************************")
+    Gg.output_textbox.insert(tk.END, "\n passedarg = " + (hex(passedarg)))
     NewValue = RxValue | passedarg
-    output_textbox.insert(tk.END, "\n ************************************************")
-    output_textbox.insert(tk.END, "\n txvalue = " + (hex(NewValue)))
-    output_textbox.insert(tk.END, "\n ************************************************")
+    Gg.output_textbox.insert(tk.END, "\n ************************************************")
+    Gg.output_textbox.insert(tk.END, "\n txvalue = " + (hex(NewValue)))
+    Gg.output_textbox.insert(tk.END, "\n ************************************************")
     
     ###############################################################################
     # set GPIO_W_Direction
@@ -475,7 +476,7 @@ def GPIOon(passedarg, output_textbox, sentarg):
     TxValue = 0x20040201  # CMD & LEN & CH & Tr.ID field
     getNode_functions.EC_Tx_SCA_Header(sentarg, hw).write(int(TxValue)); 
     hw.dispatch();
-    output_textbox.insert(tk.END, "\n write CMD & LEN & CH & Tr.ID = " + (hex(TxValue)))
+    Gg.output_textbox.insert(tk.END, "\n write CMD & LEN & CH & Tr.ID = " + (hex(TxValue)))
     if TxValue != 0x20040201:
         return False
 
@@ -483,10 +484,10 @@ def GPIOon(passedarg, output_textbox, sentarg):
 #    TxValue = 0xffffffff  # data field
     getNode_functions.EC_Tx_SCA_Data(sentarg, hw).write(int(NewValue)); 
     hw.dispatch();
-    output_textbox.insert(tk.END, "\n write Data = " + (hex(NewValue)))
+    Gg.output_textbox.insert(tk.END, "\n write Data = " + (hex(NewValue)))
 
-    output_textbox.insert(tk.END, "\n send SCA start CMD!")
-    output_textbox.insert(tk.END, "\n Write Direction Register")
+    Gg.output_textbox.insert(tk.END, "\n send SCA start CMD!")
+    Gg.output_textbox.insert(tk.END, "\n Write Direction Register")
     getNode_functions.SCA_Start_CMD(sentarg, hw).write(int(NewValue)); 
     hw.dispatch();
     time.sleep(wait) # wait 1 sec
@@ -494,32 +495,32 @@ def GPIOon(passedarg, output_textbox, sentarg):
     # read SCA results from RxRAM
     RxValue = getNode_functions.EC_Rx_SCA_Header(sentarg, hw).read();
     hw.dispatch();
-    output_textbox.insert(tk.END, "\n Response LEN & ERR & CH & Tr.ID = " + (hex(RxValue)))
+    Gg.output_textbox.insert(tk.END, "\n Response LEN & ERR & CH & Tr.ID = " + (hex(RxValue)))
     if RxValue != 0x201:
         return False
 
     RxValue = getNode_functions.EC_Rx_SCA_Data(sentarg, hw).read();
     hw.dispatch();
-    output_textbox.insert(tk.END, "\n Response = " + (hex(RxValue)))
+    Gg.output_textbox.insert(tk.END, "\n Response = " + (hex(RxValue)))
 
     #------------------------------------------------------------------------------
     # read GPIO Direction Register
     TxValue = 0x21010202  # CMD & LEN & CH & Tr.ID field
     getNode_functions.EC_Tx_SCA_Header(sentarg, hw).write(int(TxValue)); 
     hw.dispatch();
-    output_textbox.insert(tk.END, "\n write CMD & LEN & CH & Tr.ID = " + (hex(TxValue)))
+    Gg.output_textbox.insert(tk.END, "\n write CMD & LEN & CH & Tr.ID = " + (hex(TxValue)))
     if TxValue != 0x21010202:
         return False
 
     TxValue = 0x00000000  # data field
     getNode_functions.EC_Tx_SCA_Data(sentarg, hw).write(int(TxValue)); 
     hw.dispatch();
-    output_textbox.insert(tk.END, "\n write Data = " + (hex(TxValue)))
+    Gg.output_textbox.insert(tk.END, "\n write Data = " + (hex(TxValue)))
     if TxValue != 0x00000000:
         return False
 
-    output_textbox.insert(tk.END, "\n send SCA start CMD!")
-    output_textbox.insert(tk.END, "\n Read GPIO Direction")
+    Gg.output_textbox.insert(tk.END, "\n send SCA start CMD!")
+    Gg.output_textbox.insert(tk.END, "\n Read GPIO Direction")
     getNode_functions.SCA_Start_CMD(sentarg, hw).write(int(TxValue)); 
     hw.dispatch();
     time.sleep(wait) # wait 1 sec
@@ -529,21 +530,21 @@ def GPIOon(passedarg, output_textbox, sentarg):
     # read SCA results from RxRAM
     RxValue = getNode_functions.EC_Rx_SCA_Header(sentarg, hw).read();
     hw.dispatch();
-    output_textbox.insert(tk.END, "\n Response LEN & ERR & CH & Tr.ID = " + (hex(RxValue)))
+    Gg.output_textbox.insert(tk.END, "\n Response LEN & ERR & CH & Tr.ID = " + (hex(RxValue)))
     if RxValue != 0x40202:
         return False
 
     RxValue = getNode_functions.EC_Rx_SCA_Data(sentarg, hw).read();
     hw.dispatch();
-    output_textbox.insert(tk.END, "\n Direction Register = " + (hex(RxValue)))
-    output_textbox.insert(tk.END, "\n ************************************************")
+    Gg.output_textbox.insert(tk.END, "\n Direction Register = " + (hex(RxValue)))
+    Gg.output_textbox.insert(tk.END, "\n ************************************************")
     if RxValue != NewValue:
         return False
 
     return True
 #######################################################################
 
-def GPIOset(passedarg, output_textbox, sentarg):
+def GPIOset(passedarg, sentarg):
     wait = .2
     connectionFilePath = "GUI_Real_connections.xml";
     deviceId = "KCU105real";
@@ -558,19 +559,19 @@ def GPIOset(passedarg, output_textbox, sentarg):
     TxValue = 0x11010202  # CMD & LEN & CH & Tr.ID field
     getNode_functions.EC_Tx_SCA_Header(sentarg, hw).write(int(TxValue)); 
     hw.dispatch();
-    output_textbox.insert(tk.END, "\n write CMD & LEN & CH & Tr.ID = " + (hex(TxValue)))
+    Gg.output_textbox.insert(tk.END, "\n write CMD & LEN & CH & Tr.ID = " + (hex(TxValue)))
     if TxValue != 0x11010202:
         return False
 
     TxValue = 0x00000000  # data field
     getNode_functions.EC_Tx_SCA_Data(sentarg, hw).write(int(TxValue)); 
     hw.dispatch();
-    output_textbox.insert(tk.END, "\n write Data = " + (hex(TxValue)))
+    Gg.output_textbox.insert(tk.END, "\n write Data = " + (hex(TxValue)))
     if TxValue != 0x00000000:
         return False
 
-    output_textbox.insert(tk.END, "\n send SCA start CMD!")
-    output_textbox.insert(tk.END, "\n Read GPIO Dataout")
+    Gg.output_textbox.insert(tk.END, "\n send SCA start CMD!")
+    Gg.output_textbox.insert(tk.END, "\n Read GPIO Dataout")
     getNode_functions.SCA_Start_CMD(sentarg, hw).write(int(TxValue)); 
     hw.dispatch();
     time.sleep(wait) # wait 1 sec
@@ -578,18 +579,18 @@ def GPIOset(passedarg, output_textbox, sentarg):
     # read SCA results from RxRAM
     RxValue = getNode_functions.EC_Rx_SCA_Header(sentarg, hw).read();
     hw.dispatch();
-    output_textbox.insert(tk.END, "\n Response LEN & ERR & CH & Tr. ID = " + (hex(RxValue)))
+    Gg.output_textbox.insert(tk.END, "\n Response LEN & ERR & CH & Tr. ID = " + (hex(RxValue)))
     if RxValue != 0x40202:
         return False
 
     RxValue = getNode_functions.EC_Rx_SCA_Data(sentarg, hw).read();
     hw.dispatch();
-    output_textbox.insert(tk.END, "\n Dataout Register = " + (hex(RxValue)))
-    output_textbox.insert(tk.END, "\n **************************************************")
+    Gg.output_textbox.insert(tk.END, "\n Dataout Register = " + (hex(RxValue)))
+    Gg.output_textbox.insert(tk.END, "\n **************************************************")
     NewValue = RxValue | passedarg
-    output_textbox.insert(tk.END, "\n **************************************************")
-    output_textbox.insert(tk.END, "\n NewValue = " + (hex(NewValue)))
-    output_textbox.insert(tk.END, "\n **************************************************")
+    Gg.output_textbox.insert(tk.END, "\n **************************************************")
+    Gg.output_textbox.insert(tk.END, "\n NewValue = " + (hex(NewValue)))
+    Gg.output_textbox.insert(tk.END, "\n **************************************************")
     
     ###############################################################################
     # set GPIO_W_Dataout
@@ -598,7 +599,7 @@ def GPIOset(passedarg, output_textbox, sentarg):
     TxValue = 0x10040201  # CMD & LEN & CH & Tr.ID field
     getNode_functions.EC_Tx_SCA_Header(sentarg, hw).write(int(TxValue)); 
     hw.dispatch();
-    output_textbox.insert(tk.END, "\n write CMD & LEN & CH & Tr.ID = " + (hex(TxValue)))
+    Gg.output_textbox.insert(tk.END, "\n write CMD & LEN & CH & Tr.ID = " + (hex(TxValue)))
     if TxValue != 0x10040201:
         return False
 
@@ -606,10 +607,10 @@ def GPIOset(passedarg, output_textbox, sentarg):
 #    TxValue = 0xffffffff  # data field
     getNode_functions.EC_Tx_SCA_Data(sentarg, hw).write(int(NewValue)); 
     hw.dispatch();
-    output_textbox.insert(tk.END, "\n write Data = " + (hex(NewValue)))
+    Gg.output_textbox.insert(tk.END, "\n write Data = " + (hex(NewValue)))
 
-    output_textbox.insert(tk.END, "\n send SCA start CMD!")
-    output_textbox.insert(tk.END, "\n Write Dataout Register")
+    Gg.output_textbox.insert(tk.END, "\n send SCA start CMD!")
+    Gg.output_textbox.insert(tk.END, "\n Write Dataout Register")
     getNode_functions.SCA_Start_CMD(sentarg, hw).write(int(NewValue)); 
     hw.dispatch();
     time.sleep(wait) # wait 1 sec
@@ -617,32 +618,32 @@ def GPIOset(passedarg, output_textbox, sentarg):
     # read SCA results from RxRAM
     RxValue = getNode_functions.EC_Rx_SCA_Header(sentarg, hw).read();
     hw.dispatch();
-    output_textbox.insert(tk.END, "\n Response LEN & ERR & CH & Tr.ID = " + (hex(RxValue)))
+    Gg.output_textbox.insert(tk.END, "\n Response LEN & ERR & CH & Tr.ID = " + (hex(RxValue)))
     if RxValue != 0x201:
         return False
 
     RxValue = getNode_functions.EC_Rx_SCA_Data(sentarg, hw).read();
     hw.dispatch();
-    output_textbox.insert(tk.END, "\n Response = " + (hex(RxValue)))
+    Gg.output_textbox.insert(tk.END, "\n Response = " + (hex(RxValue)))
 
     #------------------------------------------------------------------------------
     # read GPIO Dataout Register
     TxValue = 0x11010202  # CMD & LEN & CH & Tr.ID field
     getNode_functions.EC_Tx_SCA_Header(sentarg, hw).write(int(TxValue)); 
     hw.dispatch();
-    output_textbox.insert(tk.END, "\n write CMD & LEN & CH & Tr.ID = " + (hex(TxValue)))
+    Gg.output_textbox.insert(tk.END, "\n write CMD & LEN & CH & Tr.ID = " + (hex(TxValue)))
     if TxValue != 0x11010202:
         return False
 
     TxValue = 0x00000000  # data field
     getNode_functions.EC_Tx_SCA_Data(sentarg, hw).write(int(TxValue)); 
     hw.dispatch();
-    output_textbox.insert(tk.END, "\n write Data = " + (hex(TxValue)))
+    Gg.output_textbox.insert(tk.END, "\n write Data = " + (hex(TxValue)))
     if TxValue != 0x00000000:
         return False
 
-    output_textbox.insert(tk.END, "\n send SCA start CMD!")
-    output_textbox.insert(tk.END, "\n Read GPIO Dataout")
+    Gg.output_textbox.insert(tk.END, "\n send SCA start CMD!")
+    Gg.output_textbox.insert(tk.END, "\n Read GPIO Dataout")
     getNode_functions.SCA_Start_CMD(sentarg, hw).write(int(TxValue)); 
     hw.dispatch();
     time.sleep(wait) # wait 1 sec
@@ -650,19 +651,19 @@ def GPIOset(passedarg, output_textbox, sentarg):
     # read SCA results from RxRAM
     RxValue = getNode_functions.EC_Rx_SCA_Header(sentarg, hw).read();
     hw.dispatch();
-    output_textbox.insert(tk.END, "\n Response LEN & ERR & CH & Tr.ID = " + (hex(RxValue)))
+    Gg.output_textbox.insert(tk.END, "\n Response LEN & ERR & CH & Tr.ID = " + (hex(RxValue)))
     if RxValue != 0x40202:
         return False
 
     RxValue = getNode_functions.EC_Rx_SCA_Data(sentarg, hw).read();
     hw.dispatch();
-    output_textbox.insert(tk.END, "\n Dataout Register = " + (hex(RxValue)))
-    output_textbox.insert(tk.END, "\n ************************************************")
+    Gg.output_textbox.insert(tk.END, "\n Dataout Register = " + (hex(RxValue)))
+    Gg.output_textbox.insert(tk.END, "\n ************************************************")
     
     return True
 ######################################################################
 
-def GPIOclr(passedarg, output_textbox, sentarg):
+def GPIOclr(passedarg, sentarg):
     wait = .2
     connectionFilePath = "GUI_Real_connections.xml";
     deviceId = "KCU105real";
@@ -677,19 +678,19 @@ def GPIOclr(passedarg, output_textbox, sentarg):
     TxValue = 0x11010202  # CMD & LEN & CH & Tr.ID field
     getNode_functions.EC_Tx_SCA_Header(sentarg, hw).write(int(TxValue)); 
     hw.dispatch();
-    output_textbox.insert(tk.END, "\n write CMD & LEN & CH & Tr.ID = " + (hex(TxValue)))
+    Gg.output_textbox.insert(tk.END, "\n write CMD & LEN & CH & Tr.ID = " + (hex(TxValue)))
     if TxValue != 0x11010202:
         return False
 
     TxValue = 0x00000000  # data field
     getNode_functions.EC_Tx_SCA_Data(sentarg, hw).write(int(TxValue)); 
     hw.dispatch();
-    output_textbox.insert(tk.END, "\n write Data = " + (hex(TxValue)))
+    Gg.output_textbox.insert(tk.END, "\n write Data = " + (hex(TxValue)))
     if TxValue != 0x00000000:
         return False
 
-    output_textbox.insert(tk.END, "\n send SCA start CMD!")
-    output_textbox.insert(tk.END, "\n Read GPIO Dataout")
+    Gg.output_textbox.insert(tk.END, "\n send SCA start CMD!")
+    Gg.output_textbox.insert(tk.END, "\n Read GPIO Dataout")
     getNode_functions.SCA_Start_CMD(sentarg, hw).write(int(TxValue)); 
     hw.dispatch();
     time.sleep(wait) # wait 1 sec
@@ -697,18 +698,18 @@ def GPIOclr(passedarg, output_textbox, sentarg):
     # read SCA results from RxRAM
     RxValue = getNode_functions.EC_Rx_SCA_Header(sentarg, hw).read();
     hw.dispatch();
-    output_textbox.insert(tk.END, "\n Response LEN & ERR & CH & Tr.ID = " + (hex(RxValue)))
+    Gg.output_textbox.insert(tk.END, "\n Response LEN & ERR & CH & Tr.ID = " + (hex(RxValue)))
     if RxValue != 0x40202:
         return False
 
     RxValue = getNode_functions.EC_Rx_SCA_Data(sentarg, hw).read();
     hw.dispatch();
-    output_textbox.insert(tk.END, "\n Dataout Register = " + (hex(RxValue)))
-    output_textbox.insert(tk.END, "\n ************************************************")
+    Gg.output_textbox.insert(tk.END, "\n Dataout Register = " + (hex(RxValue)))
+    Gg.output_textbox.insert(tk.END, "\n ************************************************")
     NewValue = RxValue & ~passedarg
-    output_textbox.insert(tk.END, "\n ************************************************")
-    output_textbox.insert(tk.END, "\n NewValue = " + (hex(NewValue)))
-    output_textbox.insert(tk.END, "\n ************************************************")
+    Gg.output_textbox.insert(tk.END, "\n ************************************************")
+    Gg.output_textbox.insert(tk.END, "\n NewValue = " + (hex(NewValue)))
+    Gg.output_textbox.insert(tk.END, "\n ************************************************")
     
     ###############################################################################
     # set GPIO_W_Dataout
@@ -717,7 +718,7 @@ def GPIOclr(passedarg, output_textbox, sentarg):
     TxValue = 0x10040201  # CMD & LEN & CH & Tr.ID field
     getNode_functions.EC_Tx_SCA_Header(sentarg, hw).write(int(TxValue)); 
     hw.dispatch();
-    output_textbox.insert(tk.END, "\n write CMD & LEN & CH & Tr.ID = " + (hex(TxValue)))
+    Gg.output_textbox.insert(tk.END, "\n write CMD & LEN & CH & Tr.ID = " + (hex(TxValue)))
     if TxValue != 0x10040201:
         return False
 
@@ -725,10 +726,10 @@ def GPIOclr(passedarg, output_textbox, sentarg):
 #    TxValue = 0xffffffff  # data field
     getNode_functions.EC_Tx_SCA_Data(sentarg, hw).write(int(NewValue)); 
     hw.dispatch();
-    output_textbox.insert(tk.END, "\n write Data = " + (hex(NewValue)))
+    Gg.output_textbox.insert(tk.END, "\n write Data = " + (hex(NewValue)))
 
-    output_textbox.insert(tk.END, "\n send SCA start CMD!")
-    output_textbox.insert(tk.END, "\n Write Dataout Register")
+    Gg.output_textbox.insert(tk.END, "\n send SCA start CMD!")
+    Gg.output_textbox.insert(tk.END, "\n Write Dataout Register")
     getNode_functions.SCA_Start_CMD(sentarg, hw).write(int(NewValue)); 
     hw.dispatch();
     time.sleep(wait) # wait 1 sec
@@ -736,32 +737,32 @@ def GPIOclr(passedarg, output_textbox, sentarg):
     # read SCA results from RxRAM
     RxValue = getNode_functions.EC_Rx_SCA_Header(sentarg, hw).read();
     hw.dispatch();
-    output_textbox.insert(tk.END, "\n Response LEN & ERR & CH & Tr.ID = " + (hex(RxValue)))
+    Gg.output_textbox.insert(tk.END, "\n Response LEN & ERR & CH & Tr.ID = " + (hex(RxValue)))
     if RxValue != 0x201:
         return False
 
     RxValue = getNode_functions.EC_Rx_SCA_Data(sentarg, hw).read();
     hw.dispatch();
-    output_textbox.insert(tk.END, "\n Response = " + (hex(RxValue)))
+    Gg.output_textbox.insert(tk.END, "\n Response = " + (hex(RxValue)))
 
     #------------------------------------------------------------------------------
     # read GPIO Dataout Register
     TxValue = 0x11010202  # CMD & LEN & CH & Tr.ID field
     getNode_functions.EC_Tx_SCA_Header(sentarg, hw).write(int(TxValue)); 
     hw.dispatch();
-    output_textbox.insert(tk.END, "\n write CMD & LEN & CH & Tr.ID = " + (hex(TxValue)))
+    Gg.output_textbox.insert(tk.END, "\n write CMD & LEN & CH & Tr.ID = " + (hex(TxValue)))
     if TxValue != 0x11010202:
         return False
 
     TxValue = 0x00000000  # data field
     getNode_functions.EC_Tx_SCA_Data(sentarg, hw).write(int(TxValue)); 
     hw.dispatch();
-    output_textbox.insert(tk.END, "\n write Data = " + (hex(TxValue)))
+    Gg.output_textbox.insert(tk.END, "\n write Data = " + (hex(TxValue)))
     if TxValue != 0x00000000:
         return False
 
-    output_textbox.insert(tk.END, "\n send SCA start CMD!")
-    output_textbox.insert(tk.END, "\n Read GPIO Dataout")
+    Gg.output_textbox.insert(tk.END, "\n send SCA start CMD!")
+    Gg.output_textbox.insert(tk.END, "\n Read GPIO Dataout")
     getNode_functions.SCA_Start_CMD(sentarg, hw).write(int(TxValue)); 
     hw.dispatch();
     time.sleep(wait) # wait 1 sec
@@ -769,21 +770,21 @@ def GPIOclr(passedarg, output_textbox, sentarg):
     # read SCA results from RxRAM
     RxValue = getNode_functions.EC_Rx_SCA_Header(sentarg, hw).read();
     hw.dispatch();
-    output_textbox.insert(tk.END, "\n Response LEN & ERR & CH & Tr.ID = " + (hex(RxValue)))
+    Gg.output_textbox.insert(tk.END, "\n Response LEN & ERR & CH & Tr.ID = " + (hex(RxValue)))
     if RxValue != 0x40202:
         return False
 
     RxValue = getNode_functions.EC_Rx_SCA_Data(sentarg, hw).read();
     hw.dispatch();
-    output_textbox.insert(tk.END, "\n Dataout Register = " + (hex(RxValue)))
-    output_textbox.insert(tk.END, "\n ************************************************")
+    Gg.output_textbox.insert(tk.END, "\n Dataout Register = " + (hex(RxValue)))
+    Gg.output_textbox.insert(tk.END, "\n ************************************************")
     if RxValue != NewValue:
         return False
 
     return True
 #####################################################################
 
-def GPIOoff(passedarg, output_textbox, sentarg):
+def GPIOoff(passedarg, sentarg):
     wait = .2
     connectionFilePath = "GUI_Real_connections.xml";
     deviceId = "KCU105real";
@@ -798,19 +799,19 @@ def GPIOoff(passedarg, output_textbox, sentarg):
     TxValue = 0x21010202  # CMD & LEN & CH & Tr.ID field
     getNode_functions.EC_Tx_SCA_Header(sentarg, hw).write(int(TxValue)); 
     hw.dispatch();
-    output_textbox.insert(tk.END, "\n write CMD & LEN & CH & Tr.ID = " + (hex(TxValue)))
+    Gg.output_textbox.insert(tk.END, "\n write CMD & LEN & CH & Tr.ID = " + (hex(TxValue)))
     if TxValue != 0x21010202:
         return False
 
     TxValue = 0x00000000  # data field
     getNode_functions.EC_Tx_SCA_Data(sentarg, hw).write(int(TxValue)); 
     hw.dispatch();
-    output_textbox.insert(tk.END, "\n write Data = " + (hex(TxValue)))
+    Gg.output_textbox.insert(tk.END, "\n write Data = " + (hex(TxValue)))
     if TxValue != 0x00000000:
         return False
 
-    output_textbox.insert(tk.END, "\n send SCA start CMD!")
-    output_textbox.insert(tk.END, "\n Read GPIO Direction")
+    Gg.output_textbox.insert(tk.END, "\n send SCA start CMD!")
+    Gg.output_textbox.insert(tk.END, "\n Read GPIO Direction")
     getNode_functions.SCA_Start_CMD(sentarg, hw).write(int(TxValue)); 
     hw.dispatch();
     time.sleep(wait) # wait 1 sec
@@ -818,18 +819,18 @@ def GPIOoff(passedarg, output_textbox, sentarg):
     # read SCA results from RxRAM
     RxValue = getNode_functions.EC_Rx_SCA_Header(sentarg, hw).read();
     hw.dispatch();
-    output_textbox.insert(tk.END, "\n Response LEN & ERR & CH & Tr.ID = " + (hex(RxValue)))
+    Gg.output_textbox.insert(tk.END, "\n Response LEN & ERR & CH & Tr.ID = " + (hex(RxValue)))
     if RxValue != 0x40202:
         return False
 
     RxValue = getNode_functions.EC_Rx_SCA_Data(sentarg, hw).read();
     hw.dispatch();
-    output_textbox.insert(tk.END, "\n Direction Register = " + (hex(RxValue)))
-    output_textbox.insert(tk.END, "\n ************************************************")
+    Gg.output_textbox.insert(tk.END, "\n Direction Register = " + (hex(RxValue)))
+    Gg.output_textbox.insert(tk.END, "\n ************************************************")
     NewValue = RxValue & ~passedarg
-    output_textbox.insert(tk.END, "\n ************************************************")
-    output_textbox.insert(tk.END, "\n txvalue = " + (hex(NewValue)))
-    output_textbox.insert(tk.END, "\n ************************************************")
+    Gg.output_textbox.insert(tk.END, "\n ************************************************")
+    Gg.output_textbox.insert(tk.END, "\n txvalue = " + (hex(NewValue)))
+    Gg.output_textbox.insert(tk.END, "\n ************************************************")
     
     ###############################################################################
     # set GPIO_W_Direction
@@ -838,7 +839,7 @@ def GPIOoff(passedarg, output_textbox, sentarg):
     TxValue = 0x20040201  # CMD & LEN & CH & Tr.ID field
     getNode_functions.EC_Tx_SCA_Header(sentarg, hw).write(int(TxValue)); 
     hw.dispatch();
-    output_textbox.insert(tk.END, "\n write CMD & LEN & CH & Tr.ID = " + (hex(TxValue)))
+    Gg.output_textbox.insert(tk.END, "\n write CMD & LEN & CH & Tr.ID = " + (hex(TxValue)))
     if TxValue != 0x20040201:
         return False
 
@@ -846,10 +847,10 @@ def GPIOoff(passedarg, output_textbox, sentarg):
 #    TxValue = 0xffffffff  # data field
     getNode_functions.EC_Tx_SCA_Data(sentarg, hw).write(int(NewValue)); 
     hw.dispatch();
-    output_textbox.insert(tk.END, "\n write Data = " + (hex(NewValue)))
+    Gg.output_textbox.insert(tk.END, "\n write Data = " + (hex(NewValue)))
 
-    output_textbox.insert(tk.END, "\n send SCA start CMD!")
-    output_textbox.insert(tk.END, "\n Write Direction Register")
+    Gg.output_textbox.insert(tk.END, "\n send SCA start CMD!")
+    Gg.output_textbox.insert(tk.END, "\n Write Direction Register")
     getNode_functions.SCA_Start_CMD(sentarg, hw).write(int(NewValue)); 
     hw.dispatch();
     time.sleep(wait) # wait 1 sec
@@ -857,32 +858,32 @@ def GPIOoff(passedarg, output_textbox, sentarg):
     # read SCA results from RxRAM
     RxValue = getNode_functions.EC_Rx_SCA_Header(sentarg, hw).read();
     hw.dispatch();
-    output_textbox.insert(tk.END, "\n Response LEN & ERR & CH & Tr.ID = " + (hex(RxValue)))
+    Gg.output_textbox.insert(tk.END, "\n Response LEN & ERR & CH & Tr.ID = " + (hex(RxValue)))
     if RxValue != 0x201:
         return False
 
     RxValue = getNode_functions.EC_Rx_SCA_Data(sentarg, hw).read();
     hw.dispatch();
-    output_textbox.insert(tk.END, "\n Response = " + (hex(RxValue)))
+    Gg.output_textbox.insert(tk.END, "\n Response = " + (hex(RxValue)))
 
     #------------------------------------------------------------------------------
     # read GPIO Direction Register
     TxValue = 0x21010202  # CMD & LEN & CH & Tr.ID field
     getNode_functions.EC_Tx_SCA_Header(sentarg, hw).write(int(TxValue)); 
     hw.dispatch();
-    output_textbox.insert(tk.END, "\n write CMD & LEN & CH & Tr.ID = " + (hex(TxValue)))
+    Gg.output_textbox.insert(tk.END, "\n write CMD & LEN & CH & Tr.ID = " + (hex(TxValue)))
     if TxValue != 0x21010202:
         return False
 
     TxValue = 0x00000000  # data field
     getNode_functions.EC_Tx_SCA_Data(sentarg, hw).write(int(TxValue)); 
     hw.dispatch();
-    output_textbox.insert(tk.END, "\n write Data = " + (hex(TxValue)))
+    Gg.output_textbox.insert(tk.END, "\n write Data = " + (hex(TxValue)))
     if TxValue != 0x00000000:
         return False
 
-    output_textbox.insert(tk.END, "\n send SCA start CMD!")
-    output_textbox.insert(tk.END, "\n Read GPIO Direction")
+    Gg.output_textbox.insert(tk.END, "\n send SCA start CMD!")
+    Gg.output_textbox.insert(tk.END, "\n Read GPIO Direction")
     getNode_functions.SCA_Start_CMD(sentarg, hw).write(int(TxValue)); 
     hw.dispatch();
     time.sleep(wait) # wait 1 sec
@@ -890,14 +891,14 @@ def GPIOoff(passedarg, output_textbox, sentarg):
     # read SCA results from RxRAM
     RxValue = getNode_functions.EC_Rx_SCA_Header(sentarg, hw).read();
     hw.dispatch();
-    output_textbox.insert(tk.END, "\n Response LEN & ERR & CH & Tr.ID = " + (hex(RxValue)))
+    Gg.output_textbox.insert(tk.END, "\n Response LEN & ERR & CH & Tr.ID = " + (hex(RxValue)))
     if RxValue != 0x40202:
         return False
 
     RxValue = getNode_functions.EC_Rx_SCA_Data(sentarg, hw).read();
     hw.dispatch();
-    output_textbox.insert(tk.END, "\n Direction Register = " + (hex(RxValue)))
-    output_textbox.insert(tk.END, "\n ************************************************")
+    Gg.output_textbox.insert(tk.END, "\n Direction Register = " + (hex(RxValue)))
+    Gg.output_textbox.insert(tk.END, "\n ************************************************")
     if RxValue != NewValue:
         return False
 
