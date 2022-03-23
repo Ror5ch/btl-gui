@@ -1,4 +1,10 @@
+<details><summary>Click to expand</summary>
+# To use this repo, you must first login to a computer connected to the teststand (remotely or in person)
+
+</details>
+
 # Command for running GUI:
+
 python2 GUI_board_test.py
 
 # For editing structure of interface:
