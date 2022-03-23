@@ -17,7 +17,7 @@ import GUI_global as Gg
 ### Sending GPIO argument ###
 ############################################################
 def GPIOenter():
-    sendarg = Gg.GPIO_entry.get()
+    sendarg = GPIO_entry.get()
     output_textbox.insert(tk.END, "\n " + sendarg)
     sendarg = int(sendarg, 0)
 
@@ -25,2034 +25,177 @@ def GPIOenter():
 ### SCA Functions and Checks ###
 ############################################################
 ### Scripts tab specific functions ###
-### GBT-SCA4 ###
-def Connect():
-    check = SCA_functions.Connect(1)
+def Connect(Connect_button, EnableGPIO_button, EnableAtoD_button, Bread_button, DIRread_button,
+    DATAOUTread_button, IDread_button, GPIOon_button, GPIOset_button, GPIOclr_button, GPIOoff_button,
+    output_textbox, GBT_SCA_num, GBT_SCA_button_array, GBT_SCA_button_array2):
+    check = SCA_functions.Connect(output_textbox, GBT_SCA_num)
     if check:
-        # reset script button colors and label text
-        Gg.Connect_button.configure(bg="green")
-        Gg.EnableGPIO_button.configure(bg="white")
-        Gg.EnableAtoD_button.configure(bg="white")
-        Gg.Bread_button.configure(bg="white")
-        Gg.DIRread_button.configure(bg="white")
-        Gg.DATAOUTread_button.configure(bg="white")
-        Gg.IDread_button.configure(bg="white")
-        Gg.GPIOon_button.configure(bg="white")
-        Gg.GPIOset_button.configure(bg="white")
-        Gg.GPIOclr_button.configure(bg="white")
-        Gg.GPIOoff_button.configure(bg="white")
-
-        Gg.Bread_label.configure(text="Bread output")
-        Gg.DIRread_label.configure(text="DIRread output")
-        Gg.DATAOUTread_label.configure(text="DATAOUTread output")
-        Gg.IDread_label.configure(text="IDread output")
-        # reset GPIO GBT-SCA button colors
-	    for i in range(len(Gg.GBT_SCA4_button_array)):
-		    Gg.GBT_SCA4_button_array[i].configure(bg="white")
-	    for i in range(len(Gg.GBT_SCA4_button_array2)):
-		    Gg.GBT_SCA4_button_array2[i].configure(bg="white")
-        # reset Analog IO label text
-        for i in range(len())
+        Connect_button.configure(bg="green")
+        EnableGPIO_button.configure(bg="white")
+        EnableAtoD_button.configure(bg="white")
+        Bread_button.configure(bg="white")
+        DIRread_button.configure(bg="white")
+        DATAOUTread_button.configure(bg="white")
+        IDread_button.configure(bg="white")
+        GPIOon_button.configure(bg="white")
+        GPIOset_button.configure(bg="white")
+        GPIOclr_button.configure(bg="white")
+        GPIOoff_button.configure(bg="white")
+	for i in range(len(GBT_SCA_button_array)):
+		GBT_SCA_button_array[i].configure(bg="white")
+	for i in range(len(GBT_SCA_button_array2)):
+		GBT_SCA_button_array2[i].configure(bg="white")
     else:
-        Gg.Connect_button.configure(bg="red")
+        Connect_button.configure(bg="red")
 
-def EnableGPIO():
-    check = SCA_functions.EnableGPIO(1)
+def EnableGPIO(EnableGPIO_button, output_textbox, GBT_SCA_num):
+    check = SCA_functions.EnableGPIO(output_textbox, GBT_SCA_num)
     if check:
-        Gg.EnableGPIO_button.configure(bg="green")
+        EnableGPIO_button.configure(bg="green")
     else:
-        Gg.EnableGPIO_button.configure(bg="red")
+        EnableGPIO_button.configure(bg="red")
 
-def EnableAtoD():
-    check = SCA_functions.EnableAtoD(1)
+def EnableAtoD(EnableAtoD_button, output_textbox, GBT_SCA_num):
+    check = SCA_functions.EnableAtoD(output_textbox, GBT_SCA_num)
     if check:
-        Gg.EnableAtoD_button.configure(bg="green")
+        EnableAtoD_button.configure(bg="green")
     else:
-        Gg.EnableAtoD_button.configure(bg="red")
+        EnableAtoD_button.configure(bg="red")
 
-def IDread():
-    check = SCA_functions.IDread(1)
+def IDread(IDread_button, IDread_label, output_textbox, GBT_SCA_num):
+    check = SCA_functions.IDread(IDread_label, output_textbox, GBT_SCA_num)
     if check:
-        Gg.IDread_button.configure(bg="green")
+        IDread_button.configure(bg="green")
     else:
-        Gg.IDread_button.configure(bg="red")
+        IDread_button.configure(bg="red")
 
-def Bread():
-    check = SCA_functions.Bread(1)
+def Bread(Bread_button, Bread_label, output_textbox, GBT_SCA_num):
+    check = SCA_functions.Bread(Bread_label, output_textbox, GBT_SCA_num)
     if check:
-        Gg.Bread_button.configure(bg="green")
+        Bread_button.configure(bg="green")
     else:
-        Gg.Bread_button.configure(bg="red")
+        Bread_button.configure(bg="red")
 
-def DIRread():
-    check = SCA_functions.DIRread(1)
+def DIRread(DIRread_button, DIRread_label, output_textbox, GBT_SCA_num):
+    check = SCA_functions.DIRread(DIRread_label, output_textbox, GBT_SCA_num)
     if check:
-        Gg.DIRread_button.configure(bg="green")
+        DIRread_button.configure(bg="green")
     else:
-        Gg.DIRread_button.configure(bg="red")
+        DIRread_button.configure(bg="red")
 
-def DATAOUTread():
-    check = SCA_functions.DATAOUTread(1)
+def DATAOUTread(DATAOUTread_button, DATAOUTread_label, output_textbox, GBT_SCA_num):
+    check = SCA_functions.DATAOUTread(DATAOUTread_label, output_textbox, GBT_SCA_num)
     if check:
-        Gg.DATAOUTread_button.configure(bg="green")
+        DATAOUTread_button.configure(bg="green")
     else:
-        Gg.DATAOUTread_button.configure(bg="red")
+        DATAOUTread_button.configure(bg="red")
 
-def GPIOon():
-    entry = Gg.GPIO_entry.get()
-    Gg.output_textbox.insert(tk.END, "\n " + entry)
-    value = int(entry, 0)
-    check = SCA_functions.GPIOon(value, 1)
+def GPIOon(value, GPIOon_button, output_textbox, GBT_SCA_num):
+    output_textbox.insert(tk.END, "\n " + value)
+    value = int(value, 0)
+    check = SCA_functions.GPIOon(value, output_textbox, GBT_SCA_num)
     if check:
-        Gg.GPIOon_button.configure(bg="green")
+        GPIOon_button.configure(bg="green")
     else:
-        Gg.GPIOon_button.configure(bg="red")
+        GPIOon_button.configure(bg="red")
 
-def GPIOset():
-    entry = Gg.GPIO_entry.get()
-    Gg.output_textbox.insert(tk.END, "\n " + entry)
-    value = int(entry, 0)   
-    check = SCA_functions.GPIOset(value, 1)
+def GPIOset(value, GPIOset_button, output_textbox, GBT_SCA_num):
+    output_textbox.insert(tk.END, "\n " + value)
+    value = int(value, 0)    
+    check = SCA_functions.GPIOset(value, output_textbox, GBT_SCA_num)
     if check:
-        Gg.GPIOset_button.configure(bg="green")
+        GPIOset_button.configure(bg="green")
     else:
-        Gg.GPIOset_button.configure(bg="red")
+        GPIOset_button.configure(bg="red")
 
-def GPIOclr():
-    entry = Gg.GPIO_entry.get()
-    Gg.output_textbox.insert(tk.END, "\n " + entry)
-    value = int(entry, 0)
-    check = SCA_functions.GPIOclr(value, 1)
+def GPIOclr(value, GPIOclr_button, output_textbox, GBT_SCA_num):
+    output_textbox.insert(tk.END, "\n " + value)
+    value = int(value, 0)
+    check = SCA_functions.GPIOclr(value, output_textbox, GBT_SCA_num)
     if check:
-        Gg.GPIOclr_button.configure(bg="green")
+        GPIOclr_button.configure(bg="green")
     else:
-        Gg.GPIOclr_button.configure(bg="red")
+        GPIOclr_button.configure(bg="red")
 
-def GPIOoff():
-    entry = Gg.GPIO_entry.get()
-    Gg.output_textbox.insert(tk.END, "\n " + entry)
-    value = int(entry, 0)
-    check = SCA_functions.GPIOoff(value, 1)
+def GPIOoff(value, GPIOoff_button, output_textbox, GBT_SCA_num):
+    output_textbox.insert(tk.END, "\n " + value)
+    value = int(value, 0)
+    check = SCA_functions.GPIOoff(value, output_textbox, GBT_SCA_num)
     if check:
-        Gg.GPIOoff_button.configure(bg="green")
+        GPIOoff_button.configure(bg="green")
     else:
-        Gg.GPIOoff_button.configure(bg="red")
+        GPIOoff_button.configure(bg="red")
 
-### GBT-SCA1 ###
-def Connect2():
-    check = SCA_functions.Connect(2)
-    if check:
-        Gg.Connect_button2.configure(bg="green")
-        Gg.EnableGPIO_button2.configure(bg="white")
-        Gg.EnableAtoD_button2.configure(bg="white")
-        Gg.Bread_button2.configure(bg="white")
-        Gg.DIRread_button2.configure(bg="white")
-        Gg.DATAOUTread_button2.configure(bg="white")
-        Gg.IDread_button2.configure(bg="white")
-        Gg.GPIOon_button2.configure(bg="white")
-        Gg.GPIOset_button2.configure(bg="white")
-        Gg.GPIOclr_button2.configure(bg="white")
-        Gg.GPIOoff_button2.configure(bg="white")
-
-        Gg.Bread_label2.configure(text="Bread output")
-        Gg.DIRread_label2.configure(text="DIRread output")
-        Gg.DATAOUTread_label2.configure(text="DATAOUTread output")
-        Gg.IDread_label2.configure(text="IDread output")
-	    for i in range(len(Gg.GBT_SCA1_button_array)):
-		    Gg.GBT_SCA1_button_array[i].configure(bg="white")
-	    for i in range(len(Gg.GBT_SCA1_button_array2)):
-		    Gg.GBT_SCA1_button_array2[i].configure(bg="white")
-    else:
-        Gg.Connect_button2.configure(bg="red")
-
-def EnableGPIO2():
-    check = SCA_functions.EnableGPIO(2)
-    if check:
-        Gg.EnableGPIO_button2.configure(bg="green")
-    else:
-        Gg.EnableGPIO_button2.configure(bg="red")
-
-def EnableAtoD2():
-    check = SCA_functions.EnableAtoD(2)
-    if check:
-        Gg.EnableAtoD_button2.configure(bg="green")
-    else:
-        Gg.EnableAtoD_button2.configure(bg="red")
-
-def IDread2():
-    check = SCA_functions.IDread(2)
-    if check:
-        Gg.IDread_button2.configure(bg="green")
-    else:
-        Gg.IDread_button2.configure(bg="red")
-
-def Bread2():
-    check = SCA_functions.Bread(2)
-    if check:
-        Gg.Bread_button2.configure(bg="green")
-    else:
-        Gg.Bread_button2.configure(bg="red")
-
-def DIRread2():
-    check = SCA_functions.DIRread(2)
-    if check:
-        Gg.DIRread_button2.configure(bg="green")
-    else:
-        Gg.DIRread_button2.configure(bg="red")
-
-def DATAOUTread2():
-    check = SCA_functions.DATAOUTread(2)
-    if check:
-        Gg.DATAOUTread_button2.configure(bg="green")
-    else:
-        Gg.DATAOUTread_button2.configure(bg="red")
-
-def GPIOon2():
-    entry = Gg.GPIO_entry2.get()
-    Gg.output_textbox.insert(tk.END, "\n " + entry)
-    value = int(entry, 0)
-    check = SCA_functions.GPIOon(value, 2)
-    if check:
-        Gg.GPIOon_button2.configure(bg="green")
-    else:
-        Gg.GPIOon_button2.configure(bg="red")
-
-def GPIOset2():
-    entry = Gg.GPIO_entry2.get()
-    Gg.output_textbox.insert(tk.END, "\n " + entry)
-    value = int(entry, 0)   
-    check = SCA_functions.GPIOset(value, 2)
-    if check:
-        Gg.GPIOset_button2.configure(bg="green")
-    else:
-        Gg.GPIOset_button2.configure(bg="red")
-
-def GPIOclr2():
-    entry = Gg.GPIO_entry2.get()
-    Gg.output_textbox.insert(tk.END, "\n " + entry)
-    value = int(entry, 0)
-    check = SCA_functions.GPIOclr(value, 2)
-    if check:
-        Gg.GPIOclr_button2.configure(bg="green")
-    else:
-        Gg.GPIOclr_button2.configure(bg="red")
-
-def GPIOoff2():
-    entry = Gg.GPIO_entry2.get()
-    Gg.output_textbox.insert(tk.END, "\n " + entry)
-    value = int(entry, 0)
-    check = SCA_functions.GPIOoff(value, 2)
-    if check:
-        Gg.GPIOoff_button2.configure(bg="green")
-    else:
-        Gg.GPIOoff_button2.configure(bg="red")
-
-#################################################################################
-### GPIO tab specific functions #################################################
-#################################################################################
-def FE9_ALDO_Enable2_onoff4():
-    if Gg.FE9_ALDO_En2_onoff_button4.cget('bg') == "white" or Gg.FE9_ALDO_En2_onoff_button4.cget('bg') == "red":
+### GPIO tab specific functions ###
+def GBT_SCA_button0():
+    if Gg.GBT_SCA4_button0.cget('bg') == "white" or Gg.GBT_SCA4_button0.cget('bg') == "red":    #Off state to on or bad to on
         check = SCA_functions.GPIOon(0x00000001, 1)
         if check:
-            Gg.FE9_ALDO_En2_onoff_button4.configure(bg="green")
+            Gg.GBT_SCA4_button0.configure(bg="green")
         else:
-            Gg.FE9_ALDO_En2_onoff_button4.configure(bg="red")
-    elif Gg.FE9_ALDO_En2_onoff_button4.cget('bg') == "green":
+            Gg.GBT_SCA4_button0.configure(bg="red")                          
+    elif Gg.GBT_SCA4_button0.cget('bg') == "green":  #On state to turn off
         check = SCA_functions.GPIOoff(0x00000001, 1)
         if check:
-            Gg.FE9_ALDO_En2_onoff_button4.configure(bg="white")
+            Gg.GBT_SCA4_button0.configure(bg="white")
         else:
-            Gg.FE9_ALDO_En2_onoff_button4.configure(bg="red")
+            Gg.GBT_SCA4_button0.configure(bg="red")
 
-def FE9_ALDO_Enable1_onoff4():
-    if Gg.FE9_ALDO_En1_onoff_button4.cget('bg') == "white" or Gg.FE9_ALDO_En1_onoff_button4.cget('bg') == "red":
-        check = SCA_functions.GPIOon(0x00000002, 1)
+def GBT_SCA_button1():
+    if GBT_SCA4_button1.cget('bg') == "white" or GBT_SCA4_button1.cget('bg') == "red":    #Off state to on or bad to on
+        check = SCA_functions.GPIOon(0x00000002, output_textbox, 1)
         if check:
-            Gg.FE9_ALDO_En1_onoff_button4.configure(bg="green")
+            GBT_SCA4_button1.configure(bg="green")
         else:
-            Gg.FE9_ALDO_En1_onoff_button4.configure(bg="red")                          
-    elif Gg.FE9_ALDO_En1_onoff_button4.cget('bg') == "green":
-        check = SCA_functions.GPIOoff(0x00000002, 1)
+            GBT_SCA4_button1.configure(bg="red")                          
+    elif GBT_SCA4_button1.cget('bg') == "green":  #On state to turn off
+        check = SCA_functions.GPIOoff(0x00000002, output_textbox, 1)
         if check:
-            Gg.FE9_ALDO_En1_onoff_button4.configure(bg="white")
+            GBT_SCA4_button1.configure(bg="white")
         else:
-            Gg.FE9_ALDO_En1_onoff_button4.configure(bg="red")
+            GBT_SCA4_button1.configure(bg="red")
 
-def PCC_B_EN_IV8_1_onoff4():
-    if Gg.PCC_B_EN_IV8_1_onoff_button4.cget('bg') == "white" or Gg.PCC_B_EN_IV8_1_onoff_button4.cget('bg') == "red":
-        check = SCA_functions.GPIOon(0x00000004, 1)
+def GBT_SCA_button2():
+    if GBT_SCA_button2.cget('bg') == "white" or GBT_SCA_button2.cget('bg') == "red":    #Off state to on or bad to on
+        check = SCA_functions.GPIOon(0x00000004, output_textbox, 1)
         if check:
-            Gg.PCC_B_EN_IV8_1_onoff_button4.configure(bg="green")
+            GBT_SCA_button2.configure(bg="green")
         else:
-            Gg.PCC_B_EN_IV8_1_onoff_button4.configure(bg="red")                          
-    elif Gg.PCC_B_EN_IV8_1_onoff_button4.cget('bg') == "green":
-        check = SCA_functions.GPIOoff(0x00000004, 1)
+            GBT_SCA_button2.configure(bg="red")                          
+    elif GBT_SCA_button2.cget('bg') == "green":  #On state to turn off
+        check = SCA_functions.GPIOoff(0x00000004, output_textbox, 1)
         if check:
-            Gg.PCC_B_EN_IV8_1_onoff_button4.configure(bg="white")
+            GBT_SCA_button2.configure(bg="white")
         else:
-            Gg.PCC_B_EN_IV8_1_onoff_button4.configure(bg="red")
+            GBT_SCA_button2.configure(bg="red")
 
-def PCC_B_EN_IV8_2_onoff4():
-    if Gg.PCC_B_EN_IV8_2_onoff_button4.cget('bg') == "white" or Gg.PCC_B_EN_IV8_2_onoff_button4.cget('bg') == "red":
-        check = SCA_functions.GPIOon(0x00000008, 1)
+def GPIOon_off_button(NewValue, Button, output_textbox, GBT_SCA_num):
+    if Button.cget('bg') == "white" or Button.cget('bg') == "red":    #Off state to on or bad to on
+        check = SCA_functions.GPIOon(NewValue,output_textbox, GBT_SCA_num)
         if check:
-            Gg.PCC_B_EN_IV8_2_onoff_button4.configure(bg="green")
+            Button.configure(bg="green")
         else:
-            Gg.PCC_B_EN_IV8_2_onoff_button4.configure(bg="red")                          
-    elif Gg.PCC_B_EN_IV8_2_onoff_button4.cget('bg') == "green":
-        check = SCA_functions.GPIOoff(0x00000008, 1)
+            Button.configure(bg="red")                          
+    elif Button.cget('bg') == "green":  #On state to turn off
+        check = SCA_functions.GPIOoff(NewValue, output_textbox, GBT_SCA_num)
         if check:
-            Gg.PCC_B_EN_IV8_2_onoff_button4.configure(bg="white")
+            Button.configure(bg="white")
         else:
-            Gg.PCC_B_EN_IV8_2_onoff_button4.configure(bg="red")
+            Button.configure(bg="red")  
 
-def cSS_B_onoff4():
-    if Gg.cSS_B_onoff_button4.cget('bg') == "white" or Gg.cSS_B_onoff_button4.cget('bg') == "red":
-        check = SCA_functions.GPIOon(0x00000010, 1)
+def GPIOset_clr_button(NewValue, Button, output_textbox, GBT_SCA_num):
+    if Button.cget('bg') == "white" or Button.cget('bg') == "red":    #Clr state to Set
+        check = SCA_functions.GPIOset(NewValue, output_textbox, GBT_SCA_num)
         if check:
-            Gg.cSS_B_onoff_button4.configure(bg="green")
+            Button.configure(bg="green")
         else:
-            Gg.cSS_B_onoff_button4.configure(bg="red")                          
-    elif Gg.cSS_B_onoff_button4.cget('bg') == "green":
-        check = SCA_functions.GPIOoff(0x00000010, 1)
+            Button.configure(bg="red")                        
+    elif Button.cget('bg') == "green":  #Set state to Clr
+        check = SCA_functions.GPIOclr(NewValue, output_textbox, GBT_SCA_num)
         if check:
-            Gg.cSS_B_onoff_button4.configure(bg="white")
+            Button.configure(bg="white")
         else:
-            Gg.cSS_B_onoff_button4.configure(bg="red")
-
-def FE10_ALDO_Enable1_onoff4():
-    if Gg.FE10_ALDO_En1_onoff_button4.cget('bg') == "white" or Gg.FE10_ALDO_En1_onoff_button4.cget('bg') == "red":
-        check = SCA_functions.GPIOon(0x00000020, 1)
-        if check:
-            Gg.FE10_ALDO_En1_onoff_button4.configure(bg="green")
-        else:
-            Gg.FE10_ALDO_En1_onoff_button4.configure(bg="red")                          
-    elif Gg.FE10_ALDO_En1_onoff_button4.cget('bg') == "green":
-        check = SCA_functions.GPIOoff(0x00000020, 1)
-        if check:
-            Gg.FE10_ALDO_En1_onoff_button4.configure(bg="white")
-        else:
-            Gg.FE10_ALDO_En1_onoff_button4.configure(bg="red")
-
-def FE10_ALDO_Enable2_onoff4():
-    if Gg.FE10_ALDO_En2_onoff_button4.cget('bg') == "white" or Gg.FE10_ALDO_En2_onoff_button4.cget('bg') == "red":
-        check = SCA_functions.GPIOon(0x00000040, 1)
-        if check:
-            Gg.FE10_ALDO_En2_onoff_button4.configure(bg="green")
-        else:
-            Gg.FE10_ALDO_En2_onoff_button4.configure(bg="red")                          
-    elif Gg.FE10_ALDO_En2_onoff_button4.cget('bg') == "green":
-        check = SCA_functions.GPIOoff(0x00000040, 1)
-        if check:
-            Gg.FE10_ALDO_En2_onoff_button4.configure(bg="white")
-        else:
-            Gg.FE10_ALDO_En2_onoff_button4.configure(bg="red")
-
-def cEN_B_onoff4():
-    if Gg.cEN_B_onoff_button4.cget('bg') == "white" or Gg.cEN_B_onoff_button4.cget('bg') == "red":
-        check = SCA_functions.GPIOon(0x00000080, 1)
-        if check:
-            Gg.cEN_B_onoff_button4.configure(bg="green")
-        else:
-            Gg.cEN_B_onoff_button4.configure(bg="red")                          
-    elif Gg.cEN_B_onoff_button4.cget('bg') == "green":
-        check = SCA_functions.GPIOoff(0x00000080, 1)
-        if check:
-            Gg.cEN_B_onoff_button4.configure(bg="white")
-        else:
-            Gg.cEN_B_onoff_button4.configure(bg="red")
-
-def FE7_ALDO_Enable1_onoff4():
-    if Gg.FE7_ALDO_En1_onoff_button4.cget('bg') == "white" or Gg.FE7_ALDO_En1_onoff_button4.cget('bg') == "red":
-        check = SCA_functions.GPIOon(0x00000100, 1)
-        if check:
-            Gg.FE7_ALDO_En1_onoff_button4.configure(bg="green")
-        else:
-            Gg.FE7_ALDO_En1_onoff_button4.configure(bg="red")                          
-    elif Gg.FE7_ALDO_En1_onoff_button4.cget('bg') == "green":
-        check = SCA_functions.GPIOoff(0x00000100, 1)
-        if check:
-            Gg.FE7_ALDO_En1_onoff_button4.configure(bg="white")
-        else:
-            Gg.FE7_ALDO_En1_onoff_button4.configure(bg="red")
-
-def FE7_ALDO_Enable2_onoff4():
-    if Gg.FE7_ALDO_En2_onoff_button4.cget('bg') == "white" or Gg.FE7_ALDO_En2_onoff_button4.cget('bg') == "red":
-        check = SCA_functions.GPIOon(0x00000200, 1)
-        if check:
-            Gg.FE7_ALDO_En2_onoff_button4.configure(bg="green")
-        else:
-            Gg.FE7_ALDO_En2_onoff_button4.configure(bg="red")                          
-    elif Gg.FE7_ALDO_En2_onoff_button4.cget('bg') == "green":
-        check = SCA_functions.GPIOoff(0x00000200, 1)
-        if check:
-            Gg.FE7_ALDO_En2_onoff_button4.configure(bg="white")
-        else:
-            Gg.FE7_ALDO_En2_onoff_button4.configure(bg="red")
-
-def eSS_B_onoff4():
-    if Gg.eSS_B_onoff_button4.cget('bg') == "white" or Gg.eSS_B_onoff_button4.cget('bg') == "red":
-        check = SCA_functions.GPIOon(0x00000400, 1)
-        if check:
-            Gg.eSS_B_onoff_button4.configure(bg="green")
-        else:
-            Gg.eSS_B_onoff_button4.configure(bg="red")                          
-    elif Gg.eSS_B_onoff_button4.cget('bg') == "green":
-        check = SCA_functions.GPIOoff(0x00000400, 1)
-        if check:
-            Gg.eSS_B_onoff_button4.configure(bg="white")
-        else:
-            Gg.eSS_B_onoff_button4.configure(bg="red")
-
-def FE3_ALDO_Enable1_onoff4():
-    if Gg.FE3_ALDO_En1_onoff_button4.cget('bg') == "white" or Gg.FE3_ALDO_En1_onoff_button4.cget('bg') == "red":
-        check = SCA_functions.GPIOon(0x00000800, 1)
-        if check:
-            Gg.FE3_ALDO_En1_onoff_button4.configure(bg="green")
-        else:
-            Gg.FE3_ALDO_En1_onoff_button4.configure(bg="red")                          
-    elif Gg.FE3_ALDO_En1_onoff_button4.cget('bg') == "green":
-        check = SCA_functions.GPIOoff(0x00000800, 1)
-        if check:
-            Gg.FE3_ALDO_En1_onoff_button4.configure(bg="white")
-        else:
-            Gg.FE3_ALDO_En1_onoff_button4.configure(bg="red")
-
-def FE5_ALDO_Enable1_onoff4():
-    if Gg.FE5_ALDO_En1_onoff_button4.cget('bg') == "white" or Gg.FE5_ALDO_En1_onoff_button4.cget('bg') == "red":
-        check = SCA_functions.GPIOon(0x00001000, 1)
-        if check:
-            Gg.FE5_ALDO_En1_onoff_button4.configure(bg="green")
-        else:
-            Gg.FE5_ALDO_En1_onoff_button4.configure(bg="red")                          
-    elif Gg.FE5_ALDO_En1_onoff_button4.cget('bg') == "green":
-        check = SCA_functions.GPIOoff(0x00001000, 1)
-        if check:
-            Gg.FE5_ALDO_En1_onoff_button4.configure(bg="white")
-        else:
-            Gg.FE5_ALDO_En1_onoff_button4.configure(bg="red")
-
-def oEN_B_onoff4():
-    if Gg.oEN_B_onoff_button4.cget('bg') == "white" or Gg.oEN_B_onoff_button4.cget('bg') == "red":
-        check = SCA_functions.GPIOon(0x00002000, 1)
-        if check:
-            Gg.oEN_B_onoff_button4.configure(bg="green")
-        else:
-            Gg.oEN_B_onoff_button4.configure(bg="red")                          
-    elif Gg.oEN_B_onoff_button4.cget('bg') == "green":
-        check = SCA_functions.GPIOoff(0x00002000, 1)
-        if check:
-            Gg.oEN_B_onoff_button4.configure(bg="white")
-        else:
-            Gg.oEN_B_onoff_button4.configure(bg="red")
-
-def FE6_ALDO_Enable1_onoff4():
-    if Gg.FE6_ALDO_En1_onoff_button4.cget('bg') == "white" or Gg.FE6_ALDO_En1_onoff_button4.cget('bg') == "red":
-        check = SCA_functions.GPIOon(0x00004000, 1)
-        if check:
-            Gg.FE6_ALDO_En1_onoff_button4.configure(bg="green")
-        else:
-            Gg.FE6_ALDO_En1_onoff_button4.configure(bg="red")                          
-    elif Gg.FE6_ALDO_En1_onoff_button4.cget('bg') == "green":
-        check = SCA_functions.GPIOoff(0x00004000, 1)
-        if check:
-            Gg.FE6_ALDO_En1_onoff_button4.configure(bg="white")
-        else:
-            Gg.FE6_ALDO_En1_onoff_button4.configure(bg="red")
-
-def FE6_ALDO_Enable2_onoff4():
-    if Gg.FE6_ALDO_En2_onoff_button4.cget('bg') == "white" or Gg.FE6_ALDO_En2_onoff_button4.cget('bg') == "red":
-        check = SCA_functions.GPIOon(0x00008000, 1)
-        if check:
-            Gg.FE6_ALDO_En2_onoff_button4.configure(bg="green")
-        else:
-            Gg.FE6_ALDO_En2_onoff_button4.configure(bg="red")                          
-    elif Gg.FE6_ALDO_En2_onoff_button4.cget('bg') == "green":
-        check = SCA_functions.GPIOoff(0x00008000, 1)
-        if check:
-            Gg.FE6_ALDO_En2_onoff_button4.configure(bg="white")
-        else:
-            Gg.FE6_ALDO_En2_onoff_button4.configure(bg="red")
-
-def FE12_ALDO_Enable2_onoff4():
-    if Gg.FE12_ALDO_En2_onoff_button4.cget('bg') == "white" or Gg.FE12_ALDO_En2_onoff_button4.cget('bg') == "red":
-        check = SCA_functions.GPIOon(0x00010000, 1)
-        if check:
-            Gg.FE12_ALDO_En2_onoff_button4.configure(bg="green")
-        else:
-            Gg.FE12_ALDO_En2_onoff_button4.configure(bg="red")                          
-    elif Gg.FE12_ALDO_En2_onoff_button4.cget('bg') == "green":
-        check = SCA_functions.GPIOoff(0x00010000, 1)
-        if check:
-            Gg.FE12_ALDO_En2_onoff_button4.configure(bg="white")
-        else:
-            Gg.FE12_ALDO_En2_onoff_button4.configure(bg="red")
-
-def FE3_ALDO_Enable2_onoff4():
-    if Gg.FE3_ALDO_En2_onoff_button4.cget('bg') == "white" or Gg.FE3_ALDO_En2_onoff_button4.cget('bg') == "red":
-        check = SCA_functions.GPIOon(0x00020000, 1)
-        if check:
-            Gg.FE3_ALDO_En2_onoff_button4.configure(bg="green")
-        else:
-            Gg.FE3_ALDO_En2_onoff_button4.configure(bg="red")                          
-    elif Gg.FE3_ALDO_En2_onoff_button4.cget('bg') == "green":
-        check = SCA_functions.GPIOoff(0x00020000, 1)
-        if check:
-            Gg.FE3_ALDO_En2_onoff_button4.configure(bg="white")
-        else:
-            Gg.FE3_ALDO_En2_onoff_button4.configure(bg="red")
-
-def FE4_ALDO_Enable2_onoff4():
-    if Gg.FE4_ALDO_En2_onoff_button4.cget('bg') == "white" or Gg.FE4_ALDO_En2_onoff_button4.cget('bg') == "red":
-        check = SCA_functions.GPIOon(0x00040000, 1)
-        if check:
-            Gg.FE4_ALDO_En2_onoff_button4.configure(bg="green")
-        else:
-            Gg.FE4_ALDO_En2_onoff_button4.configure(bg="red")                          
-    elif Gg.FE4_ALDO_En2_onoff_button4.cget('bg') == "green":
-        check = SCA_functions.GPIOoff(0x00040000, 1)
-        if check:
-            Gg.FE4_ALDO_En2_onoff_button4.configure(bg="white")
-        else:
-            Gg.FE4_ALDO_En2_onoff_button4.configure(bg="red")
-
-def FE12_ALDO_Enable1_onoff4():
-    if Gg.FE12_ALDO_En1_onoff_button4.cget('bg') == "white" or Gg.FE12_ALDO_En1_onoff_button4.cget('bg') == "red":
-        check = SCA_functions.GPIOon(0x00080000, 1)
-        if check:
-            Gg.FE12_ALDO_En1_onoff_button4.configure(bg="green")
-        else:
-            Gg.FE12_ALDO_En1_onoff_button4.configure(bg="red")                          
-    elif Gg.FE12_ALDO_En1_onoff_button4.cget('bg') == "green":
-        check = SCA_functions.GPIOoff(0x00080000, 1)
-        if check:
-            Gg.FE12_ALDO_En1_onoff_button4.configure(bg="white")
-        else:
-            Gg.FE12_ALDO_En1_onoff_button4.configure(bg="red")
-
-def PCC_A_EN_IV8_2_onoff4():
-    if Gg.PCC_A_EN_IV8_2_onoff_button4.cget('bg') == "white" or Gg.PCC_A_EN_IV8_2_onoff_button4.cget('bg') == "red":
-        check = SCA_functions.GPIOon(0x00100000, 1)
-        if check:
-            Gg.PCC_A_EN_IV8_2_onoff_button4.configure(bg="green")
-        else:
-            Gg.PCC_A_EN_IV8_2_onoff_button4.configure(bg="red")                          
-    elif Gg.PCC_A_EN_IV8_2_onoff_button4.cget('bg') == "green":
-        check = SCA_functions.GPIOoff(0x00100000, 1)
-        if check:
-            Gg.PCC_A_EN_IV8_2_onoff_button4.configure(bg="white")
-        else:
-            Gg.PCC_A_EN_IV8_2_onoff_button4.configure(bg="red")
-
-def PCC_A_EN_IV8_1_onoff4():
-    if Gg.PCC_A_EN_IV8_1_onoff_button4.cget('bg') == "white" or Gg.PCC_A_EN_IV8_1_onoff_button4.cget('bg') == "red":
-        check = SCA_functions.GPIOon(0x00200000, 1)
-        if check:
-            Gg.PCC_A_EN_IV8_1_onoff_button4.configure(bg="green")
-        else:
-            Gg.PCC_A_EN_IV8_1_onoff_button4.configure(bg="red")                          
-    elif Gg.PCC_A_EN_IV8_1_onoff_button4.cget('bg') == "green":
-        check = SCA_functions.GPIOoff(0x00200000, 1)
-        if check:
-            Gg.PCC_A_EN_IV8_1_onoff_button4.configure(bg="white")
-        else:
-            Gg.PCC_A_EN_IV8_1_onoff_button4.configure(bg="red")
-
-def FE11_ALDO_Enable1_onoff4():
-    if Gg.FE11_ALDO_En1_onoff_button4.cget('bg') == "white" or Gg.FE11_ALDO_En1_onoff_button4.cget('bg') == "red":
-        check = SCA_functions.GPIOon(0x00400000, 1)
-        if check:
-            Gg.FE11_ALDO_En1_onoff_button4.configure(bg="green")
-        else:
-            Gg.FE11_ALDO_En1_onoff_button4.configure(bg="red")                          
-    elif Gg.FE11_ALDO_En1_onoff_button4.cget('bg') == "green":
-        check = SCA_functions.GPIOoff(0x00400000, 1)
-        if check:
-            Gg.FE11_ALDO_En1_onoff_button4.configure(bg="white")
-        else:
-            Gg.FE11_ALDO_En1_onoff_button4.configure(bg="red")
-
-def FE2_ALDO_Enable1_onoff4():
-    if Gg.FE2_ALDO_En1_onoff_button4.cget('bg') == "white" or Gg.FE2_ALDO_En1_onoff_button4.cget('bg') == "red":
-        check = SCA_functions.GPIOon(0x00800000, 1)
-        if check:
-            Gg.FE2_ALDO_En1_onoff_button4.configure(bg="green")
-        else:
-            Gg.FE2_ALDO_En1_onoff_button4.configure(bg="red")                          
-    elif Gg.FE2_ALDO_En1_onoff_button4.cget('bg') == "green":
-        check = SCA_functions.GPIOoff(0x00800000, 1)
-        if check:
-            Gg.FE2_ALDO_En1_onoff_button4.configure(bg="white")
-        else:
-            Gg.FE2_ALDO_En1_onoff_button4.configure(bg="red")
-
-def FE4_ALDO_Enable1_onoff4():
-    if Gg.FE4_ALDO_En1_onoff_button4.cget('bg') == "white" or Gg.FE4_ALDO_En1_onoff_button4.cget('bg') == "red":
-        check = SCA_functions.GPIOon(0x01000000, 1)
-        if check:
-            Gg.FE4_ALDO_En1_onoff_button4.configure(bg="green")
-        else:
-            Gg.FE4_ALDO_En1_onoff_button4.configure(bg="red")                          
-    elif Gg.FE4_ALDO_En1_onoff_button4.cget('bg') == "green":
-        check = SCA_functions.GPIOoff(0x01000000, 1)
-        if check:
-            Gg.FE4_ALDO_En1_onoff_button4.configure(bg="white")
-        else:
-            Gg.FE4_ALDO_En1_onoff_button4.configure(bg="red")
-
-def FE11_ALDO_Enable2_onoff4():
-    if Gg.FE11_ALDO_En2_onoff_button4.cget('bg') == "white" or Gg.FE11_ALDO_En2_onoff_button4.cget('bg') == "red":
-        check = SCA_functions.GPIOon(0x02000000, 1)
-        if check:
-            Gg.FE11_ALDO_En2_onoff_button4.configure(bg="green")
-        else:
-            Gg.FE11_ALDO_En2_onoff_button4.configure(bg="red")                          
-    elif Gg.FE11_ALDO_En2_onoff_button4.cget('bg') == "green":
-        check = SCA_functions.GPIOoff(0x02000000, 1)
-        if check:
-            Gg.FE11_ALDO_En2_onoff_button4.configure(bg="white")
-        else:
-            Gg.FE11_ALDO_En2_onoff_button4.configure(bg="red")
-
-def FE2_ALDO_Enable2_onoff4():
-    if Gg.FE2_ALDO_En2_onoff_button4.cget('bg') == "white" or Gg.FE2_ALDO_En2_onoff_button4.cget('bg') == "red":
-        check = SCA_functions.GPIOon(0x04000000, 1)
-        if check:
-            Gg.FE2_ALDO_En2_onoff_button4.configure(bg="green")
-        else:
-            Gg.FE2_ALDO_En2_onoff_button4.configure(bg="red")                          
-    elif Gg.FE2_ALDO_En2_onoff_button4.cget('bg') == "green":
-        check = SCA_functions.GPIOoff(0x04000000, 1)
-        if check:
-            Gg.FE2_ALDO_En2_onoff_button4.configure(bg="white")
-        else:
-            Gg.FE2_ALDO_En2_onoff_button4.configure(bg="red")
-
-def FE1_ALDO_Enable1_onoff4():
-    if Gg.FE1_ALDO_En1_onoff_button4.cget('bg') == "white" or Gg.FE1_ALDO_En1_onoff_button4.cget('bg') == "red":
-        check = SCA_functions.GPIOon(0x08000000, 1)
-        if check:
-            Gg.FE1_ALDO_En1_onoff_button4.configure(bg="green")
-        else:
-            Gg.FE1_ALDO_En1_onoff_button4.configure(bg="red")                          
-    elif Gg.FE1_ALDO_En1_onoff_button4.cget('bg') == "green":
-        check = SCA_functions.GPIOoff(0x08000000, 1)
-        if check:
-            Gg.FE1_ALDO_En1_onoff_button4.configure(bg="white")
-        else:
-            Gg.FE1_ALDO_En1_onoff_button4.configure(bg="red")
-
-def FE5_ALDO_Enable2_onoff4():
-    if Gg.FE5_ALDO_En2_onoff_button4.cget('bg') == "white" or Gg.FE5_ALDO_En2_onoff_button4.cget('bg') == "red":
-        check = SCA_functions.GPIOon(0x10000000, 1)
-        if check:
-            Gg.FE5_ALDO_En2_onoff_button4.configure(bg="green")
-        else:
-            Gg.FE5_ALDO_En2_onoff_button4.configure(bg="red")                          
-    elif Gg.FE5_ALDO_En2_onoff_button4.cget('bg') == "green":
-        check = SCA_functions.GPIOoff(0x10000000, 1)
-        if check:
-            Gg.FE5_ALDO_En2_onoff_button4.configure(bg="white")
-        else:
-            Gg.FE5_ALDO_En2_onoff_button4.configure(bg="red")
-
-def FE1_ALDO_Enable2_onoff4():
-    if Gg.FE1_ALDO_En2_onoff_button4.cget('bg') == "white" or Gg.FE1_ALDO_En2_onoff_button4.cget('bg') == "red":
-        check = SCA_functions.GPIOon(0x20000000, 1)
-        if check:
-            Gg.FE1_ALDO_En2_onoff_button4.configure(bg="green")
-        else:
-            Gg.FE1_ALDO_En2_onoff_button4.configure(bg="red")                          
-    elif Gg.FE1_ALDO_En2_onoff_button4.cget('bg') == "green":
-        check = SCA_functions.GPIOoff(0x20000000, 1)
-        if check:
-            Gg.FE1_ALDO_En2_onoff_button4.configure(bg="white")
-        else:
-            Gg.FE1_ALDO_En2_onoff_button4.configure(bg="red")
-
-def FE8_ALDO_Enable1_onoff4():
-    if Gg.FE8_ALDO_En1_onoff_button4.cget('bg') == "white" or Gg.FE8_ALDO_En1_onoff_button4.cget('bg') == "red":
-        check = SCA_functions.GPIOon(0x40000000, 1)
-        if check:
-            Gg.FE8_ALDO_En1_onoff_button4.configure(bg="green")
-        else:
-            Gg.FE8_ALDO_En1_onoff_button4.configure(bg="red")                          
-    elif Gg.FE8_ALDO_En1_onoff_button4.cget('bg') == "green":
-        check = SCA_functions.GPIOoff(0x40000000, 1)
-        if check:
-            Gg.FE8_ALDO_En1_onoff_button4.configure(bg="white")
-        else:
-            Gg.FE8_ALDO_En1_onoff_button4.configure(bg="red")
-
-def FE8_ALDO_Enable2_onoff4():
-    if Gg.FE8_ALDO_En2_onoff_button4.cget('bg') == "white" or Gg.FE8_ALDO_En2_onoff_button4.cget('bg') == "red":
-        check = SCA_functions.GPIOon(0x80000000, 1)
-        if check:
-            Gg.FE8_ALDO_En2_onoff_button4.configure(bg="green")
-        else:
-            Gg.FE8_ALDO_En2_onoff_button4.configure(bg="red")                          
-    elif Gg.FE8_ALDO_En2_onoff_button4.cget('bg') == "green":
-        check = SCA_functions.GPIOoff(0x80000000, 1)
-        if check:
-            Gg.FE8_ALDO_En2_onoff_button4.configure(bg="white")
-        else:
-            Gg.FE8_ALDO_En2_onoff_button4.configure(bg="red")
-
-def FE9_ALDO_Enable2_setclr4():
-    if Gg.FE9_ALDO_En2_setclr_button4.cget('bg') == "white" or Gg.FE9_ALDO_En2_setclr_button4.cget('bg') == "red":
-        check = SCA_functions.GPIOset(0x00000001, 1)
-        if check:
-            Gg.FE9_ALDO_En2_setclr_button4.configure(bg="green")
-        else:
-            Gg.FE9_ALDO_En2_setclr_button4.configure(bg="red")
-    elif Gg.FE9_ALDO_En2_setclr_button4.cget('bg') == "green":
-        check = SCA_functions.GPIOclr(0x00000001, 1)
-        if check:
-            Gg.FE9_ALDO_En2_setclr_button4.configure(bg="white")
-        else:
-            Gg.FE9_ALDO_En2_setclr_button4.configure(bg="red")
-
-def FE9_ALDO_Enable1_setclr4():
-    if Gg.FE9_ALDO_En1_setclr_button4.cget('bg') == "white" or Gg.FE9_ALDO_En1_setclr_button4.cget('bg') == "red":
-        check = SCA_functions.GPIOset(0x00000002, 1)
-        if check:
-            Gg.FE9_ALDO_En1_setclr_button4.configure(bg="green")
-        else:
-            Gg.FE9_ALDO_En1_setclr_button4.configure(bg="red")                          
-    elif Gg.FE9_ALDO_En1_setclr_button4.cget('bg') == "green":
-        check = SCA_functions.GPIOclr(0x00000002, 1)
-        if check:
-            Gg.FE9_ALDO_En1_setclr_button4.configure(bg="white")
-        else:
-            Gg.FE9_ALDO_En1_setclr_button4.configure(bg="red")
-
-def PCC_B_EN_IV8_1_setclr4():
-    if Gg.PCC_B_EN_IV8_1_setclr_button4.cget('bg') == "white" or Gg.PCC_B_EN_IV8_1_setclr_button4.cget('bg') == "red":
-        check = SCA_functions.GPIOset(0x00000004, 1)
-        if check:
-            Gg.PCC_B_EN_IV8_1_setclr_button4.configure(bg="green")
-        else:
-            Gg.PCC_B_EN_IV8_1_setclr_button4.configure(bg="red")                          
-    elif Gg.PCC_B_EN_IV8_1_setclr_button4.cget('bg') == "green":
-        check = SCA_functions.GPIOclr(0x00000004, 1)
-        if check:
-            Gg.PCC_B_EN_IV8_1_setclr_button4.configure(bg="white")
-        else:
-            Gg.PCC_B_EN_IV8_1_setclr_button4.configure(bg="red")
-
-def PCC_B_EN_IV8_2_setclr4():
-    if Gg.PCC_B_EN_IV8_2_setclr_button4.cget('bg') == "white" or Gg.PCC_B_EN_IV8_2_setclr_button4.cget('bg') == "red":
-        check = SCA_functions.GPIOset(0x00000008, 1)
-        if check:
-            Gg.PCC_B_EN_IV8_2_setclr_button4.configure(bg="green")
-        else:
-            Gg.PCC_B_EN_IV8_2_setclr_button4.configure(bg="red")                          
-    elif Gg.PCC_B_EN_IV8_2_setclr_button4.cget('bg') == "green":
-        check = SCA_functions.GPIOclr(0x00000008, 1)
-        if check:
-            Gg.PCC_B_EN_IV8_2_setclr_button4.configure(bg="white")
-        else:
-            Gg.PCC_B_EN_IV8_2_setclr_button4.configure(bg="red")
-
-def cSS_B_setclr4():
-    if Gg.cSS_B_setclr_button4.cget('bg') == "white" or Gg.cSS_B_setclr_button4.cget('bg') == "red":
-        check = SCA_functions.GPIOset(0x00000010, 1)
-        if check:
-            Gg.cSS_B_setclr_button4.configure(bg="green")
-        else:
-            Gg.cSS_B_setclr_button4.configure(bg="red")                          
-    elif Gg.cSS_B_setclr_button4.cget('bg') == "green":
-        check = SCA_functions.GPIOclr(0x00000010, 1)
-        if check:
-            Gg.cSS_B_setclr_button4.configure(bg="white")
-        else:
-            Gg.cSS_B_setclr_button4.configure(bg="red")
-
-def FE10_ALDO_Enable1_setclr4():
-    if Gg.FE10_ALDO_En1_setclr_button4.cget('bg') == "white" or Gg.FE10_ALDO_En1_setclr_button4.cget('bg') == "red":
-        check = SCA_functions.GPIOset(0x00000020, 1)
-        if check:
-            Gg.FE10_ALDO_En1_setclr_button4.configure(bg="green")
-        else:
-            Gg.FE10_ALDO_En1_setclr_button4.configure(bg="red")                          
-    elif Gg.FE10_ALDO_En1_setclr_button4.cget('bg') == "green":
-        check = SCA_functions.GPIOclr(0x00000020, 1)
-        if check:
-            Gg.FE10_ALDO_En1_setclr_button4.configure(bg="white")
-        else:
-            Gg.FE10_ALDO_En1_setclr_button4.configure(bg="red")
-
-def FE10_ALDO_Enable2_setclr4():
-    if Gg.FE10_ALDO_En2_setclr_button4.cget('bg') == "white" or Gg.FE10_ALDO_En2_setclr_button4.cget('bg') == "red":
-        check = SCA_functions.GPIOset(0x00000040, 1)
-        if check:
-            Gg.FE10_ALDO_En2_setclr_button4.configure(bg="green")
-        else:
-            Gg.FE10_ALDO_En2_setclr_button4.configure(bg="red")                          
-    elif Gg.FE10_ALDO_En2_setclr_button4.cget('bg') == "green":
-        check = SCA_functions.GPIOclr(0x00000040, 1)
-        if check:
-            Gg.FE10_ALDO_En2_setclr_button4.configure(bg="white")
-        else:
-            Gg.FE10_ALDO_En2_setclr_button4.configure(bg="red")
-
-def cEN_B_setclr4():
-    if Gg.cEN_B_setclr_button4.cget('bg') == "white" or Gg.cEN_B_setclr_button4.cget('bg') == "red":
-        check = SCA_functions.GPIOset(0x00000080, 1)
-        if check:
-            Gg.cEN_B_setclr_button4.configure(bg="green")
-        else:
-            Gg.cEN_B_setclr_button4.configure(bg="red")                          
-    elif Gg.cEN_B_setclr_button4.cget('bg') == "green":
-        check = SCA_functions.GPIOclr(0x00000080, 1)
-        if check:
-            Gg.cEN_B_setclr_button4.configure(bg="white")
-        else:
-            Gg.cEN_B_setclr_button4.configure(bg="red")
-
-def FE7_ALDO_Enable1_setclr4():
-    if Gg.FE7_ALDO_En1_setclr_button4.cget('bg') == "white" or Gg.FE7_ALDO_En1_setclr_button4.cget('bg') == "red":
-        check = SCA_functions.GPIOset(0x00000100, 1)
-        if check:
-            Gg.FE7_ALDO_En1_setclr_button4.configure(bg="green")
-        else:
-            Gg.FE7_ALDO_En1_setclr_button4.configure(bg="red")                          
-    elif Gg.FE7_ALDO_En1_setclr_button4.cget('bg') == "green":
-        check = SCA_functions.GPIOclr(0x00000100, 1)
-        if check:
-            Gg.FE7_ALDO_En1_setclr_button4.configure(bg="white")
-        else:
-            Gg.FE7_ALDO_En1_setclr_button4.configure(bg="red")
-
-def FE7_ALDO_Enable2_setclr4():
-    if Gg.FE7_ALDO_En2_setclr_button4.cget('bg') == "white" or Gg.FE7_ALDO_En2_setclr_button4.cget('bg') == "red":
-        check = SCA_functions.GPIOset(0x00000200, 1)
-        if check:
-            Gg.FE7_ALDO_En2_setclr_button4.configure(bg="green")
-        else:
-            Gg.FE7_ALDO_En2_setclr_button4.configure(bg="red")                          
-    elif Gg.FE7_ALDO_En2_setclr_button4.cget('bg') == "green":
-        check = SCA_functions.GPIOclr(0x00000200, 1)
-        if check:
-            Gg.FE7_ALDO_En2_setclr_button4.configure(bg="white")
-        else:
-            Gg.FE7_ALDO_En2_setclr_button4.configure(bg="red")
-
-def eSS_B_setclr4():
-    if Gg.eSS_B_setclr_button4.cget('bg') == "white" or Gg.eSS_B_setclr_button4.cget('bg') == "red":
-        check = SCA_functions.GPIOset(0x00000400, 1)
-        if check:
-            Gg.eSS_B_setclr_button4.configure(bg="green")
-        else:
-            Gg.eSS_B_setclr_button4.configure(bg="red")                          
-    elif Gg.eSS_B_setclr_button4.cget('bg') == "green":
-        check = SCA_functions.GPIOclr(0x00000400, 1)
-        if check:
-            Gg.eSS_B_setclr_button4.configure(bg="white")
-        else:
-            Gg.eSS_B_setclr_button4.configure(bg="red")
-
-def FE3_ALDO_Enable1_setclr4():
-    if Gg.FE3_ALDO_En1_setclr_button4.cget('bg') == "white" or Gg.FE3_ALDO_En1_setclr_button4.cget('bg') == "red":
-        check = SCA_functions.GPIOset(0x00000800, 1)
-        if check:
-            Gg.FE3_ALDO_En1_setclr_button4.configure(bg="green")
-        else:
-            Gg.FE3_ALDO_En1_setclr_button4.configure(bg="red")                          
-    elif Gg.FE3_ALDO_En1_setclr_button4.cget('bg') == "green":
-        check = SCA_functions.GPIOclr(0x00000800, 1)
-        if check:
-            Gg.FE3_ALDO_En1_setclr_button4.configure(bg="white")
-        else:
-            Gg.FE3_ALDO_En1_setclr_button4.configure(bg="red")
-
-def FE5_ALDO_Enable1_setclr4():
-    if Gg.FE5_ALDO_En1_setclr_button4.cget('bg') == "white" or Gg.FE5_ALDO_En1_setclr_button4.cget('bg') == "red":
-        check = SCA_functions.GPIOset(0x00001000, 1)
-        if check:
-            Gg.FE5_ALDO_En1_setclr_button4.configure(bg="green")
-        else:
-            Gg.FE5_ALDO_En1_setclr_button4.configure(bg="red")                          
-    elif Gg.FE5_ALDO_En1_setclr_button4.cget('bg') == "green":
-        check = SCA_functions.GPIOclr(0x00001000, 1)
-        if check:
-            Gg.FE5_ALDO_En1_setclr_button4.configure(bg="white")
-        else:
-            Gg.FE5_ALDO_En1_setclr_button4.configure(bg="red")
-
-def oEN_B_setclr4():
-    if Gg.oEN_B_setclr_button4.cget('bg') == "white" or Gg.oEN_B_setclr_button4.cget('bg') == "red":
-        check = SCA_functions.GPIOset(0x00002000, 1)
-        if check:
-            Gg.oEN_B_setclr_button4.configure(bg="green")
-        else:
-            Gg.oEN_B_setclr_button4.configure(bg="red")                          
-    elif Gg.oEN_B_setclr_button4.cget('bg') == "green":
-        check = SCA_functions.GPIOclr(0x00002000, 1)
-        if check:
-            Gg.oEN_B_setclr_button4.configure(bg="white")
-        else:
-            Gg.oEN_B_setclr_button4.configure(bg="red")
-
-def FE6_ALDO_Enable1_setclr4():
-    if Gg.FE6_ALDO_En1_setclr_button4.cget('bg') == "white" or Gg.FE6_ALDO_En1_setclr_button4.cget('bg') == "red":
-        check = SCA_functions.GPIOset(0x00004000, 1)
-        if check:
-            Gg.FE6_ALDO_En1_setclr_button4.configure(bg="green")
-        else:
-            Gg.FE6_ALDO_En1_setclr_button4.configure(bg="red")                          
-    elif Gg.FE6_ALDO_En1_setclr_button4.cget('bg') == "green":
-        check = SCA_functions.GPIOclr(0x00004000, 1)
-        if check:
-            Gg.FE6_ALDO_En1_setclr_button4.configure(bg="white")
-        else:
-            Gg.FE6_ALDO_En1_setclr_button4.configure(bg="red")
-
-def FE6_ALDO_Enable2_setclr4():
-    if Gg.FE6_ALDO_En2_setclr_button4.cget('bg') == "white" or Gg.FE6_ALDO_En2_setclr_button4.cget('bg') == "red":
-        check = SCA_functions.GPIOset(0x00008000, 1)
-        if check:
-            Gg.FE6_ALDO_En2_setclr_button4.configure(bg="green")
-        else:
-            Gg.FE6_ALDO_En2_setclr_button4.configure(bg="red")                          
-    elif Gg.FE6_ALDO_En2_setclr_button4.cget('bg') == "green":
-        check = SCA_functions.GPIOclr(0x00008000, 1)
-        if check:
-            Gg.FE6_ALDO_En2_setclr_button4.configure(bg="white")
-        else:
-            Gg.FE6_ALDO_En2_setclr_button4.configure(bg="red")
-
-def FE12_ALDO_Enable2_setclr4():
-    if Gg.FE12_ALDO_En2_setclr_button4.cget('bg') == "white" or Gg.FE12_ALDO_En2_setclr_button4.cget('bg') == "red":
-        check = SCA_functions.GPIOset(0x00010000, 1)
-        if check:
-            Gg.FE12_ALDO_En2_setclr_button4.configure(bg="green")
-        else:
-            Gg.FE12_ALDO_En2_setclr_button4.configure(bg="red")                          
-    elif Gg.FE12_ALDO_En2_setclr_button4.cget('bg') == "green":
-        check = SCA_functions.GPIOclr(0x00010000, 1)
-        if check:
-            Gg.FE12_ALDO_En2_setclr_button4.configure(bg="white")
-        else:
-            Gg.FE12_ALDO_En2_setclr_button4.configure(bg="red")
-
-def FE3_ALDO_Enable2_setclr4():
-    if Gg.FE3_ALDO_En2_setclr_button4.cget('bg') == "white" or Gg.FE3_ALDO_En2_setclr_button4.cget('bg') == "red":
-        check = SCA_functions.GPIOset(0x00020000, 1)
-        if check:
-            Gg.FE3_ALDO_En2_setclr_button4.configure(bg="green")
-        else:
-            Gg.FE3_ALDO_En2_setclr_button4.configure(bg="red")                          
-    elif Gg.FE3_ALDO_En2_setclr_button4.cget('bg') == "green":
-        check = SCA_functions.GPIOclr(0x00020000, 1)
-        if check:
-            Gg.FE3_ALDO_En2_setclr_button4.configure(bg="white")
-        else:
-            Gg.FE3_ALDO_En2_setclr_button4.configure(bg="red")
-
-def FE4_ALDO_Enable2_setclr4():
-    if Gg.FE4_ALDO_En2_setclr_button4.cget('bg') == "white" or Gg.FE4_ALDO_En2_setclr_button4.cget('bg') == "red":
-        check = SCA_functions.GPIOset(0x00040000, 1)
-        if check:
-            Gg.FE4_ALDO_En2_setclr_button4.configure(bg="green")
-        else:
-            Gg.FE4_ALDO_En2_setclr_button4.configure(bg="red")                          
-    elif Gg.FE4_ALDO_En2_setclr_button4.cget('bg') == "green":
-        check = SCA_functions.GPIOclr(0x00040000, 1)
-        if check:
-            Gg.FE4_ALDO_En2_setclr_button4.configure(bg="white")
-        else:
-            Gg.FE4_ALDO_En2_setclr_button4.configure(bg="red")
-
-def FE12_ALDO_Enable1_setclr4():
-    if Gg.FE12_ALDO_En1_setclr_button4.cget('bg') == "white" or Gg.FE12_ALDO_En1_setclr_button4.cget('bg') == "red":
-        check = SCA_functions.GPIOset(0x00080000, 1)
-        if check:
-            Gg.FE12_ALDO_En1_setclr_button4.configure(bg="green")
-        else:
-            Gg.FE12_ALDO_En1_setclr_button4.configure(bg="red")                          
-    elif Gg.FE12_ALDO_En1_setclr_button4.cget('bg') == "green":
-        check = SCA_functions.GPIOclr(0x00080000, 1)
-        if check:
-            Gg.FE12_ALDO_En1_setclr_button4.configure(bg="white")
-        else:
-            Gg.FE12_ALDO_En1_setclr_button4.configure(bg="red")
-
-def PCC_A_EN_IV8_2_setclr4():
-    if Gg.PCC_A_EN_IV8_2_setclr_button4.cget('bg') == "white" or Gg.PCC_A_EN_IV8_2_setclr_button4.cget('bg') == "red":
-        check = SCA_functions.GPIOset(0x00100000, 1)
-        if check:
-            Gg.PCC_A_EN_IV8_2_setclr_button4.configure(bg="green")
-        else:
-            Gg.PCC_A_EN_IV8_2_setclr_button4.configure(bg="red")                          
-    elif Gg.PCC_A_EN_IV8_2_setclr_button4.cget('bg') == "green":
-        check = SCA_functions.GPIOclr(0x00100000, 1)
-        if check:
-            Gg.PCC_A_EN_IV8_2_setclr_button4.configure(bg="white")
-        else:
-            Gg.PCC_A_EN_IV8_2_setclr_button4.configure(bg="red")
-
-def PCC_A_EN_IV8_1_setclr4():
-    if Gg.PCC_A_EN_IV8_1_setclr_button4.cget('bg') == "white" or Gg.PCC_A_EN_IV8_1_setclr_button4.cget('bg') == "red":
-        check = SCA_functions.GPIOset(0x00200000, 1)
-        if check:
-            Gg.PCC_A_EN_IV8_1_setclr_button4.configure(bg="green")
-        else:
-            Gg.PCC_A_EN_IV8_1_setclr_button4.configure(bg="red")                          
-    elif Gg.PCC_A_EN_IV8_1_setclr_button4.cget('bg') == "green":
-        check = SCA_functions.GPIOclr(0x00200000, 1)
-        if check:
-            Gg.PCC_A_EN_IV8_1_setclr_button4.configure(bg="white")
-        else:
-            Gg.PCC_A_EN_IV8_1_setclr_button4.configure(bg="red")
-
-def FE11_ALDO_Enable1_setclr4():
-    if Gg.FE11_ALDO_En1_setclr_button4.cget('bg') == "white" or Gg.FE11_ALDO_En1_setclr_button4.cget('bg') == "red":
-        check = SCA_functions.GPIOset(0x00400000, 1)
-        if check:
-            Gg.FE11_ALDO_En1_setclr_button4.configure(bg="green")
-        else:
-            Gg.FE11_ALDO_En1_setclr_button4.configure(bg="red")                          
-    elif Gg.FE11_ALDO_En1_setclr_button4.cget('bg') == "green":
-        check = SCA_functions.GPIOclr(0x00400000, 1)
-        if check:
-            Gg.FE11_ALDO_En1_setclr_button4.configure(bg="white")
-        else:
-            Gg.FE11_ALDO_En1_setclr_button4.configure(bg="red")
-
-def FE2_ALDO_Enable1_setclr4():
-    if Gg.FE2_ALDO_En1_setclr_button4.cget('bg') == "white" or Gg.FE2_ALDO_En1_setclr_button4.cget('bg') == "red":
-        check = SCA_functions.GPIOset(0x00800000, 1)
-        if check:
-            Gg.FE2_ALDO_En1_setclr_button4.configure(bg="green")
-        else:
-            Gg.FE2_ALDO_En1_setclr_button4.configure(bg="red")                          
-    elif Gg.FE2_ALDO_En1_setclr_button4.cget('bg') == "green":
-        check = SCA_functions.GPIOclr(0x00800000, 1)
-        if check:
-            Gg.FE2_ALDO_En1_setclr_button4.configure(bg="white")
-        else:
-            Gg.FE2_ALDO_En1_setclr_button4.configure(bg="red")
-
-def FE4_ALDO_Enable1_setclr4():
-    if Gg.FE4_ALDO_En1_setclr_button4.cget('bg') == "white" or Gg.FE4_ALDO_En1_setclr_button4.cget('bg') == "red":
-        check = SCA_functions.GPIOset(0x01000000, 1)
-        if check:
-            Gg.FE4_ALDO_En1_setclr_button4.configure(bg="green")
-        else:
-            Gg.FE4_ALDO_En1_setclr_button4.configure(bg="red")                          
-    elif Gg.FE4_ALDO_En1_setclr_button4.cget('bg') == "green":
-        check = SCA_functions.GPIOclr(0x01000000, 1)
-        if check:
-            Gg.FE4_ALDO_En1_setclr_button4.configure(bg="white")
-        else:
-            Gg.FE4_ALDO_En1_setclr_button4.configure(bg="red")
-
-def FE11_ALDO_Enable2_setclr4():
-    if Gg.FE11_ALDO_En2_setclr_button4.cget('bg') == "white" or Gg.FE11_ALDO_En2_setclr_button4.cget('bg') == "red":
-        check = SCA_functions.GPIOset(0x02000000, 1)
-        if check:
-            Gg.FE11_ALDO_En2_setclr_button4.configure(bg="green")
-        else:
-            Gg.FE11_ALDO_En2_setclr_button4.configure(bg="red")                          
-    elif Gg.FE11_ALDO_En2_setclr_button4.cget('bg') == "green":
-        check = SCA_functions.GPIOclr(0x02000000, 1)
-        if check:
-            Gg.FE11_ALDO_En2_setclr_button4.configure(bg="white")
-        else:
-            Gg.FE11_ALDO_En2_setclr_button4.configure(bg="red")
-
-def FE2_ALDO_Enable2_setclr4():
-    if Gg.FE2_ALDO_En2_setclr_button4.cget('bg') == "white" or Gg.FE2_ALDO_En2_setclr_button4.cget('bg') == "red":
-        check = SCA_functions.GPIOset(0x04000000, 1)
-        if check:
-            Gg.FE2_ALDO_En2_setclr_button4.configure(bg="green")
-        else:
-            Gg.FE2_ALDO_En2_setclr_button4.configure(bg="red")                          
-    elif Gg.FE2_ALDO_En2_setclr_button4.cget('bg') == "green":
-        check = SCA_functions.GPIOclr(0x04000000, 1)
-        if check:
-            Gg.FE2_ALDO_En2_setclr_button4.configure(bg="white")
-        else:
-            Gg.FE2_ALDO_En2_setclr_button4.configure(bg="red")
-
-def FE1_ALDO_Enable1_setclr4():
-    if Gg.FE1_ALDO_En1_setclr_button4.cget('bg') == "white" or Gg.FE1_ALDO_En1_setclr_button4.cget('bg') == "red":
-        check = SCA_functions.GPIOset(0x08000000, 1)
-        if check:
-            Gg.FE1_ALDO_En1_setclr_button4.configure(bg="green")
-        else:
-            Gg.FE1_ALDO_En1_setclr_button4.configure(bg="red")                          
-    elif Gg.FE1_ALDO_En1_setclr_button4.cget('bg') == "green":
-        check = SCA_functions.GPIOclr(0x08000000, 1)
-        if check:
-            Gg.FE1_ALDO_En1_setclr_button4.configure(bg="white")
-        else:
-            Gg.FE1_ALDO_En1_setclr_button4.configure(bg="red")
-
-def FE5_ALDO_Enable2_setclr4():
-    if Gg.FE5_ALDO_En2_setclr_button4.cget('bg') == "white" or Gg.FE5_ALDO_En2_setclr_button4.cget('bg') == "red":
-        check = SCA_functions.GPIOset(0x10000000, 1)
-        if check:
-            Gg.FE5_ALDO_En2_setclr_button4.configure(bg="green")
-        else:
-            Gg.FE5_ALDO_En2_setclr_button4.configure(bg="red")                          
-    elif Gg.FE5_ALDO_En2_setclr_button4.cget('bg') == "green":
-        check = SCA_functions.GPIOclr(0x10000000, 1)
-        if check:
-            Gg.FE5_ALDO_En2_setclr_button4.configure(bg="white")
-        else:
-            Gg.FE5_ALDO_En2_setclr_button4.configure(bg="red")
-
-def FE1_ALDO_Enable2_setclr4():
-    if Gg.FE1_ALDO_En2_setclr_button4.cget('bg') == "white" or Gg.FE1_ALDO_En2_setclr_button4.cget('bg') == "red":
-        check = SCA_functions.GPIOset(0x20000000, 1)
-        if check:
-            Gg.FE1_ALDO_En2_setclr_button4.configure(bg="green")
-        else:
-            Gg.FE1_ALDO_En2_setclr_button4.configure(bg="red")                          
-    elif Gg.FE1_ALDO_En2_setclr_button4.cget('bg') == "green":
-        check = SCA_functions.GPIOclr(0x20000000, 1)
-        if check:
-            Gg.FE1_ALDO_En2_setclr_button4.configure(bg="white")
-        else:
-            Gg.FE1_ALDO_En2_setclr_button4.configure(bg="red")
-
-def FE8_ALDO_Enable1_setclr4():
-    if Gg.FE8_ALDO_En1_setclr_button4.cget('bg') == "white" or Gg.FE8_ALDO_En1_setclr_button4.cget('bg') == "red":
-        check = SCA_functions.GPIOset(0x40000000, 1)
-        if check:
-            Gg.FE8_ALDO_En1_setclr_button4.configure(bg="green")
-        else:
-            Gg.FE8_ALDO_En1_setclr_button4.configure(bg="red")                          
-    elif Gg.FE8_ALDO_En1_setclr_button4.cget('bg') == "green":
-        check = SCA_functions.GPIOclr(0x40000000, 1)
-        if check:
-            Gg.FE8_ALDO_En1_setclr_button4.configure(bg="white")
-        else:
-            Gg.FE8_ALDO_En1_setclr_button4.configure(bg="red")
-
-def FE8_ALDO_Enable2_setclr4():
-    if Gg.FE8_ALDO_En2_setclr_button4.cget('bg') == "white" or Gg.FE8_ALDO_En2_setclr_button4.cget('bg') == "red":
-        check = SCA_functions.GPIOset(0x80000000, 1)
-        if check:
-            Gg.FE8_ALDO_En2_setclr_button4.configure(bg="green")
-        else:
-            Gg.FE8_ALDO_En2_setclr_button4.configure(bg="red")                          
-    elif Gg.FE8_ALDO_En2_setclr_button4.cget('bg') == "green":
-        check = SCA_functions.GPIOclr(0x80000000, 1)
-        if check:
-            Gg.FE8_ALDO_En2_setclr_button4.configure(bg="white")
-        else:
-            Gg.FE8_ALDO_En2_setclr_button4.configure(bg="red")
-
-
-
-
-
-
-
-
-
-
-def FE2_ALDO_Enable2_onoff1():
-    if Gg.FE2_ALDO_En2_onoff_button1.cget('bg') == "white" or Gg.FE2_ALDO_En2_onoff_button1.cget('bg') == "red":
-        check = SCA_functions.GPIOon(0x00000001, 2)
-        if check:
-            Gg.FE2_ALDO_En2_onoff_button1.configure(bg="green")
-        else:
-            Gg.FE2_ALDO_En2_onoff_button1.configure(bg="red")
-    elif Gg.FE2_ALDO_En2_onoff_button1.cget('bg') == "green":
-        check = SCA_functions.GPIOoff(0x00000001, 2)
-        if check:
-            Gg.FE2_ALDO_En2_onoff_button1.configure(bg="white")
-        else:
-            Gg.FE2_ALDO_En2_onoff_button1.configure(bg="red")
-
-def FE5_ALDO_Enable2_onoff1():
-    if Gg.FE5_ALDO_En2_onoff_button1.cget('bg') == "white" or Gg.FE5_ALDO_En2_onoff_button1.cget('bg') == "red":
-        check = SCA_functions.GPIOon(0x00000002, 2)
-        if check:
-            Gg.FE5_ALDO_En2_onoff_button1.configure(bg="green")
-        else:
-            Gg.FE5_ALDO_En2_onoff_button1.configure(bg="red")
-    elif Gg.FE5_ALDO_En2_onoff_button1.cget('bg') == "green":
-        check = SCA_functions.GPIOoff(0x00000002, 2)
-        if check:
-            Gg.FE5_ALDO_En2_onoff_button1.configure(bg="white")
-        else:
-            Gg.FE5_ALDO_En2_onoff_button1.configure(bg="red")
-
-def FE8_ALDO_Enable2_onoff1():
-    if Gg.FE8_ALDO_En2_onoff_button1.cget('bg') == "white" or Gg.FE8_ALDO_En2_onoff_button1.cget('bg') == "red":
-        check = SCA_functions.GPIOon(0x00000004, 2)
-        if check:
-            Gg.FE8_ALDO_En2_onoff_button1.configure(bg="green")
-        else:
-            Gg.FE8_ALDO_En2_onoff_button1.configure(bg="red")
-    elif Gg.FE8_ALDO_En2_onoff_button1.cget('bg') == "green":
-        check = SCA_functions.GPIOoff(0x00000004, 2)
-        if check:
-            Gg.FE8_ALDO_En2_onoff_button1.configure(bg="white")
-        else:
-            Gg.FE8_ALDO_En2_onoff_button1.configure(bg="red")
-
-def FE8_ALDO_Enable1_onoff1():
-    if Gg.FE8_ALDO_En1_onoff_button1.cget('bg') == "white" or Gg.FE8_ALDO_En1_onoff_button1.cget('bg') == "red":
-        check = SCA_functions.GPIOon(0x00000008, 2)
-        if check:
-            Gg.FE8_ALDO_En1_onoff_button1.configure(bg="green")
-        else:
-            Gg.FE8_ALDO_En1_onoff_button1.configure(bg="red")
-    elif Gg.FE8_ALDO_En1_onoff_button1.cget('bg') == "green":
-        check = SCA_functions.GPIOoff(0x00000008, 2)
-        if check:
-            Gg.FE8_ALDO_En1_onoff_button1.configure(bg="white")
-        else:
-            Gg.FE8_ALDO_En1_onoff_button1.configure(bg="red")
-
-def FE11_ALDO_Enable2_onoff1():
-    if Gg.FE11_ALDO_En2_onoff_button1.cget('bg') == "white" or Gg.FE11_ALDO_En2_onoff_button1.cget('bg') == "red":
-        check = SCA_functions.GPIOon(0x00000010, 2)
-        if check:
-            Gg.FE11_ALDO_En2_onoff_button1.configure(bg="green")
-        else:
-            Gg.FE11_ALDO_En2_onoff_button1.configure(bg="red")
-    elif Gg.FE11_ALDO_En2_onoff_button1.cget('bg') == "green":
-        check = SCA_functions.GPIOoff(0x00000010, 2)
-        if check:
-            Gg.FE11_ALDO_En2_onoff_button1.configure(bg="white")
-        else:
-            Gg.FE11_ALDO_En2_onoff_button1.configure(bg="red")
-
-def FE1_ALDO_Enable2_onoff1():
-    if Gg.FE1_ALDO_En2_onoff_button1.cget('bg') == "white" or Gg.FE1_ALDO_En2_onoff_button1.cget('bg') == "red":
-        check = SCA_functions.GPIOon(0x00000020, 2)
-        if check:
-            Gg.FE1_ALDO_En2_onoff_button1.configure(bg="green")
-        else:
-            Gg.FE1_ALDO_En2_onoff_button1.configure(bg="red")
-    elif Gg.FE1_ALDO_En2_onoff_button1.cget('bg') == "green":
-        check = SCA_functions.GPIOoff(0x00000020, 2)
-        if check:
-            Gg.FE1_ALDO_En2_onoff_button1.configure(bg="white")
-        else:
-            Gg.FE1_ALDO_En2_onoff_button1.configure(bg="red")
-
-def FE1_ALDO_Enable1_onoff1():
-    if Gg.FE1_ALDO_En1_onoff_button1.cget('bg') == "white" or Gg.FE1_ALDO_En1_onoff_button1.cget('bg') == "red":
-        check = SCA_functions.GPIOon(0x00000040, 2)
-        if check:
-            Gg.FE1_ALDO_En1_onoff_button1.configure(bg="green")
-        else:
-            Gg.FE1_ALDO_En1_onoff_button1.configure(bg="red")
-    elif Gg.FE1_ALDO_En1_onoff_button1.cget('bg') == "green":
-        check = SCA_functions.GPIOoff(0x00000040, 2)
-        if check:
-            Gg.FE1_ALDO_En1_onoff_button1.configure(bg="white")
-        else:
-            Gg.FE1_ALDO_En1_onoff_button1.configure(bg="red")
-
-def FE11_ALDO_Enable1_onoff1():
-    if Gg.FE11_ALDO_En1_onoff_button1.cget('bg') == "white" or Gg.FE11_ALDO_En1_onoff_button1.cget('bg') == "red":
-        check = SCA_functions.GPIOon(0x00000080, 2)
-        if check:
-            Gg.FE11_ALDO_En1_onoff_button1.configure(bg="green")
-        else:
-            Gg.FE11_ALDO_En1_onoff_button1.configure(bg="red")
-    elif Gg.FE11_ALDO_En1_onoff_button1.cget('bg') == "green":
-        check = SCA_functions.GPIOoff(0x00000080, 2)
-        if check:
-            Gg.FE11_ALDO_En1_onoff_button1.configure(bg="white")
-        else:
-            Gg.FE11_ALDO_En1_onoff_button1.configure(bg="red")
-
-def FE2_ALDO_Enable1_onoff1():
-    if Gg.FE2_ALDO_En1_onoff_button1.cget('bg') == "white" or Gg.FE2_ALDO_En1_onoff_button1.cget('bg') == "red":
-        check = SCA_functions.GPIOon(0x00000100, 2)
-        if check:
-            Gg.FE2_ALDO_En1_onoff_button1.configure(bg="green")
-        else:
-            Gg.FE2_ALDO_En1_onoff_button1.configure(bg="red")
-    elif Gg.FE2_ALDO_En1_onoff_button1.cget('bg') == "green":
-        check = SCA_functions.GPIOoff(0x00000100, 2)
-        if check:
-            Gg.FE2_ALDO_En1_onoff_button1.configure(bg="white")
-        else:
-            Gg.FE2_ALDO_En1_onoff_button1.configure(bg="red")
-
-def FE4_ALDO_Enable1_onoff1():
-    if Gg.FE4_ALDO_En1_onoff_button1.cget('bg') == "white" or Gg.FE4_ALDO_En1_onoff_button1.cget('bg') == "red":
-        check = SCA_functions.GPIOon(0x00000200, 2)
-        if check:
-            Gg.FE4_ALDO_En1_onoff_button1.configure(bg="green")
-        else:
-            Gg.FE4_ALDO_En1_onoff_button1.configure(bg="red")
-    elif Gg.FE4_ALDO_En1_onoff_button1.cget('bg') == "green":
-        check = SCA_functions.GPIOoff(0x00000200, 2)
-        if check:
-            Gg.FE4_ALDO_En1_onoff_button1.configure(bg="white")
-        else:
-            Gg.FE4_ALDO_En1_onoff_button1.configure(bg="red")
-
-def FE12_ALDO_Enable1_onoff1():
-    if Gg.FE12_ALDO_En1_onoff_button1.cget('bg') == "white" or Gg.FE12_ALDO_En1_onoff_button1.cget('bg') == "red":
-        check = SCA_functions.GPIOon(0x00000400, 2)
-        if check:
-            Gg.FE12_ALDO_En1_onoff_button1.configure(bg="green")
-        else:
-            Gg.FE12_ALDO_En1_onoff_button1.configure(bg="red")
-    elif Gg.FE12_ALDO_En1_onoff_button1.cget('bg') == "green":
-        check = SCA_functions.GPIOoff(0x00000400, 2)
-        if check:
-            Gg.FE12_ALDO_En1_onoff_button1.configure(bg="white")
-        else:
-            Gg.FE12_ALDO_En1_onoff_button1.configure(bg="red")
-
-def PCC_A_EN_IV8_2_onoff1():
-    if Gg.PCC_A_EN_IV8_2_onoff_button1.cget('bg') == "white" or Gg.PCC_A_EN_IV8_2_onoff_button1.cget('bg') == "red":
-        check = SCA_functions.GPIOon(0x00000800, 2)
-        if check:
-            Gg.PCC_A_EN_IV8_2_onoff_button1.configure(bg="green")
-        else:
-            Gg.PCC_A_EN_IV8_2_onoff_button1.configure(bg="red")
-    elif Gg.PCC_A_EN_IV8_2_onoff_button1.cget('bg') == "green":
-        check = SCA_functions.GPIOoff(0x00000800,2)
-        if check:
-            Gg.PCC_A_EN_IV8_2_onoff_button1.configure(bg="white")
-        else:
-            Gg.PCC_A_EN_IV8_2_onoff_button1.configure(bg="red")
-
-def PCC_A_EN_IV8_1_onoff1():
-    if Gg.PCC_A_EN_IV8_1_onoff_button1.cget('bg') == "white" or Gg.PCC_A_EN_IV8_1_onoff_button1.cget('bg') == "red":
-        check = SCA_functions.GPIOon(0x00001000, 2)
-        if check:
-            Gg.PCC_A_EN_IV8_1_onoff_button1.configure(bg="green")
-        else:
-            Gg.PCC_A_EN_IV8_1_onoff_button1.configure(bg="red")
-    elif Gg.PCC_A_EN_IV8_1_onoff_button1.cget('bg') == "green":
-        check = SCA_functions.GPIOoff(0x00001000,2)
-        if check:
-            Gg.PCC_A_EN_IV8_1_onoff_button1.configure(bg="white")
-        else:
-            Gg.PCC_A_EN_IV8_1_onoff_button1.configure(bg="red")
-
-def FE12_ALDO_Enable2_onoff1():
-    if Gg.FE12_ALDO_En2_onoff_button1.cget('bg') == "white" or Gg.FE12_ALDO_En2_onoff_button1.cget('bg') == "red":
-        check = SCA_functions.GPIOon(0x00002000, 2)
-        if check:
-            Gg.FE12_ALDO_En2_onoff_button1.configure(bg="green")
-        else:
-            Gg.FE12_ALDO_En2_onoff_button1.configure(bg="red")
-    elif Gg.FE12_ALDO_En2_onoff_button1.cget('bg') == "green":
-        check = SCA_functions.GPIOoff(0x00002000, 2)
-        if check:
-            Gg.FE12_ALDO_En2_onoff_button1.configure(bg="white")
-        else:
-            Gg.FE12_ALDO_En2_onoff_button1.configure(bg="red")
-
-def FE3_ALDO_Enable2_onoff1():
-    if Gg.FE3_ALDO_En2_onoff_button1.cget('bg') == "white" or Gg.FE3_ALDO_En2_onoff_button1.cget('bg') == "red":
-        check = SCA_functions.GPIOon(0x00004000, 2)
-        if check:
-            Gg.FE3_ALDO_En2_onoff_button1.configure(bg="green")
-        else:
-            Gg.FE3_ALDO_En2_onoff_button1.configure(bg="red")
-    elif Gg.FE3_ALDO_En2_onoff_button1.cget('bg') == "green":
-        check = SCA_functions.GPIOoff(0x00004000, 2)
-        if check:
-            Gg.FE3_ALDO_En2_onoff_button1.configure(bg="white")
-        else:
-            Gg.FE3_ALDO_En2_onoff_button1.configure(bg="red")
-
-def FE4_ALDO_Enable2_onoff1():
-    if Gg.FE4_ALDO_En2_onoff_button1.cget('bg') == "white" or Gg.FE4_ALDO_En2_onoff_button1.cget('bg') == "red":
-        check = SCA_functions.GPIOon(0x00008000, 2)
-        if check:
-            Gg.FE4_ALDO_En2_onoff_button1.configure(bg="green")
-        else:
-            Gg.FE4_ALDO_En2_onoff_button1.configure(bg="red")
-    elif Gg.FE4_ALDO_En2_onoff_button1.cget('bg') == "green":
-        check = SCA_functions.GPIOoff(0x00008000, 2)
-        if check:
-            Gg.FE4_ALDO_En2_onoff_button1.configure(bg="white")
-        else:
-            Gg.FE4_ALDO_En2_onoff_button1.configure(bg="red")
-
-def oEN_A_onoff1():
-    if Gg.oEN_A_onoff_button1.cget('bg') == "white" or Gg.oEN_A_onoff_button1.cget('bg') == "red":
-        check = SCA_functions.GPIOon(0x00010000, 2)
-        if check:
-            Gg.oEN_A_onoff_button1.configure(bg="green")
-        else:
-            Gg.oEN_A_onoff_button1.configure(bg="red")
-    elif Gg.oEN_A_onoff_button1.cget('bg') == "green":
-        check = SCA_functions.GPIOoff(0x00010000, 2)
-        if check:
-            Gg.oEN_A_onoff_button1.configure(bg="white")
-        else:
-            Gg.oEN_A_onoff_button1.configure(bg="red")
-
-def FE6_ALDO_Enable1_onoff1():
-    if Gg.FE6_ALDO_En1_onoff_button1.cget('bg') == "white" or Gg.FE6_ALDO_En1_onoff_button1.cget('bg') == "red":
-        check = SCA_functions.GPIOon(0x00020000, 2)
-        if check:
-            Gg.FE6_ALDO_En1_onoff_button1.configure(bg="green")
-        else:
-            Gg.FE6_ALDO_En1_onoff_button1.configure(bg="red")
-    elif Gg.FE6_ALDO_En1_onoff_button1.cget('bg') == "green":
-        check = SCA_functions.GPIOoff(0x00020000, 2)
-        if check:
-            Gg.FE6_ALDO_En1_onoff_button1.configure(bg="white")
-        else:
-            Gg.FE6_ALDO_En1_onoff_button1.configure(bg="red")
-
-def FE6_ALDO_Enable2_onoff1():
-    if Gg.FE6_ALDO_En2_onoff_button1.cget('bg') == "white" or Gg.FE6_ALDO_En2_onoff_button1.cget('bg') == "red":
-        check = SCA_functions.GPIOon(0x00040000, 2)
-        if check:
-            Gg.FE6_ALDO_En2_onoff_button1.configure(bg="green")
-        else:
-            Gg.FE6_ALDO_En2_onoff_button1.configure(bg="red")
-    elif Gg.FE6_ALDO_En2_onoff_button1.cget('bg') == "green":
-        check = SCA_functions.GPIOoff(0x00040000, 2)
-        if check:
-            Gg.FE6_ALDO_En2_onoff_button1.configure(bg="white")
-        else:
-            Gg.FE6_ALDO_En2_onoff_button1.configure(bg="red")
-
-def eSS_A_onoff1():
-    if Gg.eSS_A_onoff_button1.cget('bg') == "white" or Gg.eSS_A_onoff_button1.cget('bg') == "red":
-        check = SCA_functions.GPIOon(0x00080000, 2)
-        if check:
-            Gg.eSS_A_onoff_button1.configure(bg="green")
-        else:
-            Gg.eSS_A_onoff_button1.configure(bg="red")
-    elif Gg.eSS_A_onoff_button1.cget('bg') == "green":
-        check = SCA_functions.GPIOoff(0x00080000, 2)
-        if check:
-            Gg.eSS_A_onoff_button1.configure(bg="white")
-        else:
-            Gg.eSS_A_onoff_button1.configure(bg="red")
-
-def FE3_ALDO_Enable1_onoff1():
-    if Gg.FE3_ALDO_En1_onoff_button1.cget('bg') == "white" or Gg.FE3_ALDO_En1_onoff_button1.cget('bg') == "red":
-        check = SCA_functions.GPIOon(0x00100000, 2)
-        if check:
-            Gg.FE3_ALDO_En1_onoff_button1.configure(bg="green")
-        else:
-            Gg.FE3_ALDO_En1_onoff_button1.configure(bg="red")
-    elif Gg.FE3_ALDO_En1_onoff_button1.cget('bg') == "green":
-        check = SCA_functions.GPIOoff(0x00100000, 2)
-        if check:
-            Gg.FE3_ALDO_En1_onoff_button1.configure(bg="white")
-        else:
-            Gg.FE3_ALDO_En1_onoff_button1.configure(bg="red")
-
-def FE5_ALDO_Enable1_onoff1():
-    if Gg.FE5_ALDO_En1_onoff_button1.cget('bg') == "white" or Gg.FE5_ALDO_En1_onoff_button1.cget('bg') == "red":
-        check = SCA_functions.GPIOon(0x00200000, 2)
-        if check:
-            Gg.FE5_ALDO_En1_onoff_button1.configure(bg="green")
-        else:
-            Gg.FE5_ALDO_En1_onoff_button1.configure(bg="red")
-    elif Gg.FE5_ALDO_En1_onoff_button1.cget('bg') == "green":
-        check = SCA_functions.GPIOoff(0x00200000, 2)
-        if check:
-            Gg.FE5_ALDO_En1_onoff_button1.configure(bg="white")
-        else:
-            Gg.FE5_ALDO_En1_onoff_button1.configure(bg="red")
-
-def cEN_A_onoff1():
-    if Gg.cEN_A_onoff_button1.cget('bg') == "white" or Gg.cEN_A_onoff_button1.cget('bg') == "red":
-        check = SCA_functions.GPIOon(0x00400000, 2)
-        if check:
-            Gg.cEN_A_onoff_button1.configure(bg="green")
-        else:
-            Gg.cEN_A_onoff_button1.configure(bg="red")
-    elif Gg.cEN_A_onoff_button1.cget('bg') == "green":
-        check = SCA_functions.GPIOoff(0x00400000, 2)
-        if check:
-            Gg.cEN_A_onoff_button1.configure(bg="white")
-        else:
-            Gg.cEN_A_onoff_button1.configure(bg="red")
-
-def FE7_ALDO_Enable1_onoff1():
-    if Gg.FE7_ALDO_En1_onoff_button1.cget('bg') == "white" or Gg.FE7_ALDO_En1_onoff_button1.cget('bg') == "red":
-        check = SCA_functions.GPIOon(0x00800000, 2)
-        if check:
-            Gg.FE7_ALDO_En1_onoff_button1.configure(bg="green")
-        else:
-            Gg.FE7_ALDO_En1_onoff_button1.configure(bg="red")
-    elif Gg.FE7_ALDO_En1_onoff_button1.cget('bg') == "green":
-        check = SCA_functions.GPIOoff(0x00800000, 2)
-        if check:
-            Gg.FE7_ALDO_En1_onoff_button1.configure(bg="white")
-        else:
-            Gg.FE7_ALDO_En1_onoff_button1.configure(bg="red")
-
-def FE7_ALDO_Enable2_onoff1():
-    if Gg.FE7_ALDO_En2_onoff_button1.cget('bg') == "white" or Gg.FE7_ALDO_En2_onoff_button1.cget('bg') == "red":
-        check = SCA_functions.GPIOon(0x01000000, 2)
-        if check:
-            Gg.FE7_ALDO_En2_onoff_button1.configure(bg="green")
-        else:
-            Gg.FE7_ALDO_En2_onoff_button1.configure(bg="red")
-    elif Gg.FE7_ALDO_En2_onoff_button1.cget('bg') == "green":
-        check = SCA_functions.GPIOoff(0x01000000, 2)
-        if check:
-            Gg.FE7_ALDO_En2_onoff_button1.configure(bg="white")
-        else:
-            Gg.FE7_ALDO_En2_onoff_button1.configure(bg="red")
-
-def cSS_A_onoff1():
-    if Gg.cSS_A_onoff_button1.cget('bg') == "white" or Gg.cSS_A_onoff_button1.cget('bg') == "red":
-        check = SCA_functions.GPIOon(0x02000000, 2)
-        if check:
-            Gg.cSS_A_onoff_button1.configure(bg="green")
-        else:
-            Gg.cSS_A_onoff_button1.configure(bg="red")
-    elif Gg.cSS_A_onoff_button1.cget('bg') == "green":
-        check = SCA_functions.GPIOoff(0x02000000, 2)
-        if check:
-            Gg.cSS_A_onoff_button1.configure(bg="white")
-        else:
-            Gg.cSS_A_onoff_button1.configure(bg="red")
-
-def FE9_ALDO_Enable2_onoff1():
-    if Gg.FE9_ALDO_En2_onoff_button1.cget('bg') == "white" or Gg.FE9_ALDO_En2_onoff_button1.cget('bg') == "red":
-        check = SCA_functions.GPIOon(0x04000000, 2)
-        if check:
-            Gg.FE9_ALDO_En2_onoff_button1.configure(bg="green")
-        else:
-            Gg.FE9_ALDO_En2_onoff_button1.configure(bg="red")
-    elif Gg.FE9_ALDO_En2_onoff_button1.cget('bg') == "green":
-        check = SCA_functions.GPIOoff(0x04000000, 2)
-        if check:
-            Gg.FE9_ALDO_En2_onoff_button1.configure(bg="white")
-        else:
-            Gg.FE9_ALDO_En2_onoff_button1.configure(bg="red")
-
-def FE9_ALDO_Enable1_onoff1():
-    if Gg.FE9_ALDO_En1_onoff_button1.cget('bg') == "white" or Gg.FE9_ALDO_En1_onoff_button1.cget('bg') == "red":
-        check = SCA_functions.GPIOon(0x08000000, 2)
-        if check:
-            Gg.FE9_ALDO_En1_onoff_button1.configure(bg="green")
-        else:
-            Gg.FE9_ALDO_En1_onoff_button1.configure(bg="red")
-    elif Gg.FE9_ALDO_En1_onoff_button1.cget('bg') == "green":
-        check = SCA_functions.GPIOoff(0x08000000, 2)
-        if check:
-            Gg.FE9_ALDO_En1_onoff_button1.configure(bg="white")
-        else:
-            Gg.FE9_ALDO_En1_onoff_button1.configure(bg="red")
-
-def PCC_B_EN_IV8_2_onoff1():
-    if Gg.PCC_B_EN_IV8_2_onoff_button1.cget('bg') == "white" or Gg.PCC_B_EN_IV8_2_onoff_button1.cget('bg') == "red":
-        check = SCA_functions.GPIOon(0x10000000, 2)
-        if check:
-            Gg.PCC_B_EN_IV8_2_onoff_button1.configure(bg="green")
-        else:
-            Gg.PCC_B_EN_IV8_2_onoff_button1.configure(bg="red")
-    elif Gg.PCC_B_EN_IV8_2_onoff_button1.cget('bg') == "green":
-        check = SCA_functions.GPIOoff(0x10000000,2)
-        if check:
-            Gg.PCC_B_EN_IV8_2_onoff_button1.configure(bg="white")
-        else:
-            Gg.PCC_B_EN_IV8_2_onoff_button1.configure(bg="red")
-
-def FE10_ALDO_Enable1_onoff1():
-    if Gg.FE10_ALDO_En1_onoff_button1.cget('bg') == "white" or Gg.FE10_ALDO_En1_onoff_button1.cget('bg') == "red":
-        check = SCA_functions.GPIOon(0x20000000, 2)
-        if check:
-            Gg.FE10_ALDO_En1_onoff_button1.configure(bg="green")
-        else:
-            Gg.FE10_ALDO_En1_onoff_button1.configure(bg="red")
-    elif Gg.FE10_ALDO_En1_onoff_button1.cget('bg') == "green":
-        check = SCA_functions.GPIOoff(0x20000000, 2)
-        if check:
-            Gg.FE10_ALDO_En1_onoff_button1.configure(bg="white")
-        else:
-            Gg.FE10_ALDO_En1_onoff_button1.configure(bg="red")
-
-def FE10_ALDO_Enable2_onoff1():
-    if Gg.FE10_ALDO_En2_onoff_button1.cget('bg') == "white" or Gg.FE10_ALDO_En2_onoff_button1.cget('bg') == "red":
-        check = SCA_functions.GPIOon(0x40000000, 2)
-        if check:
-            Gg.FE10_ALDO_En2_onoff_button1.configure(bg="green")
-        else:
-            Gg.FE10_ALDO_En2_onoff_button1.configure(bg="red")
-    elif Gg.FE10_ALDO_En2_onoff_button1.cget('bg') == "green":
-        check = SCA_functions.GPIOoff(0x40000000, 2)
-        if check:
-            Gg.FE10_ALDO_En2_onoff_button1.configure(bg="white")
-        else:
-            Gg.FE10_ALDO_En2_onoff_button1.configure(bg="red")
-
-def PCC_B_EN_IV8_1_onoff1():
-    if Gg.PCC_B_EN_IV8_1_onoff_button1.cget('bg') == "white" or Gg.PCC_B_EN_IV8_1_onoff_button1.cget('bg') == "red":
-        check = SCA_functions.GPIOon(0x80000000, 2)
-        if check:
-            Gg.PCC_B_EN_IV8_1_onoff_button1.configure(bg="green")
-        else:
-            Gg.PCC_B_EN_IV8_1_onoff_button1.configure(bg="red")
-    elif Gg.PCC_B_EN_IV8_1_onoff_button1.cget('bg') == "green":
-        check = SCA_functions.GPIOoff(0x80000000,2)
-        if check:
-            Gg.PCC_B_EN_IV8_1_onoff_button1.configure(bg="white")
-        else:
-            Gg.PCC_B_EN_IV8_1_onoff_button1.configure(bg="red")
-
-def FE2_ALDO_Enable2_setclr1():
-    if Gg.FE2_ALDO_En2_setclr_button1.cget('bg') == "white" or Gg.FE2_ALDO_En2_setclr_button1.cget('bg') == "red":
-        check = SCA_functions.GPIOset(0x00000001, 2)
-        if check:
-            Gg.FE2_ALDO_En2_setclr_button1.configure(bg="green")
-        else:
-            Gg.FE2_ALDO_En2_setclr_button1.configure(bg="red")
-    elif Gg.FE2_ALDO_En2_setclr_button1.cget('bg') == "green":
-        check = SCA_functions.GPIOclr(0x00000001, 2)
-        if check:
-            Gg.FE2_ALDO_En2_setclr_button1.configure(bg="white")
-        else:
-            Gg.FE2_ALDO_En2_setclr_button1.configure(bg="red")
-
-def FE5_ALDO_Enable2_setclr1():
-    if Gg.FE5_ALDO_En2_setclr_button1.cget('bg') == "white" or Gg.FE5_ALDO_En2_setclr_button1.cget('bg') == "red":
-        check = SCA_functions.GPIOset(0x00000002, 2)
-        if check:
-            Gg.FE5_ALDO_En2_setclr_button1.configure(bg="green")
-        else:
-            Gg.FE5_ALDO_En2_setclr_button1.configure(bg="red")
-    elif Gg.FE5_ALDO_En2_setclr_button1.cget('bg') == "green":
-        check = SCA_functions.GPIOclr(0x00000002, 2)
-        if check:
-            Gg.FE5_ALDO_En2_setclr_button1.configure(bg="white")
-        else:
-            Gg.FE5_ALDO_En2_setclr_button1.configure(bg="red")
-
-def FE8_ALDO_Enable2_setclr1():
-    if Gg.FE8_ALDO_En2_setclr_button1.cget('bg') == "white" or Gg.FE8_ALDO_En2_setclr_button1.cget('bg') == "red":
-        check = SCA_functions.GPIOset(0x00000004, 2)
-        if check:
-            Gg.FE8_ALDO_En2_setclr_button1.configure(bg="green")
-        else:
-            Gg.FE8_ALDO_En2_setclr_button1.configure(bg="red")
-    elif Gg.FE8_ALDO_En2_setclr_button1.cget('bg') == "green":
-        check = SCA_functions.GPIOclr(0x00000004, 2)
-        if check:
-            Gg.FE8_ALDO_En2_setclr_button1.configure(bg="white")
-        else:
-            Gg.FE8_ALDO_En2_setclr_button1.configure(bg="red")
-
-def FE8_ALDO_Enable1_setclr1():
-    if Gg.FE8_ALDO_En1_setclr_button1.cget('bg') == "white" or Gg.FE8_ALDO_En1_setclr_button1.cget('bg') == "red":
-        check = SCA_functions.GPIOset(0x00000008, 2)
-        if check:
-            Gg.FE8_ALDO_En1_setclr_button1.configure(bg="green")
-        else:
-            Gg.FE8_ALDO_En1_setclr_button1.configure(bg="red")
-    elif Gg.FE8_ALDO_En1_setclr_button1.cget('bg') == "green":
-        check = SCA_functions.GPIOclr(0x00000008, 2)
-        if check:
-            Gg.FE8_ALDO_En1_setclr_button1.configure(bg="white")
-        else:
-            Gg.FE8_ALDO_En1_setclr_button1.configure(bg="red")
-
-def FE11_ALDO_Enable2_setclr1():
-    if Gg.FE11_ALDO_En2_setclr_button1.cget('bg') == "white" or Gg.FE11_ALDO_En2_setclr_button1.cget('bg') == "red":
-        check = SCA_functions.GPIOset(0x00000010, 2)
-        if check:
-            Gg.FE11_ALDO_En2_setclr_button1.configure(bg="green")
-        else:
-            Gg.FE11_ALDO_En2_setclr_button1.configure(bg="red")
-    elif Gg.FE11_ALDO_En2_setclr_button1.cget('bg') == "green":
-        check = SCA_functions.GPIOclr(0x00000010, 2)
-        if check:
-            Gg.FE11_ALDO_En2_setclr_button1.configure(bg="white")
-        else:
-            Gg.FE11_ALDO_En2_setclr_button1.configure(bg="red")
-
-def FE1_ALDO_Enable2_setclr1():
-    if Gg.FE1_ALDO_En2_setclr_button1.cget('bg') == "white" or Gg.FE1_ALDO_En2_setclr_button1.cget('bg') == "red":
-        check = SCA_functions.GPIOset(0x00000020, 2)
-        if check:
-            Gg.FE1_ALDO_En2_setclr_button1.configure(bg="green")
-        else:
-            Gg.FE1_ALDO_En2_setclr_button1.configure(bg="red")
-    elif Gg.FE1_ALDO_En2_setclr_button1.cget('bg') == "green":
-        check = SCA_functions.GPIOclr(0x00000020, 2)
-        if check:
-            Gg.FE1_ALDO_En2_setclr_button1.configure(bg="white")
-        else:
-            Gg.FE1_ALDO_En2_setclr_button1.configure(bg="red")
-
-def FE1_ALDO_Enable1_setclr1():
-    if Gg.FE1_ALDO_En1_setclr_button1.cget('bg') == "white" or Gg.FE1_ALDO_En1_setclr_button1.cget('bg') == "red":
-        check = SCA_functions.GPIOset(0x00000040, 2)
-        if check:
-            Gg.FE1_ALDO_En1_setclr_button1.configure(bg="green")
-        else:
-            Gg.FE1_ALDO_En1_setclr_button1.configure(bg="red")
-    elif Gg.FE1_ALDO_En1_setclr_button1.cget('bg') == "green":
-        check = SCA_functions.GPIOclr(0x00000040, 2)
-        if check:
-            Gg.FE1_ALDO_En1_setclr_button1.configure(bg="white")
-        else:
-            Gg.FE1_ALDO_En1_setclr_button1.configure(bg="red")
-
-def FE11_ALDO_Enable1_setclr1():
-    if Gg.FE11_ALDO_En1_setclr_button1.cget('bg') == "white" or Gg.FE11_ALDO_En1_setclr_button1.cget('bg') == "red":
-        check = SCA_functions.GPIOset(0x00000080, 2)
-        if check:
-            Gg.FE11_ALDO_En1_setclr_button1.configure(bg="green")
-        else:
-            Gg.FE11_ALDO_En1_setclr_button1.configure(bg="red")
-    elif Gg.FE11_ALDO_En1_setclr_button1.cget('bg') == "green":
-        check = SCA_functions.GPIOclr(0x00000080, 2)
-        if check:
-            Gg.FE11_ALDO_En1_setclr_button1.configure(bg="white")
-        else:
-            Gg.FE11_ALDO_En1_setclr_button1.configure(bg="red")
-
-def FE2_ALDO_Enable1_setclr1():
-    if Gg.FE2_ALDO_En1_setclr_button1.cget('bg') == "white" or Gg.FE2_ALDO_En1_setclr_button1.cget('bg') == "red":
-        check = SCA_functions.GPIOset(0x00000100, 2)
-        if check:
-            Gg.FE2_ALDO_En1_setclr_button1.configure(bg="green")
-        else:
-            Gg.FE2_ALDO_En1_setclr_button1.configure(bg="red")
-    elif Gg.FE2_ALDO_En1_setclr_button1.cget('bg') == "green":
-        check = SCA_functions.GPIOclr(0x00000100, 2)
-        if check:
-            Gg.FE2_ALDO_En1_setclr_button1.configure(bg="white")
-        else:
-            Gg.FE2_ALDO_En1_setclr_button1.configure(bg="red")
-
-def FE4_ALDO_Enable1_setclr1():
-    if Gg.FE4_ALDO_En1_setclr_button1.cget('bg') == "white" or Gg.FE4_ALDO_En1_setclr_button1.cget('bg') == "red":
-        check = SCA_functions.GPIOset(0x00000200, 2)
-        if check:
-            Gg.FE4_ALDO_En1_setclr_button1.configure(bg="green")
-        else:
-            Gg.FE4_ALDO_En1_setclr_button1.configure(bg="red")
-    elif Gg.FE4_ALDO_En1_setclr_button1.cget('bg') == "green":
-        check = SCA_functions.GPIOclr(0x00000200, 2)
-        if check:
-            Gg.FE4_ALDO_En1_setclr_button1.configure(bg="white")
-        else:
-            Gg.FE4_ALDO_En1_setclr_button1.configure(bg="red")
-
-def FE12_ALDO_Enable1_setclr1():
-    if Gg.FE12_ALDO_En1_setclr_button1.cget('bg') == "white" or Gg.FE12_ALDO_En1_setclr_button1.cget('bg') == "red":
-        check = SCA_functions.GPIOset(0x00000400, 2)
-        if check:
-            Gg.FE12_ALDO_En1_setclr_button1.configure(bg="green")
-        else:
-            Gg.FE12_ALDO_En1_setclr_button1.configure(bg="red")
-    elif Gg.FE12_ALDO_En1_setclr_button1.cget('bg') == "green":
-        check = SCA_functions.GPIOclr(0x00000400, 2)
-        if check:
-            Gg.FE12_ALDO_En1_setclr_button1.configure(bg="white")
-        else:
-            Gg.FE12_ALDO_En1_setclr_button1.configure(bg="red")
-
-def PCC_A_EN_IV8_2_setclr1():
-    if Gg.PCC_A_EN_IV8_2_setclr_button1.cget('bg') == "white" or Gg.PCC_A_EN_IV8_2_setclr_button1.cget('bg') == "red":
-        check = SCA_functions.GPIOset(0x00000800, 2)
-        if check:
-            Gg.PCC_A_EN_IV8_2_setclr_button1.configure(bg="green")
-        else:
-            Gg.PCC_A_EN_IV8_2_setclr_button1.configure(bg="red")
-    elif Gg.PCC_A_EN_IV8_2_setclr_button1.cget('bg') == "green":
-        check = SCA_functions.GPIOclr(0x00000800,2)
-        if check:
-            Gg.PCC_A_EN_IV8_2_setclr_button1.configure(bg="white")
-        else:
-            Gg.PCC_A_EN_IV8_2_setclr_button1.configure(bg="red")
-
-def PCC_A_EN_IV8_1_setclr1():
-    if Gg.PCC_A_EN_IV8_1_setclr_button1.cget('bg') == "white" or Gg.PCC_A_EN_IV8_1_setclr_button1.cget('bg') == "red":
-        check = SCA_functions.GPIOset(0x00001000, 2)
-        if check:
-            Gg.PCC_A_EN_IV8_1_setclr_button1.configure(bg="green")
-        else:
-            Gg.PCC_A_EN_IV8_1_setclr_button1.configure(bg="red")
-    elif Gg.PCC_A_EN_IV8_1_setclr_button1.cget('bg') == "green":
-        check = SCA_functions.GPIOclr(0x00001000,2)
-        if check:
-            Gg.PCC_A_EN_IV8_1_setclr_button1.configure(bg="white")
-        else:
-            Gg.PCC_A_EN_IV8_1_setclr_button1.configure(bg="red")
-
-def FE12_ALDO_Enable2_setclr1():
-    if Gg.FE12_ALDO_En2_setclr_button1.cget('bg') == "white" or Gg.FE12_ALDO_En2_setclr_button1.cget('bg') == "red":
-        check = SCA_functions.GPIOset(0x00002000, 2)
-        if check:
-            Gg.FE12_ALDO_En2_setclr_button1.configure(bg="green")
-        else:
-            Gg.FE12_ALDO_En2_setclr_button1.configure(bg="red")
-    elif Gg.FE12_ALDO_En2_setclr_button1.cget('bg') == "green":
-        check = SCA_functions.GPIOclr(0x00002000, 2)
-        if check:
-            Gg.FE12_ALDO_En2_setclr_button1.configure(bg="white")
-        else:
-            Gg.FE12_ALDO_En2_setclr_button1.configure(bg="red")
-
-def FE3_ALDO_Enable2_setclr1():
-    if Gg.FE3_ALDO_En2_setclr_button1.cget('bg') == "white" or Gg.FE3_ALDO_En2_setclr_button1.cget('bg') == "red":
-        check = SCA_functions.GPIOset(0x00004000, 2)
-        if check:
-            Gg.FE3_ALDO_En2_setclr_button1.configure(bg="green")
-        else:
-            Gg.FE3_ALDO_En2_setclr_button1.configure(bg="red")
-    elif Gg.FE3_ALDO_En2_setclr_button1.cget('bg') == "green":
-        check = SCA_functions.GPIOclr(0x00004000, 2)
-        if check:
-            Gg.FE3_ALDO_En2_setclr_button1.configure(bg="white")
-        else:
-            Gg.FE3_ALDO_En2_setclr_button1.configure(bg="red")
-
-def FE4_ALDO_Enable2_setclr1():
-    if Gg.FE4_ALDO_En2_setclr_button1.cget('bg') == "white" or Gg.FE4_ALDO_En2_setclr_button1.cget('bg') == "red":
-        check = SCA_functions.GPIOset(0x00008000, 2)
-        if check:
-            Gg.FE4_ALDO_En2_setclr_button1.configure(bg="green")
-        else:
-            Gg.FE4_ALDO_En2_setclr_button1.configure(bg="red")
-    elif Gg.FE4_ALDO_En2_setclr_button1.cget('bg') == "green":
-        check = SCA_functions.GPIOclr(0x00008000, 2)
-        if check:
-            Gg.FE4_ALDO_En2_setclr_button1.configure(bg="white")
-        else:
-            Gg.FE4_ALDO_En2_setclr_button1.configure(bg="red")
-
-def oEN_A_setclr1():
-    if Gg.oEN_A_setclr_button1.cget('bg') == "white" or Gg.oEN_A_setclr_button1.cget('bg') == "red":
-        check = SCA_functions.GPIOset(0x00010000, 2)
-        if check:
-            Gg.oEN_A_setclr_button1.configure(bg="green")
-        else:
-            Gg.oEN_A_setclr_button1.configure(bg="red")
-    elif Gg.oEN_A_setclr_button1.cget('bg') == "green":
-        check = SCA_functions.GPIOclr(0x00010000, 2)
-        if check:
-            Gg.oEN_A_setclr_button1.configure(bg="white")
-        else:
-            Gg.oEN_A_setclr_button1.configure(bg="red")
-
-def FE6_ALDO_Enable1_setclr1():
-    if Gg.FE6_ALDO_En1_setclr_button1.cget('bg') == "white" or Gg.FE6_ALDO_En1_setclr_button1.cget('bg') == "red":
-        check = SCA_functions.GPIOset(0x00020000, 2)
-        if check:
-            Gg.FE6_ALDO_En1_setclr_button1.configure(bg="green")
-        else:
-            Gg.FE6_ALDO_En1_setclr_button1.configure(bg="red")
-    elif Gg.FE6_ALDO_En1_setclr_button1.cget('bg') == "green":
-        check = SCA_functions.GPIOclr(0x00020000, 2)
-        if check:
-            Gg.FE6_ALDO_En1_setclr_button1.configure(bg="white")
-        else:
-            Gg.FE6_ALDO_En1_setclr_button1.configure(bg="red")
-
-def FE6_ALDO_Enable2_setclr1():
-    if Gg.FE6_ALDO_En2_setclr_button1.cget('bg') == "white" or Gg.FE6_ALDO_En2_setclr_button1.cget('bg') == "red":
-        check = SCA_functions.GPIOset(0x00040000, 2)
-        if check:
-            Gg.FE6_ALDO_En2_setclr_button1.configure(bg="green")
-        else:
-            Gg.FE6_ALDO_En2_setclr_button1.configure(bg="red")
-    elif Gg.FE6_ALDO_En2_setclr_button1.cget('bg') == "green":
-        check = SCA_functions.GPIOclr(0x00040000, 2)
-        if check:
-            Gg.FE6_ALDO_En2_setclr_button1.configure(bg="white")
-        else:
-            Gg.FE6_ALDO_En2_setclr_button1.configure(bg="red")
-
-def eSS_A_setclr1():
-    if Gg.eSS_A_setclr_button1.cget('bg') == "white" or Gg.eSS_A_setclr_button1.cget('bg') == "red":
-        check = SCA_functions.GPIOset(0x00080000, 2)
-        if check:
-            Gg.eSS_A_setclr_button1.configure(bg="green")
-        else:
-            Gg.eSS_A_setclr_button1.configure(bg="red")
-    elif Gg.eSS_A_setclr_button1.cget('bg') == "green":
-        check = SCA_functions.GPIOclr(0x00080000, 2)
-        if check:
-            Gg.eSS_A_setclr_button1.configure(bg="white")
-        else:
-            Gg.eSS_A_setclr_button1.configure(bg="red")
-
-def FE3_ALDO_Enable1_setclr1():
-    if Gg.FE3_ALDO_En1_setclr_button1.cget('bg') == "white" or Gg.FE3_ALDO_En1_setclr_button1.cget('bg') == "red":
-        check = SCA_functions.GPIOset(0x00100000, 2)
-        if check:
-            Gg.FE3_ALDO_En1_setclr_button1.configure(bg="green")
-        else:
-            Gg.FE3_ALDO_En1_setclr_button1.configure(bg="red")
-    elif Gg.FE3_ALDO_En1_setclr_button1.cget('bg') == "green":
-        check = SCA_functions.GPIOclr(0x00100000, 2)
-        if check:
-            Gg.FE3_ALDO_En1_setclr_button1.configure(bg="white")
-        else:
-            Gg.FE3_ALDO_En1_setclr_button1.configure(bg="red")
-
-def FE5_ALDO_Enable1_setclr1():
-    if Gg.FE5_ALDO_En1_setclr_button1.cget('bg') == "white" or Gg.FE5_ALDO_En1_setclr_button1.cget('bg') == "red":
-        check = SCA_functions.GPIOset(0x00200000, 2)
-        if check:
-            Gg.FE5_ALDO_En1_setclr_button1.configure(bg="green")
-        else:
-            Gg.FE5_ALDO_En1_setclr_button1.configure(bg="red")
-    elif Gg.FE5_ALDO_En1_setclr_button1.cget('bg') == "green":
-        check = SCA_functions.GPIOclr(0x00200000, 2)
-        if check:
-            Gg.FE5_ALDO_En1_setclr_button1.configure(bg="white")
-        else:
-            Gg.FE5_ALDO_En1_setclr_button1.configure(bg="red")
-
-def cEN_A_setclr1():
-    if Gg.cEN_A_setclr_button1.cget('bg') == "white" or Gg.cEN_A_setclr_button1.cget('bg') == "red":
-        check = SCA_functions.GPIOset(0x00400000, 2)
-        if check:
-            Gg.cEN_A_setclr_button1.configure(bg="green")
-        else:
-            Gg.cEN_A_setclr_button1.configure(bg="red")
-    elif Gg.cEN_A_setclr_button1.cget('bg') == "green":
-        check = SCA_functions.GPIOclr(0x00400000, 2)
-        if check:
-            Gg.cEN_A_setclr_button1.configure(bg="white")
-        else:
-            Gg.cEN_A_setclr_button1.configure(bg="red")
-
-def FE7_ALDO_Enable1_setclr1():
-    if Gg.FE7_ALDO_En1_setclr_button1.cget('bg') == "white" or Gg.FE7_ALDO_En1_setclr_button1.cget('bg') == "red":
-        check = SCA_functions.GPIOset(0x00800000, 2)
-        if check:
-            Gg.FE7_ALDO_En1_setclr_button1.configure(bg="green")
-        else:
-            Gg.FE7_ALDO_En1_setclr_button1.configure(bg="red")
-    elif Gg.FE7_ALDO_En1_setclr_button1.cget('bg') == "green":
-        check = SCA_functions.GPIOclr(0x00800000, 2)
-        if check:
-            Gg.FE7_ALDO_En1_setclr_button1.configure(bg="white")
-        else:
-            Gg.FE7_ALDO_En1_setclr_button1.configure(bg="red")
-
-def FE7_ALDO_Enable2_setclr1():
-    if Gg.FE7_ALDO_En2_setclr_button1.cget('bg') == "white" or Gg.FE7_ALDO_En2_setclr_button1.cget('bg') == "red":
-        check = SCA_functions.GPIOset(0x01000000, 2)
-        if check:
-            Gg.FE7_ALDO_En2_setclr_button1.configure(bg="green")
-        else:
-            Gg.FE7_ALDO_En2_setclr_button1.configure(bg="red")
-    elif Gg.FE7_ALDO_En2_setclr_button1.cget('bg') == "green":
-        check = SCA_functions.GPIOclr(0x01000000, 2)
-        if check:
-            Gg.FE7_ALDO_En2_setclr_button1.configure(bg="white")
-        else:
-            Gg.FE7_ALDO_En2_setclr_button1.configure(bg="red")
-
-def cSS_A_setclr1():
-    if Gg.cSS_A_setclr_button1.cget('bg') == "white" or Gg.cSS_A_setclr_button1.cget('bg') == "red":
-        check = SCA_functions.GPIOset(0x02000000, 2)
-        if check:
-            Gg.cSS_A_setclr_button1.configure(bg="green")
-        else:
-            Gg.cSS_A_setclr_button1.configure(bg="red")
-    elif Gg.cSS_A_setclr_button1.cget('bg') == "green":
-        check = SCA_functions.GPIOclr(0x02000000, 2)
-        if check:
-            Gg.cSS_A_setclr_button1.configure(bg="white")
-        else:
-            Gg.cSS_A_setclr_button1.configure(bg="red")
-
-def FE9_ALDO_Enable2_setclr1():
-    if Gg.FE9_ALDO_En2_setclr_button1.cget('bg') == "white" or Gg.FE9_ALDO_En2_setclr_button1.cget('bg') == "red":
-        check = SCA_functions.GPIOset(0x04000000, 2)
-        if check:
-            Gg.FE9_ALDO_En2_setclr_button1.configure(bg="green")
-        else:
-            Gg.FE9_ALDO_En2_setclr_button1.configure(bg="red")
-    elif Gg.FE9_ALDO_En2_setclr_button1.cget('bg') == "green":
-        check = SCA_functions.GPIOclr(0x04000000, 2)
-        if check:
-            Gg.FE9_ALDO_En2_setclr_button1.configure(bg="white")
-        else:
-            Gg.FE9_ALDO_En2_setclr_button1.configure(bg="red")
-
-def FE9_ALDO_Enable1_setclr1():
-    if Gg.FE9_ALDO_En1_setclr_button1.cget('bg') == "white" or Gg.FE9_ALDO_En1_setclr_button1.cget('bg') == "red":
-        check = SCA_functions.GPIOset(0x08000000, 2)
-        if check:
-            Gg.FE9_ALDO_En1_setclr_button1.configure(bg="green")
-        else:
-            Gg.FE9_ALDO_En1_setclr_button1.configure(bg="red")
-    elif Gg.FE9_ALDO_En1_setclr_button1.cget('bg') == "green":
-        check = SCA_functions.GPIOclr(0x08000000, 2)
-        if check:
-            Gg.FE9_ALDO_En1_setclr_button1.configure(bg="white")
-        else:
-            Gg.FE9_ALDO_En1_setclr_button1.configure(bg="red")
-
-def PCC_B_EN_IV8_2_setclr1():
-    if Gg.PCC_B_EN_IV8_2_setclr_button1.cget('bg') == "white" or Gg.PCC_B_EN_IV8_2_setclr_button1.cget('bg') == "red":
-        check = SCA_functions.GPIOset(0x10000000, 2)
-        if check:
-            Gg.PCC_B_EN_IV8_2_setclr_button1.configure(bg="green")
-        else:
-            Gg.PCC_B_EN_IV8_2_setclr_button1.configure(bg="red")
-    elif Gg.PCC_B_EN_IV8_2_setclr_button1.cget('bg') == "green":
-        check = SCA_functions.GPIOclr(0x10000000,2)
-        if check:
-            Gg.PCC_B_EN_IV8_2_setclr_button1.configure(bg="white")
-        else:
-            Gg.PCC_B_EN_IV8_2_setclr_button1.configure(bg="red")
-
-def FE10_ALDO_Enable1_setclr1():
-    if Gg.FE10_ALDO_En1_setclr_button1.cget('bg') == "white" or Gg.FE10_ALDO_En1_setclr_button1.cget('bg') == "red":
-        check = SCA_functions.GPIOset(0x20000000, 2)
-        if check:
-            Gg.FE10_ALDO_En1_setclr_button1.configure(bg="green")
-        else:
-            Gg.FE10_ALDO_En1_setclr_button1.configure(bg="red")
-    elif Gg.FE10_ALDO_En1_setclr_button1.cget('bg') == "green":
-        check = SCA_functions.GPIOclr(0x20000000, 2)
-        if check:
-            Gg.FE10_ALDO_En1_setclr_button1.configure(bg="white")
-        else:
-            Gg.FE10_ALDO_En1_setclr_button1.configure(bg="red")
-
-def FE10_ALDO_Enable2_setclr1():
-    if Gg.FE10_ALDO_En2_setclr_button1.cget('bg') == "white" or Gg.FE10_ALDO_En2_setclr_button1.cget('bg') == "red":
-        check = SCA_functions.GPIOset(0x40000000, 2)
-        if check:
-            Gg.FE10_ALDO_En2_setclr_button1.configure(bg="green")
-        else:
-            Gg.FE10_ALDO_En2_setclr_button1.configure(bg="red")
-    elif Gg.FE10_ALDO_En2_setclr_button1.cget('bg') == "green":
-        check = SCA_functions.GPIOclr(0x40000000, 2)
-        if check:
-            Gg.FE10_ALDO_En2_setclr_button1.configure(bg="white")
-        else:
-            Gg.FE10_ALDO_En2_setclr_button1.configure(bg="red")
-
-def PCC_B_EN_IV8_1_setclr1():
-    if Gg.PCC_B_EN_IV8_1_setclr_button1.cget('bg') == "white" or Gg.PCC_B_EN_IV8_1_setclr_button1.cget('bg') == "red":
-        check = SCA_functions.GPIOset(0x80000000, 2)
-        if check:
-            Gg.PCC_B_EN_IV8_1_setclr_button1.configure(bg="green")
-        else:
-            Gg.PCC_B_EN_IV8_1_setclr_button1.configure(bg="red")
-    elif Gg.PCC_B_EN_IV8_1_setclr_button1.cget('bg') == "green":
-        check = SCA_functions.GPIOclr(0x80000000,2)
-        if check:
-            Gg.PCC_B_EN_IV8_1_setclr_button1.configure(bg="white")
-        else:
-            Gg.PCC_B_EN_IV8_1_setclr_button1.configure(bg="red")
-
-
-
+            Button.configure(bg="red")
 
 def LpGBTon_off_button(Button, output_textbox, LpGBT_num, bit_num):
     if Button.cget('bg') == "white" or Button.cget('bg') == "red":    #Off state or bad to on
@@ -2064,7 +207,7 @@ def LpGBTon_off_button(Button, output_textbox, LpGBT_num, bit_num):
 	        Button.configure(bg="green")
 	    else:
 	        Button.configure(bg="red")
-    elif Button.cget('bg') == "green":
+    elif Button.cget('bg') == "green":  #On state to turn off
 	    proc = subprocess.Popen(['python3', 'LpGBT_functions.py', 'off', str(LpGBT_num), str(bit_num)], stdout=subprocess.PIPE)
             out_value = str(proc.communicate()[0])
             out_value = out_value.partition('\n')[0]
@@ -2091,9 +234,7 @@ def LpGBTset_clr_button(Button, output_textbox, LpGBT_num, bit_num):
 	    else:
 	        Button.configure(bg="red")
 
-#################################################################################
-### Analog IO tab specific functions ############################################
-#################################################################################
+### Analog IO tab specific functions ###
 def AnIO_refresh(IC4B_label_array2, IC4B_label_array3, IC1B_label_array2, IC1B_label_array3, output_textbox):
     #IC4B GBT_SCA
     res_array = temps_array()
@@ -2106,7 +247,7 @@ def AnIO_refresh(IC4B_label_array2, IC4B_label_array3, IC1B_label_array2, IC1B_l
 	    calc_value = int(value) / float(4096)
             calc_value = calc_value * (80600 + 2000) / 80600
 	    calc_value = "{:.3f}".format(calc_value)
-            calc_value_output = str(calc_value) + "V"
+            calc_value_output = str(calc_value) + "A"
             IC4B_label_array3[i].configure(text=calc_value_output)
         elif i == 19 or i == 22 or i > 26.5:                        #SIPM Temp
 	    value1 = str(hex(value))
@@ -2156,7 +297,7 @@ def AnIO_refresh(IC4B_label_array2, IC4B_label_array3, IC1B_label_array2, IC1B_l
             calc_value = int(value) / float(4096)
             calc_value = calc_value * (80600 + 2000) / 80600
 	    calc_value = "{:.3f}".format(calc_value)
-            calc_value_output = str(calc_value) + "V"
+            calc_value_output = str(calc_value) + "A"
             IC1B_label_array3[i].configure(text=calc_value_output)
         elif i == 19 or i == 22 or i > 26.5:                        #SIPM Temp
 	    value1 = str(hex(value))
@@ -2197,9 +338,7 @@ def AnIO_refresh(IC4B_label_array2, IC4B_label_array3, IC1B_label_array2, IC1B_l
             calc_value_output = str(calc_value) + "A"
             IC1B_label_array3[i].configure(text=calc_value_output)
 
-#################################################################################
-### Temp Calculations Array #####################################################
-#################################################################################
+### Temp Calculations Array ###
 def temps_array():
     # array of resistances at each temperature from -100 to 100 C
     temps_array = [
