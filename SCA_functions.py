@@ -462,8 +462,10 @@ def GPIOon(passedarg, output_textbox, sentarg):
     hw.dispatch();
     output_textbox.insert(tk.END, "\n Direction Register = " + (hex(RxValue)))
     output_textbox.insert(tk.END, "\n ************************************************")
-    output_textbox.insert(tk.END, "\n passedarg = " + (hex(passedarg)))
-    NewValue = RxValue | passedarg
+    print type(passedarg)
+    print int(passedarg, 16)
+    output_textbox.insert(tk.END, "\n passedarg = " + passedarg)
+    NewValue = RxValue | int(passedarg,16)
     output_textbox.insert(tk.END, "\n ************************************************")
     output_textbox.insert(tk.END, "\n txvalue = " + (hex(NewValue)))
     output_textbox.insert(tk.END, "\n ************************************************")
@@ -586,7 +588,7 @@ def GPIOset(passedarg, output_textbox, sentarg):
     hw.dispatch();
     output_textbox.insert(tk.END, "\n Dataout Register = " + (hex(RxValue)))
     output_textbox.insert(tk.END, "\n **************************************************")
-    NewValue = RxValue | passedarg
+    NewValue = RxValue | int(passedarg,16)
     output_textbox.insert(tk.END, "\n **************************************************")
     output_textbox.insert(tk.END, "\n NewValue = " + (hex(NewValue)))
     output_textbox.insert(tk.END, "\n **************************************************")
@@ -705,7 +707,7 @@ def GPIOclr(passedarg, output_textbox, sentarg):
     hw.dispatch();
     output_textbox.insert(tk.END, "\n Dataout Register = " + (hex(RxValue)))
     output_textbox.insert(tk.END, "\n ************************************************")
-    NewValue = RxValue & ~passedarg
+    NewValue = RxValue & ~int(passedarg, 16)
     output_textbox.insert(tk.END, "\n ************************************************")
     output_textbox.insert(tk.END, "\n NewValue = " + (hex(NewValue)))
     output_textbox.insert(tk.END, "\n ************************************************")
@@ -826,7 +828,7 @@ def GPIOoff(passedarg, output_textbox, sentarg):
     hw.dispatch();
     output_textbox.insert(tk.END, "\n Direction Register = " + (hex(RxValue)))
     output_textbox.insert(tk.END, "\n ************************************************")
-    NewValue = RxValue & ~passedarg
+    NewValue = RxValue & ~int(passedarg,16)
     output_textbox.insert(tk.END, "\n ************************************************")
     output_textbox.insert(tk.END, "\n txvalue = " + (hex(NewValue)))
     output_textbox.insert(tk.END, "\n ************************************************")

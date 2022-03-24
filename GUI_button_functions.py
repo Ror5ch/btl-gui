@@ -11,6 +11,7 @@ import uhal
 import time
 ###import functions###
 import SCA_functions
+from GUI_global import *
 
 ############################################################
 ### Sending GPIO argument ###
@@ -126,7 +127,10 @@ def GPIOoff(value, GPIOoff_button, output_textbox, GBT_SCA_num):
         GPIOoff_button.configure(bg="red")
 
 ### GPIO tab specific functions ###
-def GPIOon_off_button(NewValue, Button, output_textbox, GBT_SCA_num):
+def GPIOon_off_button(NewValue, i, output_textbox, GBT_SCA_num):
+    Button = GBT_SCA4_button_array[i]
+    print "here", NewValue, Button.cget('text')
+    
     if Button.cget('bg') == "white" or Button.cget('bg') == "red":    #Off state to on or bad to on
         check = SCA_functions.GPIOon(NewValue,output_textbox, GBT_SCA_num)
         if check:
@@ -140,7 +144,9 @@ def GPIOon_off_button(NewValue, Button, output_textbox, GBT_SCA_num):
         else:
             Button.configure(bg="red")                         
 
-def GPIOset_clr_button(NewValue, Button, output_textbox, GBT_SCA_num):
+def GPIOset_clr_button(NewValue, i, output_textbox, GBT_SCA_num):
+    Button = GBT_SCA4_button_array2[i]
+
     if Button.cget('bg') == "white" or Button.cget('bg') == "red":    #Clr state to Set
         check = SCA_functions.GPIOset(NewValue, output_textbox, GBT_SCA_num)
         if check:
