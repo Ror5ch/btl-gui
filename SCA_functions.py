@@ -462,8 +462,6 @@ def GPIOon(passedarg, output_textbox, sentarg):
     hw.dispatch();
     output_textbox.insert(tk.END, "\n Direction Register = " + (hex(RxValue)))
     output_textbox.insert(tk.END, "\n ************************************************")
-    print type(passedarg)
-    print int(passedarg, 16)
     output_textbox.insert(tk.END, "\n passedarg = " + passedarg)
     NewValue = RxValue | int(passedarg,16)
     output_textbox.insert(tk.END, "\n ************************************************")

@@ -129,7 +129,8 @@ def GPIOoff(value, GPIOoff_button, output_textbox, GBT_SCA_num):
 ### GPIO tab specific functions ###
 def GPIOon_off_button(NewValue, i, output_textbox, GBT_SCA_num):
     Button = GBT_SCA4_button_array[i]
-    print "here", NewValue, Button.cget('text')
+    if GBT_SCA_num == 2:
+        Button = GBT_SCA1_button_array[i]
     
     if Button.cget('bg') == "white" or Button.cget('bg') == "red":    #Off state to on or bad to on
         check = SCA_functions.GPIOon(NewValue,output_textbox, GBT_SCA_num)
@@ -146,7 +147,8 @@ def GPIOon_off_button(NewValue, i, output_textbox, GBT_SCA_num):
 
 def GPIOset_clr_button(NewValue, i, output_textbox, GBT_SCA_num):
     Button = GBT_SCA4_button_array2[i]
-
+    if GBT_SCA_num == 2:
+        Button = GBT_SCA1_button_array2[i]
     if Button.cget('bg') == "white" or Button.cget('bg') == "red":    #Clr state to Set
         check = SCA_functions.GPIOset(NewValue, output_textbox, GBT_SCA_num)
         if check:

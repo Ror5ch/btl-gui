@@ -13,17 +13,6 @@ from GUI_global import *
 import GUI_button_functions as button_functions
 
 #######################################################################
-### GPIO button class
-#######################################################################
-#class gpioButton():
-#    def __init__(self, ):
-#        tk.Button.__init__(self, *args, **kwargs)
-#        self.value = value
-
-    
-
-
-#######################################################################
 ### Initializing Global Variables for SCA Functions ###
 #######################################################################
 if __name__ == '__main__':
@@ -139,6 +128,7 @@ GBT_SCA1_scripts_frame.grid(column=0, row=1)
 #####################################################################
 ### GPIO tab buttons and configuration ###
 #####################################################################
+####################
 ### IC4D GBT-SCA ###
 ####################
 GBT_SCA4_label_text = [
@@ -171,7 +161,6 @@ for i in range(len(GBT_SCA4_label_text)):
         label.grid(column=3, row=i-16)
     if i > 0:
         value = str(hex(2**(i-1)))
-        print value
         button   = tk.Button(GBT_SCA4_GPIO_frame, bg="white")
         button_0 = tk.Button(GBT_SCA4_GPIO_frame, bg="white") 
         #, command=lambda value=value, i=i: button_functions.GPIOon_off_button(value, i, output_textbox, 1))
@@ -183,6 +172,7 @@ for i in range(len(GBT_SCA4_label_text)):
         else:
             button.grid(column=4, row=i-16)
             button_0.grid(column=5, row=i-16)
+        # this is the argument that is being passed to every button
         value = str(hex(2**(i-1)))
         button.configure(command=lambda value=value, i=i: button_functions.GPIOon_off_button(value, i-1, output_textbox, 1))
         button_0.configure(command=lambda value=value, i=i: button_functions.GPIOset_clr_button(value, i-1, output_textbox, 1))
@@ -192,134 +182,52 @@ for i in range(len(GBT_SCA4_label_text)):
 ####################
 ### IC1D GBT-SCA ###
 ####################
-GBT_SCA1_label = tk.Label(GBT_SCA1_GPIO_frame, text='IC1D GBT-SCA')
-GBT_SCA1_label.grid(column=6, row=0)
-GBT_SCA1_label['font'] = myfont
-
-GBT_SCA1_label_array = [
-    tk.Label(GBT_SCA1_GPIO_frame, text='FE2 ALDO Enable2'), tk.Label(GBT_SCA1_GPIO_frame, text='FE5 ALDO Enable2'),
-    tk.Label(GBT_SCA1_GPIO_frame, text='FE8 ALDO Enable2'), tk.Label(GBT_SCA1_GPIO_frame, text='FE8 ALDO Enable1'),
-    tk.Label(GBT_SCA1_GPIO_frame, text='FE11 ALDO Enable2'), tk.Label(GBT_SCA1_GPIO_frame, text='FE1 ALDO Enable2'),
-    tk.Label(GBT_SCA1_GPIO_frame, text='FE1 ALDO Enable1'), tk.Label(GBT_SCA1_GPIO_frame, text='FE11 ALDO Enable1'),
-    tk.Label(GBT_SCA1_GPIO_frame, text='FE2 ALDO Enable1'), tk.Label(GBT_SCA1_GPIO_frame, text='FE4 ALDO Enable1'),
-    tk.Label(GBT_SCA1_GPIO_frame, text='FE12 ALDO Enable1'), tk.Label(GBT_SCA1_GPIO_frame, text='PCC A EN IV8 2'),
-    tk.Label(GBT_SCA1_GPIO_frame, text='PCC A EN IV8 1'), tk.Label(GBT_SCA1_GPIO_frame, text='FE12 ALDO Enable2'),
-    tk.Label(GBT_SCA1_GPIO_frame, text='FE3 ALDO Enable2'), tk.Label(GBT_SCA1_GPIO_frame, text='FE4 ALDO Enable2'),
-    tk.Label(GBT_SCA1_GPIO_frame, text='oEN A'), tk.Label(GBT_SCA1_GPIO_frame, text='FE6 ALDO Enable1'),
-    tk.Label(GBT_SCA1_GPIO_frame, text='FE6 ALDO Enable2'), tk.Label(GBT_SCA1_GPIO_frame, text='ess A'),
-    tk.Label(GBT_SCA1_GPIO_frame, text='FE3 ALDO Enable1'), tk.Label(GBT_SCA1_GPIO_frame, text='FE5 ALDO Enable1'),
-    tk.Label(GBT_SCA1_GPIO_frame, text='cEn A'), tk.Label(GBT_SCA1_GPIO_frame, text='FE7 ALDO Enable1'),
-    tk.Label(GBT_SCA1_GPIO_frame, text='FE7 ALDO Enable2'), tk.Label(GBT_SCA1_GPIO_frame, text='cSS A'),
-    tk.Label(GBT_SCA1_GPIO_frame, text='FE9 ALDO Enable2'), tk.Label(GBT_SCA1_GPIO_frame, text='FE9 ALDO Enable1'),
-    tk.Label(GBT_SCA1_GPIO_frame, text='PCC B EN IV8 2'), tk.Label(GBT_SCA1_GPIO_frame, text='FE10 ALDO Enable1'),
-    tk.Label(GBT_SCA1_GPIO_frame, text='FE10 ALDO Enable2'), tk.Label(GBT_SCA1_GPIO_frame, text='PCC B EN IV8 1')
+GBT_SCA1_label_text = [
+    'IC1D GBT-SCA',
+    'FE2 ALDO Enable2', 'FE5 ALDO Enable2',
+    'FE8 ALDO Enable2', 'FE8 ALDO Enable1',
+    'FE11 ALDO Enable2', 'FE1 ALDO Enable2',
+    'FE1 ALDO Enable1', 'FE11 ALDO Enable1',
+    'FE2 ALDO Enable1', 'FE4 ALDO Enable1',
+    'FE12 ALDO Enable1', 'PCC A EN IV8 2',
+    'PCC A EN IV8 1', 'FE12 ALDO Enable2',
+    'FE3 ALDO Enable2', 'FE4 ALDO Enable2',
+    'oEN A', 'FE6 ALDO Enable1',
+    'FE6 ALDO Enable2', 'ess A',
+    'FE3 ALDO Enable1', 'FE5 ALDO Enable1',
+    'cEn A', 'FE7 ALDO Enable1',
+    'FE7 ALDO Enable2', 'cSS A',
+    'FE9 ALDO Enable2', 'FE9 ALDO Enable1',
+    'PCC B EN IV8 2', 'FE10 ALDO Enable1',
+    'FE10 ALDO Enable2', 'PCC B EN IV8 1'
 ]
-for i in range(len(GBT_SCA1_label_array)):
-    GBT_SCA1_label_array[i]['font'] = myfont
-    if i < 16:
-        GBT_SCA1_label_array[i].grid(column=6, row=i+1)
+
+for i in range(len(GBT_SCA1_label_text)):
+    label = tk.Label(GBT_SCA1_GPIO_frame, text=GBT_SCA1_label_text[i])
+    label['font'] = myfont
+    if i < 17:
+        label.grid(column=6, row=i)
     else:
-        GBT_SCA1_label_array[i].grid(column=9, row=i-15)
-
-GBT_SCA1_button0 = tk.Button(GBT_SCA1_GPIO_frame, bg="white", command=lambda: button_functions.GPIOon_off_button(0x00000001, GBT_SCA1_button0, output_textbox, 2))
-GBT_SCA1_button1 = tk.Button(GBT_SCA1_GPIO_frame, bg="white", command=lambda: button_functions.GPIOon_off_button(0x00000002, GBT_SCA1_button1, output_textbox, 2))
-GBT_SCA1_button2 = tk.Button(GBT_SCA1_GPIO_frame, bg="white", command=lambda: button_functions.GPIOon_off_button(0x00000004, GBT_SCA1_button2, output_textbox, 2))
-GBT_SCA1_button3 = tk.Button(GBT_SCA1_GPIO_frame, bg="white", command=lambda: button_functions.GPIOon_off_button(0x00000008, GBT_SCA1_button3, output_textbox, 2))
-GBT_SCA1_button4 = tk.Button(GBT_SCA1_GPIO_frame, bg="white", command=lambda: button_functions.GPIOon_off_button(0x00000010, GBT_SCA1_button4, output_textbox, 2))
-GBT_SCA1_button5 = tk.Button(GBT_SCA1_GPIO_frame, bg="white", command=lambda: button_functions.GPIOon_off_button(0x00000020, GBT_SCA1_button5, output_textbox, 2))
-GBT_SCA1_button6 = tk.Button(GBT_SCA1_GPIO_frame, bg="white", command=lambda: button_functions.GPIOon_off_button(0x00000040, GBT_SCA1_button6, output_textbox, 2))
-GBT_SCA1_button7 = tk.Button(GBT_SCA1_GPIO_frame, bg="white", command=lambda: button_functions.GPIOon_off_button(0x00000080, GBT_SCA1_button7, output_textbox, 2))
-GBT_SCA1_button8 = tk.Button(GBT_SCA1_GPIO_frame, bg="white", command=lambda: button_functions.GPIOon_off_button(0x00000100, GBT_SCA1_button8, output_textbox, 2))
-GBT_SCA1_button9 = tk.Button(GBT_SCA1_GPIO_frame, bg="white", command=lambda: button_functions.GPIOon_off_button(0x00000200, GBT_SCA1_button9, output_textbox, 2))
-GBT_SCA1_button10 = tk.Button(GBT_SCA1_GPIO_frame, bg="white", command=lambda: button_functions.GPIOon_off_button(0x00000400, GBT_SCA1_button10, output_textbox, 2))
-GBT_SCA1_button11 = tk.Button(GBT_SCA1_GPIO_frame, bg="white", command=lambda: button_functions.GPIOon_off_button(0x00000800, GBT_SCA1_button11, output_textbox, 2))
-GBT_SCA1_button12 = tk.Button(GBT_SCA1_GPIO_frame, bg="white", command=lambda: button_functions.GPIOon_off_button(0x00001000, GBT_SCA1_button12, output_textbox, 2))
-GBT_SCA1_button13 = tk.Button(GBT_SCA1_GPIO_frame, bg="white", command=lambda: button_functions.GPIOon_off_button(0x00002000, GBT_SCA1_button13, output_textbox, 2))
-GBT_SCA1_button14 = tk.Button(GBT_SCA1_GPIO_frame, bg="white", command=lambda: button_functions.GPIOon_off_button(0x00004000, GBT_SCA1_button14, output_textbox, 2))
-GBT_SCA1_button15 = tk.Button(GBT_SCA1_GPIO_frame, bg="white", command=lambda: button_functions.GPIOon_off_button(0x00008000, GBT_SCA1_button15, output_textbox, 2))
-GBT_SCA1_button16 = tk.Button(GBT_SCA1_GPIO_frame, bg="white", command=lambda: button_functions.GPIOon_off_button(0x00010000, GBT_SCA1_button16, output_textbox, 2))
-GBT_SCA1_button17 = tk.Button(GBT_SCA1_GPIO_frame, bg="white", command=lambda: button_functions.GPIOon_off_button(0x00020000, GBT_SCA1_button17, output_textbox, 2))
-GBT_SCA1_button18 = tk.Button(GBT_SCA1_GPIO_frame, bg="white", command=lambda: button_functions.GPIOon_off_button(0x00040000, GBT_SCA1_button18, output_textbox, 2))
-GBT_SCA1_button19 = tk.Button(GBT_SCA1_GPIO_frame, bg="white", command=lambda: button_functions.GPIOon_off_button(0x00080000, GBT_SCA1_button19, output_textbox, 2))
-GBT_SCA1_button20 = tk.Button(GBT_SCA1_GPIO_frame, bg="white", command=lambda: button_functions.GPIOon_off_button(0x00100000, GBT_SCA1_button20, output_textbox, 2))
-GBT_SCA1_button21 = tk.Button(GBT_SCA1_GPIO_frame, bg="white", command=lambda: button_functions.GPIOon_off_button(0x00200000, GBT_SCA1_button21, output_textbox, 2))
-GBT_SCA1_button22 = tk.Button(GBT_SCA1_GPIO_frame, bg="white", command=lambda: button_functions.GPIOon_off_button(0x00400000, GBT_SCA1_button22, output_textbox, 2))
-GBT_SCA1_button23 = tk.Button(GBT_SCA1_GPIO_frame, bg="white", command=lambda: button_functions.GPIOon_off_button(0x00800000, GBT_SCA1_button23, output_textbox, 2))
-GBT_SCA1_button24 = tk.Button(GBT_SCA1_GPIO_frame, bg="white", command=lambda: button_functions.GPIOon_off_button(0x01000000, GBT_SCA1_button24, output_textbox, 2))
-GBT_SCA1_button25 = tk.Button(GBT_SCA1_GPIO_frame, bg="white", command=lambda: button_functions.GPIOon_off_button(0x02000000, GBT_SCA1_button25, output_textbox, 2))
-GBT_SCA1_button26 = tk.Button(GBT_SCA1_GPIO_frame, bg="white", command=lambda: button_functions.GPIOon_off_button(0x04000000, GBT_SCA1_button26, output_textbox, 2))
-GBT_SCA1_button27 = tk.Button(GBT_SCA1_GPIO_frame, bg="white", command=lambda: button_functions.GPIOon_off_button(0x08000000, GBT_SCA1_button27, output_textbox, 2))
-GBT_SCA1_button28 = tk.Button(GBT_SCA1_GPIO_frame, bg="white", command=lambda: button_functions.GPIOon_off_button(0x10000000, GBT_SCA1_button28, output_textbox, 2))
-GBT_SCA1_button29 = tk.Button(GBT_SCA1_GPIO_frame, bg="white", command=lambda: button_functions.GPIOon_off_button(0x20000000, GBT_SCA1_button29, output_textbox, 2))
-GBT_SCA1_button30 = tk.Button(GBT_SCA1_GPIO_frame, bg="white", command=lambda: button_functions.GPIOon_off_button(0x40000000, GBT_SCA1_button30, output_textbox, 2))
-GBT_SCA1_button31 = tk.Button(GBT_SCA1_GPIO_frame, bg="white", command=lambda: button_functions.GPIOon_off_button(0x80000000, GBT_SCA1_button31, output_textbox, 2))
-
-GBT_SCA1_button_array = [
-    GBT_SCA1_button0, GBT_SCA1_button1, GBT_SCA1_button2, GBT_SCA1_button3,
-    GBT_SCA1_button4, GBT_SCA1_button5, GBT_SCA1_button6, GBT_SCA1_button7,
-    GBT_SCA1_button8, GBT_SCA1_button9, GBT_SCA1_button10, GBT_SCA1_button11,
-    GBT_SCA1_button12, GBT_SCA1_button13, GBT_SCA1_button14, GBT_SCA1_button15,
-    GBT_SCA1_button16, GBT_SCA1_button17, GBT_SCA1_button18, GBT_SCA1_button19,
-    GBT_SCA1_button20, GBT_SCA1_button21, GBT_SCA1_button22, GBT_SCA1_button23,
-    GBT_SCA1_button24, GBT_SCA1_button25, GBT_SCA1_button26, GBT_SCA1_button27,
-    GBT_SCA1_button28, GBT_SCA1_button29, GBT_SCA1_button30, GBT_SCA1_button31
-]
-for i in range(len(GBT_SCA1_button_array)):
-    GBT_SCA1_button_array[i]['font'] = myfont
-    if i < 16:
-        GBT_SCA1_button_array[i].grid(column=7, row=i+1)
-    else:
-        GBT_SCA1_button_array[i].grid(column=10, row=i-15)
-
-GBT_SCA1_button2_0 = tk.Button(GBT_SCA1_GPIO_frame, bg="white", command=lambda: button_functions.GPIOset_clr_button(0x00000001, GBT_SCA1_button2_0, output_textbox, 2))
-GBT_SCA1_button2_1 = tk.Button(GBT_SCA1_GPIO_frame, bg="white", command=lambda: button_functions.GPIOset_clr_button(0x00000002, GBT_SCA1_button2_1, output_textbox, 2))
-GBT_SCA1_button2_2 = tk.Button(GBT_SCA1_GPIO_frame, bg="white", command=lambda: button_functions.GPIOset_clr_button(0x00000004, GBT_SCA1_button2_2, output_textbox, 2))
-GBT_SCA1_button2_3 = tk.Button(GBT_SCA1_GPIO_frame, bg="white", command=lambda: button_functions.GPIOset_clr_button(0x00000008, GBT_SCA1_button2_3, output_textbox, 2))
-GBT_SCA1_button2_4 = tk.Button(GBT_SCA1_GPIO_frame, bg="white", command=lambda: button_functions.GPIOset_clr_button(0x00000010, GBT_SCA1_button2_4, output_textbox, 2))
-GBT_SCA1_button2_5 = tk.Button(GBT_SCA1_GPIO_frame, bg="white", command=lambda: button_functions.GPIOset_clr_button(0x00000020, GBT_SCA1_button2_5, output_textbox, 2))
-GBT_SCA1_button2_6 = tk.Button(GBT_SCA1_GPIO_frame, bg="white", command=lambda: button_functions.GPIOset_clr_button(0x00000040, GBT_SCA1_button2_6, output_textbox, 2))
-GBT_SCA1_button2_7 = tk.Button(GBT_SCA1_GPIO_frame, bg="white", command=lambda: button_functions.GPIOset_clr_button(0x00000080, GBT_SCA1_button2_7, output_textbox, 2))
-GBT_SCA1_button2_8 = tk.Button(GBT_SCA1_GPIO_frame, bg="white", command=lambda: button_functions.GPIOset_clr_button(0x00000100, GBT_SCA1_button2_8, output_textbox, 2))
-GBT_SCA1_button2_9 = tk.Button(GBT_SCA1_GPIO_frame, bg="white", command=lambda: button_functions.GPIOset_clr_button(0x00000200, GBT_SCA1_button2_9, output_textbox, 2))
-GBT_SCA1_button2_10 = tk.Button(GBT_SCA1_GPIO_frame, bg="white", command=lambda: button_functions.GPIOset_clr_button(0x00000400, GBT_SCA1_button2_10, output_textbox, 2))
-GBT_SCA1_button2_11 = tk.Button(GBT_SCA1_GPIO_frame, bg="white", command=lambda: button_functions.GPIOset_clr_button(0x00000800, GBT_SCA1_button2_11, output_textbox, 2))
-GBT_SCA1_button2_12 = tk.Button(GBT_SCA1_GPIO_frame, bg="white", command=lambda: button_functions.GPIOset_clr_button(0x00001000, GBT_SCA1_button2_12, output_textbox, 2))
-GBT_SCA1_button2_13 = tk.Button(GBT_SCA1_GPIO_frame, bg="white", command=lambda: button_functions.GPIOset_clr_button(0x00002000, GBT_SCA1_button2_13, output_textbox, 2))
-GBT_SCA1_button2_14 = tk.Button(GBT_SCA1_GPIO_frame, bg="white", command=lambda: button_functions.GPIOset_clr_button(0x00004000, GBT_SCA1_button2_14, output_textbox, 2))
-GBT_SCA1_button2_15 = tk.Button(GBT_SCA1_GPIO_frame, bg="white", command=lambda: button_functions.GPIOset_clr_button(0x00008000, GBT_SCA1_button2_15, output_textbox, 2))
-GBT_SCA1_button2_16 = tk.Button(GBT_SCA1_GPIO_frame, bg="white", command=lambda: button_functions.GPIOset_clr_button(0x00010000, GBT_SCA1_button2_16, output_textbox, 2))
-GBT_SCA1_button2_17 = tk.Button(GBT_SCA1_GPIO_frame, bg="white", command=lambda: button_functions.GPIOset_clr_button(0x00020000, GBT_SCA1_button2_17, output_textbox, 2))
-GBT_SCA1_button2_18 = tk.Button(GBT_SCA1_GPIO_frame, bg="white", command=lambda: button_functions.GPIOset_clr_button(0x00040000, GBT_SCA1_button2_18, output_textbox, 2))
-GBT_SCA1_button2_19 = tk.Button(GBT_SCA1_GPIO_frame, bg="white", command=lambda: button_functions.GPIOset_clr_button(0x00080000, GBT_SCA1_button2_19, output_textbox, 2))
-GBT_SCA1_button2_20 = tk.Button(GBT_SCA1_GPIO_frame, bg="white", command=lambda: button_functions.GPIOset_clr_button(0x00100000, GBT_SCA1_button2_20, output_textbox, 2))
-GBT_SCA1_button2_21 = tk.Button(GBT_SCA1_GPIO_frame, bg="white", command=lambda: button_functions.GPIOset_clr_button(0x00200000, GBT_SCA1_button2_21, output_textbox, 2))
-GBT_SCA1_button2_22 = tk.Button(GBT_SCA1_GPIO_frame, bg="white", command=lambda: button_functions.GPIOset_clr_button(0x00400000, GBT_SCA1_button2_22, output_textbox, 2))
-GBT_SCA1_button2_23 = tk.Button(GBT_SCA1_GPIO_frame, bg="white", command=lambda: button_functions.GPIOset_clr_button(0x00800000, GBT_SCA1_button2_23, output_textbox, 2))
-GBT_SCA1_button2_24 = tk.Button(GBT_SCA1_GPIO_frame, bg="white", command=lambda: button_functions.GPIOset_clr_button(0x01000000, GBT_SCA1_button2_24, output_textbox, 2))
-GBT_SCA1_button2_25 = tk.Button(GBT_SCA1_GPIO_frame, bg="white", command=lambda: button_functions.GPIOset_clr_button(0x02000000, GBT_SCA1_button2_25, output_textbox, 2))
-GBT_SCA1_button2_26 = tk.Button(GBT_SCA1_GPIO_frame, bg="white", command=lambda: button_functions.GPIOset_clr_button(0x04000000, GBT_SCA1_button2_26, output_textbox, 2))
-GBT_SCA1_button2_27 = tk.Button(GBT_SCA1_GPIO_frame, bg="white", command=lambda: button_functions.GPIOset_clr_button(0x08000000, GBT_SCA1_button2_27, output_textbox, 2))
-GBT_SCA1_button2_28 = tk.Button(GBT_SCA1_GPIO_frame, bg="white", command=lambda: button_functions.GPIOset_clr_button(0x10000000, GBT_SCA1_button2_28, output_textbox, 2))
-GBT_SCA1_button2_29 = tk.Button(GBT_SCA1_GPIO_frame, bg="white", command=lambda: button_functions.GPIOset_clr_button(0x20000000, GBT_SCA1_button2_29, output_textbox, 2))
-GBT_SCA1_button2_30 = tk.Button(GBT_SCA1_GPIO_frame, bg="white", command=lambda: button_functions.GPIOset_clr_button(0x40000000, GBT_SCA1_button2_30, output_textbox, 2))
-GBT_SCA1_button2_31 = tk.Button(GBT_SCA1_GPIO_frame, bg="white", command=lambda: button_functions.GPIOset_clr_button(0x80000000, GBT_SCA1_button2_31, output_textbox, 2))
-
-GBT_SCA1_button_array2 = [
-    GBT_SCA1_button2_0, GBT_SCA1_button2_1, GBT_SCA1_button2_2, GBT_SCA1_button2_3,
-    GBT_SCA1_button2_4, GBT_SCA1_button2_5, GBT_SCA1_button2_6, GBT_SCA1_button2_7,
-    GBT_SCA1_button2_8, GBT_SCA1_button2_9, GBT_SCA1_button2_10, GBT_SCA1_button2_11,
-    GBT_SCA1_button2_12, GBT_SCA1_button2_13, GBT_SCA1_button2_14, GBT_SCA1_button2_15,
-    GBT_SCA1_button2_16, GBT_SCA1_button2_17, GBT_SCA1_button2_18, GBT_SCA1_button2_19,
-    GBT_SCA1_button2_20, GBT_SCA1_button2_21, GBT_SCA1_button2_22, GBT_SCA1_button2_23,
-    GBT_SCA1_button2_24, GBT_SCA1_button2_25, GBT_SCA1_button2_26, GBT_SCA1_button2_27,
-    GBT_SCA1_button2_28, GBT_SCA1_button2_29, GBT_SCA1_button2_30, GBT_SCA1_button2_31
-]
-for i in range(len(GBT_SCA1_button_array2)):
-    GBT_SCA1_button_array2[i]['font'] = myfont
-    if i < 16:
-        GBT_SCA1_button_array2[i].grid(column=8, row=i+1)
-    else:
-        GBT_SCA1_button_array2[i].grid(column=11, row=i-15)
+        label.grid(column=9, row=i-16)
+    if i > 0:
+        value = str(hex(2**(i-1)))
+        button   = tk.Button(GBT_SCA1_GPIO_frame, bg="white")
+        button_0 = tk.Button(GBT_SCA1_GPIO_frame, bg="white") 
+        #, command=lambda value=value, i=i: button_functions.GPIOon_off_button(value, i, output_textbox, 1))
+        button['font'] = myfont
+        button_0['font'] = myfont
+        if i < 17:
+            button.grid(column=7, row=i)
+            button_0.grid(column=8, row=i)
+        else:
+            button.grid(column=10, row=i-16)
+            button_0.grid(column=11, row=i-16)
+        # this is the argument that is being passed to every button
+        value = str(hex(2**(i-1)))
+        button.configure(command=lambda value=value, i=i: button_functions.GPIOon_off_button(value, i-1, output_textbox, 2))
+        button_0.configure(command=lambda value=value, i=i: button_functions.GPIOset_clr_button(value, i-1, output_textbox, 2))
+        GBT_SCA1_button_array += [button,]
+        GBT_SCA1_button_array2 += [button_0,]
 
 ##################
 ### IC5D LpGBT ###
