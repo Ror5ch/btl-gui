@@ -126,42 +126,58 @@ def GPIOoff(value, GPIOoff_button, output_textbox, GBT_SCA_num):
     else:
         GPIOoff_button.configure(bg="red")
 
+### GPIO button display control
+def GPIO_buttonStateUp(button, array, check):
+    if check:
+        button.configure(bg="green")
+        if array == 2:
+            button.configure(text="H")
+        else:
+            button.configure(text="Out")
+    else:
+        button.configure(bg="red")
+        button.configure(text="Err")
+
+def GPIO_buttonStateDown(button, array, check):
+    if check:
+        button.configure(bg="white")
+        if array == 2:
+            button.configure(text="L")
+        else:
+            button.configure(text="Inp")
+    else:
+        button.configure(bg="red")
+        button.configure(text="Err")
+
 ### GPIO tab specific functions ###
 def GPIOon_off_button(NewValue, i, output_textbox, GBT_SCA_num):
     Button = GBT_SCA4_button_array[i]
     if GBT_SCA_num == 2:
         Button = GBT_SCA1_button_array[i]
+
     
     if Button.cget('bg') == "white" or Button.cget('bg') == "red":    #Off state to on or bad to on
         check = SCA_functions.GPIOon(NewValue,output_textbox, GBT_SCA_num)
-        if check:
-            Button.configure(bg="green")
-        else:
-            Button.configure(bg="red")                          
+        GPIO_buttonStateUp(Button, 1, check)
     elif Button.cget('bg') == "green":  #On state to turn off
         check = SCA_functions.GPIOoff(NewValue, output_textbox, GBT_SCA_num)
-        if check:
-            Button.configure(bg="white")
-        else:
-            Button.configure(bg="red")                         
+        GPIO_buttonStateDown(Button, 1, check)
+
 
 def GPIOset_clr_button(NewValue, i, output_textbox, GBT_SCA_num):
     Button = GBT_SCA4_button_array2[i]
     if GBT_SCA_num == 2:
         Button = GBT_SCA1_button_array2[i]
+
     if Button.cget('bg') == "white" or Button.cget('bg') == "red":    #Clr state to Set
         check = SCA_functions.GPIOset(NewValue, output_textbox, GBT_SCA_num)
-        if check:
-            Button.configure(bg="green")
-        else:
-            Button.configure(bg="red")                        
+        GPIO_buttonStateUp(Button, 2, check)
     elif Button.cget('bg') == "green":  #Set state to Clr
         check = SCA_functions.GPIOclr(NewValue, output_textbox, GBT_SCA_num)
-        if check:
-            Button.configure(bg="white")
-        else:
-            Button.configure(bg="red")
+        GPIO_buttonStateDown(Button, 2, check)
 
+
+#######
 def LpGBTon_off_button(Button, output_textbox, LpGBT_num, bit_num):
     if Button.cget('bg') == "white" or Button.cget('bg') == "red":    #Off state or bad to on
 	    proc = subprocess.Popen(['python3', 'LpGBT_functions.py', 'on', str(LpGBT_num), str(bit_num)], stdout=subprocess.PIPE)

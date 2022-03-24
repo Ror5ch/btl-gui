@@ -69,11 +69,11 @@ root = tk.Tk()
 
 
 
-myfont = font.Font(size=12)
+myfont = font.Font(size=10)
 s = ttk.Style()
 s.configure('TNotebook.Tab', font=('helvetica','12'))
 
-main_notebook = ttk.Notebook(root, width=1440, height=900)
+main_notebook = ttk.Notebook(root, width=1400, height=900)
 notebook = ttk.Notebook(main_notebook)
 notebook2 = ttk.Notebook(main_notebook)
 notebook3 = ttk.Notebook(main_notebook)
@@ -161,8 +161,8 @@ for i in range(len(GBT_SCA4_label_text)):
         label.grid(column=3, row=i-16)
     if i > 0:
         value = str(hex(2**(i-1)))
-        button   = tk.Button(GBT_SCA4_GPIO_frame, bg="white")
-        button_0 = tk.Button(GBT_SCA4_GPIO_frame, bg="white") 
+        button   = tk.Button(GBT_SCA4_GPIO_frame, bg="white", text="Inp")
+        button_0 = tk.Button(GBT_SCA4_GPIO_frame, bg="white", text="L") 
         #, command=lambda value=value, i=i: button_functions.GPIOon_off_button(value, i, output_textbox, 1))
         button['font'] = myfont
         button_0['font'] = myfont
@@ -211,8 +211,8 @@ for i in range(len(GBT_SCA1_label_text)):
         label.grid(column=9, row=i-16)
     if i > 0:
         value = str(hex(2**(i-1)))
-        button   = tk.Button(GBT_SCA1_GPIO_frame, bg="white")
-        button_0 = tk.Button(GBT_SCA1_GPIO_frame, bg="white") 
+        button   = tk.Button(GBT_SCA1_GPIO_frame, bg="white", text="Inp")
+        button_0 = tk.Button(GBT_SCA1_GPIO_frame, bg="white", text="L") 
         #, command=lambda value=value, i=i: button_functions.GPIOon_off_button(value, i, output_textbox, 1))
         button['font'] = myfont
         button_0['font'] = myfont

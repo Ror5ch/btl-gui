@@ -324,6 +324,7 @@ def DATAOUTread(DATAOUTread_label, output_textbox, sentarg):
 
     #--------------------------------------------------------------
     # read GPIO Direction Register
+    # 0x11010202
     TxValue = 0x11010202  # CMD & LEN & CH & Tr.ID field
     getNode_functions.EC_Tx_SCA_Header(sentarg, hw).write(int(TxValue)); 
     hw.dispatch();
