@@ -24,6 +24,27 @@ def GPIOenter():
 ############################################################
 ### SCA Functions and Checks ###
 ############################################################
+def GPIORefresh():
+    # get DIRread command
+    dummy = None
+
+    # SCA 1
+    output = SCA_functions.ExecuteSCACommand(dummy, 1, 0x21010200, 0x0, 0x40200)
+    if not output[0]:
+        return False;
+    #DIRread sca1 output
+    DIRread_sca1_output = output[1]
+    # SCA 2
+    output = SCA_functions.ExecuteSCACommand(dummy, 2, 0x21010200, 0x0, 0x40200)
+    if not output[0]:
+        return False;
+    #DIRread sca2 output
+    DIRread_sca2_output = output[1]
+
+    print DIRread_sca1_output, DIRread_sca2_output
+    print "Done!";
+    return True
+
 ### Scripts tab specific functions ###
 def Connect(Connect_button, EnableGPIO_button, EnableAtoD_button, Bread_button, DIRread_button,
     DATAOUTread_button, IDread_button, GPIOon_button, GPIOset_button, GPIOclr_button, GPIOoff_button,
