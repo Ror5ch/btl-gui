@@ -49,7 +49,7 @@ def Connect(output_textbox, sentarg):
 # This is the template code that communicates with GBT-SCA
 #
 ##############################################################################
-def ExecuteSCACommand(output_textbox, gbtsca_num, header, dataField, scaHeader):
+def ExecuteSCACommand(output_textbox, gbtsca_num, header, dataField, scaHeader, useTrCounter = True):
     # reset the last RxValue to return
     RxLast = -1
     connectionFilePath = "GUI_Real_connections.xml";
@@ -60,6 +60,9 @@ def ExecuteSCACommand(output_textbox, gbtsca_num, header, dataField, scaHeader):
 
     # Send the SCA header 
     trID = randrange(10)
+    if not useTrCounter:
+        trID = 0
+
     TxValue = header | trID;
     ###print "1:", hex(trID), hex(TxValue)
     getNode_functions.EC_Tx_SCA_Header(gbtsca_num, hw).write(int(TxValue | trID)); 
@@ -184,7 +187,7 @@ def GPIOon(passedarg, output_textbox, sentarg):
     ###print "In GPIOon ", passedarg, sentarg
 
     # read GPIO Direction Register
-    output = ExecuteSCACommand(output_textbox, sentarg, 0x21010202, 0x0, 0x40202);
+    output = ExecuteSCACommand(output_textbox, sentarg, 0x21010203, 0x0, 0x40203, False);
     if not output[0]:
         return False
     output_textbox.insert(tk.END, "\n Direction Register = " + (hex(output[1])))
@@ -196,13 +199,13 @@ def GPIOon(passedarg, output_textbox, sentarg):
     output_textbox.insert(tk.END, "\n ************************************************")
 
     # write DIRECTION register set gpio 10 and 19 to hit bot gbt-sca A and B on cc2
-    output = ExecuteSCACommand(output_textbox, sentarg, 0x20040201, NewValue, 0x201);
+    output = ExecuteSCACommand(output_textbox, sentarg, 0x20040203, NewValue, 0x203, False);
     if not output[0]:
         return False
     output_textbox.insert(tk.END, "\n Response " + (hex(output[1])));
 
     # read GPIO Direction Register
-    if not ExecuteSCACommand(output_textbox, sentarg, 0x21010202, 0x0, 0x40202)[0]:
+    if not ExecuteSCACommand(output_textbox, sentarg, 0x21010203, 0x0, 0x40203, False)[0]:
         return False
 
     ###print "GPIOon is successful"
@@ -212,13 +215,13 @@ def GPIOon(passedarg, output_textbox, sentarg):
 def GPIOset(passedarg, output_textbox, sentarg):
 
     # read GPIO Dataout Register
-    output = ExecuteSCACommand(output_textbox, sentarg, 0x11010202, 0x0, 0x40202);
+    output = ExecuteSCACommand(output_textbox, sentarg, 0x11010202, 0x0, 0x40202, False);
     if not output[0]:
         return False;
     RxValue = output[1]
     output_textbox.insert(tk.END, "\n Dataout Register = " + (hex(RxValue)))
     output_textbox.insert(tk.END, "\n **************************************************")
-    NewValue = RxValue | passedarg
+    NewValue = RxValue | int(passedarg, 16)
     output_textbox.insert(tk.END, "\n **************************************************")
     output_textbox.insert(tk.END, "\n NewValue = " + (hex(NewValue)))
     output_textbox.insert(tk.END, "\n **************************************************")
@@ -228,10 +231,10 @@ def GPIOset(passedarg, output_textbox, sentarg):
     ###############################################################################
     # write Dataout register set gpio 10 and 19 to hit bot gbt-sca A and B on cc2
 
-    if not ExecuteSCACommand(output_textbox, sentarg, 0x10040201, NewValue, 0x201)[0]:
+    if not ExecuteSCACommand(output_textbox, sentarg, 0x10040201, NewValue, 0x201, False)[0]:
         return False
 
-    if not ExecuteSCACommand(output_textbox, sentarg, 0x11010202, 0x0, 0x40202)[0]:
+    if not ExecuteSCACommand(output_textbox, sentarg, 0x11010202, 0x0, 0x40202, False)[0]:
         return False
 
     return True
@@ -242,23 +245,23 @@ def GPIOclr(passedarg, output_textbox, sentarg):
         passedarg = hex(passedarg)
 
     # read GPIO Dataout Register
-    output = ExecuteSCACommand(output_textbox, sentarg, 0x11010202, 0x0, 0x40202);
+    output = ExecuteSCACommand(output_textbox, sentarg, 0x11010202, 0x0, 0x40202, False);
     if not output[0]:
         return False;
     RxValue = output[1]
     output_textbox.insert(tk.END, "\n Dataout Register = " + (hex(RxValue)))
     output_textbox.insert(tk.END, "\n ************************************************")
-    NewValue = RxValue & int(passedarg, 16)
+    NewValue = RxValue & ~int(passedarg, 16)
     output_textbox.insert(tk.END, "\n ************************************************")
     output_textbox.insert(tk.END, "\n NewValue = " + (hex(NewValue)))
     output_textbox.insert(tk.END, "\n ************************************************")
     
     # set GPIO_W_Dataout
     # write Dataout register set gpio 10 and 19 to hit bot gbt-sca A and B on cc2
-    if not ExecuteSCACommand(output_textbox, sentarg, 0x10040201, NewValue, 0x201)[0]:
+    if not ExecuteSCACommand(output_textbox, sentarg, 0x10040201, NewValue, 0x201, False)[0]:
         return False
 
-    if not ExecuteSCACommand(output_textbox, sentarg, 0x11010202, 0x0, 0x40202)[0]:
+    if not ExecuteSCACommand(output_textbox, sentarg, 0x11010202, 0x0, 0x40202, False)[0]:
         return False
 
     return True
@@ -270,7 +273,7 @@ def GPIOoff(passedarg, output_textbox, sentarg):
         passedarg = hex(passedarg)
 
     # read GPIO Direction Register
-    output = ExecuteSCACommand(output_textbox, sentarg, 0x21010202, 0x0, 0x40202);
+    output = ExecuteSCACommand(output_textbox, sentarg, 0x21010202, 0x0, 0x40202, False);
     if not output[0]:
         return False;
 
@@ -284,11 +287,11 @@ def GPIOoff(passedarg, output_textbox, sentarg):
     
     # set GPIO_W_Direction
     # write DIRECTION register set gpio 10 and 19 to hit bot gbt-sca A and B on cc2
-    if not ExecuteSCACommand(output_textbox, sentarg, 0x20040201, NewValue, 0x201)[0]:
+    if not ExecuteSCACommand(output_textbox, sentarg, 0x20040201, NewValue, 0x201, False)[0]:
         return False;
 
     # read GPIO Direction Register
-    if not ExecuteSCACommand(output_textbox, sentarg, 0x21010202, 0x0, 0x40202)[0]:
+    if not ExecuteSCACommand(output_textbox, sentarg, 0x21010202, 0x0, 0x40202, False)[0]:
         return False
 
     ###print "GPIOoff is successful"

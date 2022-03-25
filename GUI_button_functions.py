@@ -25,24 +25,46 @@ def GPIOenter():
 ### SCA Functions and Checks ###
 ############################################################
 def GPIORefresh():
-    # get DIRread command
-    dummy = None
 
-    # SCA 1
-    output = SCA_functions.ExecuteSCACommand(dummy, 1, 0x21010200, 0x0, 0x40200)
-    if not output[0]:
-        return False;
-    #DIRread sca1 output
-    DIRread_sca1_output = output[1]
-    # SCA 2
-    output = SCA_functions.ExecuteSCACommand(dummy, 2, 0x21010200, 0x0, 0x40200)
-    if not output[0]:
-        return False;
-    #DIRread sca2 output
-    DIRread_sca2_output = output[1]
+    # On/Off status first
+    buttonsToUpdate = [GBT_SCA4_button_array, GBT_SCA1_button_array, GBT_SCA4_button_array2, GBT_SCA1_button_array2]
+    
+    for i in range(1, 3):
 
-    print DIRread_sca1_output, DIRread_sca2_output
-    print "Done!";
+        # Dir read
+        output = SCA_functions.ExecuteSCACommand(None, i, 0x21010200, 0x0, 0x40200)
+        if not output[0]:
+            return False;
+        #DIRread sca1 output
+        DIRread_output = output[1]
+        onStatus = []
+        for iGPIO in range(16):
+            address = 2**iGPIO
+            if int(DIRread_output) & address:
+                onStatus += [iGPIO,]
+        for iGPIO in range(16):
+            if iGPIO in onStatus:
+                GPIO_buttonStateUp(buttonsToUpdate[i-1][iGPIO], 1, True)
+            else:
+                GPIO_buttonStateDown(buttonsToUpdate[i-1][iGPIO], 1, True)
+        
+        #DataOut read
+        output = SCA_functions.ExecuteSCACommand(None, i, 0x11010202, 0x0, 0x40202);
+        if not output[0]:
+            return False;
+        #DIRread sca1 output
+        DIRread_output = output[1]
+        onStatus = []
+        for iGPIO in range(16):
+            address = 2**iGPIO
+            if int(DIRread_output) & address:
+                onStatus += [iGPIO,]
+        for iGPIO in range(16):
+            if iGPIO in onStatus:
+                GPIO_buttonStateUp(buttonsToUpdate[i-1+2][iGPIO], 2, True)
+            else:
+                GPIO_buttonStateDown(buttonsToUpdate[i-1+2][iGPIO], 2, True)
+        
     return True
 
 ### Scripts tab specific functions ###
