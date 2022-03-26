@@ -9,8 +9,9 @@ import random # For randint
 import uhal
 import time
 ###import functions###
-from GUI_global import *
+import GUI_global
 import GUI_button_functions as button_functions
+import SCA_functions
 
 #######################################################################
 ### Initializing Global Variables for SCA Functions ###
@@ -177,8 +178,8 @@ for i in range(len(GBT_SCA4_label_text)):
         value = str(hex(2**(i-1)))
         button.configure(command=lambda value=value, i=i: button_functions.GPIOon_off_button(value, i-1, output_textbox, 1))
         button_0.configure(command=lambda value=value, i=i: button_functions.GPIOset_clr_button(value, i-1, output_textbox, 1))
-        GBT_SCA4_button_array += [button,]
-        GBT_SCA4_button_array2 += [button_0,]
+        GUI_global.GBT_SCA4_button_array += [button,]
+        GUI_global.GBT_SCA4_button_array2 += [button_0,]
 
 ####################
 ### IC1D GBT-SCA ###
@@ -227,8 +228,8 @@ for i in range(len(GBT_SCA1_label_text)):
         value = str(hex(2**(i-1)))
         button.configure(command=lambda value=value, i=i: button_functions.GPIOon_off_button(value, i-1, output_textbox, 2))
         button_0.configure(command=lambda value=value, i=i: button_functions.GPIOset_clr_button(value, i-1, output_textbox, 2))
-        GBT_SCA1_button_array += [button,]
-        GBT_SCA1_button_array2 += [button_0,]
+        GUI_global.GBT_SCA1_button_array += [button,]
+        GUI_global.GBT_SCA1_button_array2 += [button_0,]
 
 ##################
 ### IC5D LpGBT ###
@@ -379,10 +380,107 @@ for i in range(len(LpGBT2_button_array2)):
     LpGBT2_button_array2[i].grid(column=2, row=i+1)
 
 ### Refresh Button ###
-GPIO_refresh_button = tk.Button(tab8, text="Refresh")
-GPIO_refresh_button.configure(command = lambda: button_functions.GPIORefresh(GPIO_refresh_button))
+def GPIORefresh(button):
+    #print "Refreshing!", time.time()
+
+    # On/Off status first
+    buttonsToUpdate = [GUI_global.GBT_SCA4_button_array, 
+                       GUI_global.GBT_SCA1_button_array, 
+                       GUI_global.GBT_SCA4_button_array2, 
+                       GUI_global.GBT_SCA1_button_array2]
+
+    for i in range(1, 3):
+        ###print "In the loop, ", i
+
+        # Dir read
+        output = SCA_functions.ExecuteSCACommand(None, i, 0x21010202, 0x0, 0x40202)
+        if not output[0]:
+            if i == 1:
+                button.configure(text="GPIO on SCA4 is not on", bg="red");
+            else:
+                button.configure(text="GPIO on SCA1 is not on", bg="red");
+            return False;
+
+
+        #DIRread sca1 output
+        DIRread_output = output[1]
+        onStatus = []
+        ###print "SCA dirread: ", DIRread_output;
+
+        # input/ouput state check
+        for iGPIO in range(len(buttonsToUpdate[i])):
+            address = 2**iGPIO
+            if int(DIRread_output) & address:
+                onStatus += [iGPIO,]
+        # Found 
+        ###print "Found up input buttons: ", onStatus
+        for iGPIO in range(len(buttonsToUpdate[i])):
+            ###print iGPIO, 
+            if iGPIO in onStatus:
+                button_functions.GPIO_buttonStateUp(buttonsToUpdate[i-1][iGPIO], 1, True)
+                ###print ' up'
+            else:
+                button_functions.GPIO_buttonStateDown(buttonsToUpdate[i-1][iGPIO], 1, True)
+                ###print ' down'
+        
+        #DataOut read
+        output = SCA_functions.ExecuteSCACommand(None, i, 0x11010202, 0x0, 0x40202);
+        if not output[0]:
+            button.configure(text="2", bg="red");
+            return False;
+        #DIRread sca1 output
+        DIRread_output = output[1]
+        onStatus = []
+        ###print "Now getting H/L things"
+        for iGPIO in range(len(buttonsToUpdate[i])):
+            address = 2**iGPIO
+            if int(DIRread_output) & address:
+                onStatus += [iGPIO,]
+        
+        ###print "Found High ", onStatus
+        for iGPIO in range(len(buttonsToUpdate[i])):
+            ###print iGPIO,
+            if iGPIO in onStatus:
+                ###print "up"
+                button_functions.GPIO_buttonStateUp(buttonsToUpdate[i-1+2][iGPIO], 2, True)
+            else:
+                ###print "down"
+                button_functions.GPIO_buttonStateDown(buttonsToUpdate[i-1+2][iGPIO], 2, True)
+        
+    button.configure(text="Refresh", bg="green");
+
+
+    return True
+
+def GPIORefreshAuto(button):
+    GPIORefresh(button);
+    if GUI_global.stopAutomaticRefresh:
+        GUI_global.stopAutomaticRefresh = False
+        refreshTask()
+    
+
+GPIO_singleRefreshButton = tk.Button(tab8, text="Single GPIO refresh", font=myfont)
+GPIO_singleRefreshButton.configure(command = lambda: GPIORefresh(GPIO_singleRefreshButton))
+GPIO_singleRefreshButton.grid(column=3, row=1)
+
+
+GPIO_refresh_button = tk.Button(tab8, text="Automatic refresh")
+GPIO_refresh_button.configure(command = lambda: GPIORefreshAuto(GPIO_refresh_button))
 GPIO_refresh_button['font'] = myfont
-GPIO_refresh_button.grid(column=3, row=1)
+GPIO_refresh_button.grid(column=3, row=2)
+
+
+### Stop Automatic Refresh ###
+def StopAutomaticRefresh():
+    GUI_global.stopAutomaticRefresh = True
+    GPIO_refresh_button.configure(text="Start automatic refresh")
+    
+
+GPIO_stopAutomaticRefreshButton = tk.Button(tab8, text="Stop", command = StopAutomaticRefresh)
+GPIO_stopAutomaticRefreshButton['font'] = myfont
+GPIO_stopAutomaticRefreshButton.grid(column=4, row=2)
+
+
 
 #####################################################################
 ### Analog IO tab configuration ###
@@ -626,7 +724,7 @@ IC4D_scripts_label.grid(column=0, row=0)
 Connect_button = tk.Button(GBT_SCA4_scripts_frame, bg="white", text="Connect", 
     command=lambda: button_functions.Connect(Connect_button, EnableGPIO_button, EnableAtoD_button, Bread_button, 
     DIRread_button, DATAOUTread_button, IDread_button, GPIOon_button, GPIOset_button, 
-    GPIOclr_button, GPIOoff_button, output_textbox, 1, GBT_SCA4_button_array, GBT_SCA4_button_array2))
+    GPIOclr_button, GPIOoff_button, output_textbox, 1, GUI_global.GBT_SCA4_button_array, GUI_global.GBT_SCA4_button_array2))
 Connect_button['font'] = myfont
 Connect_button.grid(column=0, row=1)
 
@@ -813,4 +911,27 @@ output_textbox.place(x=0, y=525, height=340, width=900)
 
 main_notebook.pack(expand = 1, fill = "both")
 
+#Do initial refresh
+GPIORefresh(GPIO_refresh_button);
+
+#pb = ttk.Progressbar(tab4, orient='horizontal',
+#                     mode='determinate',
+#                     length=280
+#)
+#pb.grid(column=1, row=3)
+
+
+def refreshTask():
+    GPIO_refresh_button.configure(text = "Refreshing in " + str(GUI_global.refreshTime) + " sec")
+    if GUI_global.refreshTime == 0:
+        GPIORefresh(GPIO_refresh_button);
+        GUI_global.refreshTime = 11
+
+    GUI_global.refreshTime -= 1
+    if not GUI_global.stopAutomaticRefresh:
+        root.after(1000, refreshTask)
+    else:
+        GPIO_refresh_button.configure(text = "Refresh")
+
+root.after(1000, refreshTask)
 root.mainloop()

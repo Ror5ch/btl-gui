@@ -69,22 +69,30 @@ def ExecuteSCACommand(output_textbox, gbtsca_num, header, dataField, scaHeader, 
     hw.dispatch();
     if output_textbox:
         output_textbox.insert(tk.END, "\n write CMD & LEN & CH & Tr. ID = " + (hex(TxValue)))
+    #else:
+    #    #print "\n write CMD & LEN & CH & Tr. ID = " + (hex(TxValue))
 
     # Send the SCA data field
     getNode_functions.EC_Tx_SCA_Data(gbtsca_num, hw).write(int(dataField | trID));
     hw.dispatch();
     if output_textbox:
         output_textbox.insert(tk.END, "\n write Data = " + (hex(dataField)))
-    
+    #else:
+    #    print "\n write Data = " + (hex(dataField))
+
     # Execute transferred command
     if output_textbox:
         output_textbox.insert(tk.END, "\n send SCA start CMD!")
+    #else:
+    #    print "\n send SCA start CMD!"
+
     getNode_functions.SCA_Start_CMD(gbtsca_num, hw).write(int(dataField));
     hw.dispatch();
     ###print "2:", hex(trID), hex(dataField)
 
     retrycount = 0    
     RxValue = 0
+
     while RxValue != (scaHeader | trID) and retrycount < 20:
         RxValue = getNode_functions.EC_Rx_SCA_Header(gbtsca_num, hw).read();
         hw.dispatch();
@@ -95,6 +103,8 @@ def ExecuteSCACommand(output_textbox, gbtsca_num, header, dataField, scaHeader, 
     if RxValue != (scaHeader | trID):
         if output_textbox:
             output_textbox.insert(tk.END, "\n error! ",  RxValue, ", trcount =", trID, " and retrycount = ", retrycount)
+        #else:
+        #    print "\n error! ",  RxValue, ", trcount =", trID, " and retrycount = ", retrycount
         return [False, RxValue];
 
     # Read out data
@@ -102,6 +112,8 @@ def ExecuteSCACommand(output_textbox, gbtsca_num, header, dataField, scaHeader, 
     hw.dispatch();
     if output_textbox:
         output_textbox.insert(tk.END, "\n Data = " + (hex(RxValue)))
+    #else:
+    #    print "\n Data = " + (hex(RxValue))
     RxLast = RxValue;
     return [True, RxValue];
 
