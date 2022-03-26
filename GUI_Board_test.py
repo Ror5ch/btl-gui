@@ -818,7 +818,7 @@ IC1D_scripts_label.grid(column=0, row=0)
 Connect_button2 = tk.Button(GBT_SCA1_scripts_frame, bg="white", text="Connect",
     command=lambda: button_functions.Connect(Connect_button2, EnableGPIO_button2, EnableAtoD_button2, Bread_button2, 
     DIRread_button2, DATAOUTread_button2, IDread_button2, GPIOon_button2, GPIOset_button2, 
-    GPIOclr_button2, GPIOoff_button2, output_textbox, 2, GBT_SCA1_button_array, GBT_SCA1_button_array2))
+    GPIOclr_button2, GPIOoff_button2, output_textbox, 2, GUI_global.GBT_SCA1_button_array, GUI_global.GBT_SCA1_button_array2))
 Connect_button2['font'] = myfont
 Connect_button2.grid(column=0, row=1)
 

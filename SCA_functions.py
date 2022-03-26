@@ -347,7 +347,8 @@ def SCAADCread(output_textbox, sentarg, i):
 
     output_textbox.insert(tk.END, "\n send SCA start CMD!")
     output_textbox.insert(tk.END, "\n Write ADC_CURR Register")
-    getNode_functions.SCA_Start_CMD(sentarg, hw).write(int(TxValue)); 
+    ###getNode_functions.SCA_Start_CMD(sentarg, hw).write(int(TxValue)); 
+    getNode_functions.SCA_Start_CMD(sentarg, hw).write(0); 
     hw.dispatch();
     time.sleep(wait) # wait 1 sec
     
