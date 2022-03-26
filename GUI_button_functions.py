@@ -24,47 +24,72 @@ def GPIOenter():
 ############################################################
 ### SCA Functions and Checks ###
 ############################################################
-def GPIORefresh():
+def GPIORefresh(button):
 
     # On/Off status first
     buttonsToUpdate = [GBT_SCA4_button_array, GBT_SCA1_button_array, GBT_SCA4_button_array2, GBT_SCA1_button_array2]
-    
+    for x in buttonsToUpdate:
+        print len(x)
+
     for i in range(1, 3):
+        print "In the loop, ", i
 
         # Dir read
         output = SCA_functions.ExecuteSCACommand(None, i, 0x21010200, 0x0, 0x40200)
         if not output[0]:
+            if i == 1:
+                button.configure(text="GPIO on SCA4 is not on", bg="red");
+            else:
+                button.configure(text="GPIO on SCA1 is not on", bg="red");
             return False;
+
+
         #DIRread sca1 output
         DIRread_output = output[1]
         onStatus = []
-        for iGPIO in range(16):
+        print "SCA dirread: ", DIRread_output;
+
+        # input/ouput state check
+        for iGPIO in range(32):
             address = 2**iGPIO
             if int(DIRread_output) & address:
                 onStatus += [iGPIO,]
-        for iGPIO in range(16):
+        # Found 
+        print "Found up input buttons: ", onStatus
+        for iGPIO in range(32):
+            print iGPIO, 
             if iGPIO in onStatus:
                 GPIO_buttonStateUp(buttonsToUpdate[i-1][iGPIO], 1, True)
+                print ' up'
             else:
                 GPIO_buttonStateDown(buttonsToUpdate[i-1][iGPIO], 1, True)
+                print ' down'
         
         #DataOut read
         output = SCA_functions.ExecuteSCACommand(None, i, 0x11010202, 0x0, 0x40202);
         if not output[0]:
+            button.configure(text="2", bg="red");
             return False;
         #DIRread sca1 output
         DIRread_output = output[1]
         onStatus = []
-        for iGPIO in range(16):
+        print "Now getting H/L things"
+        for iGPIO in range(32):
             address = 2**iGPIO
             if int(DIRread_output) & address:
                 onStatus += [iGPIO,]
-        for iGPIO in range(16):
+        
+        print "Found High ", onStatus
+        for iGPIO in range(32):
+            print iGPIO,
             if iGPIO in onStatus:
+                print "up"
                 GPIO_buttonStateUp(buttonsToUpdate[i-1+2][iGPIO], 2, True)
             else:
+                print "down"
                 GPIO_buttonStateDown(buttonsToUpdate[i-1+2][iGPIO], 2, True)
         
+    button.configure(text="Refresh", bg="green");
     return True
 
 ### Scripts tab specific functions ###

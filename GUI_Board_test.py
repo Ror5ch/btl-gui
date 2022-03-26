@@ -379,7 +379,8 @@ for i in range(len(LpGBT2_button_array2)):
     LpGBT2_button_array2[i].grid(column=2, row=i+1)
 
 ### Refresh Button ###
-GPIO_refresh_button = tk.Button(tab8, text="Refresh", command = button_functions.GPIORefresh)
+GPIO_refresh_button = tk.Button(tab8, text="Refresh")
+GPIO_refresh_button.configure(command = lambda: button_functions.GPIORefresh(GPIO_refresh_button))
 GPIO_refresh_button['font'] = myfont
 GPIO_refresh_button.grid(column=3, row=1)
 
