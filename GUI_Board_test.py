@@ -18,6 +18,9 @@ import SCA_functions
 #######################################################################
 if __name__ == '__main__':
 
+    # Reset transaction number
+    GUI_global.trID = 1; 
+
     # PART 1: Argument parsing
     if not(len(sys.argv) == 1 or len(sys.argv) == 2):
         print "Incorrect usage!"
@@ -71,11 +74,11 @@ root = tk.Tk()
 
 
 
-myfont = font.Font(size=10)
+myfont = font.Font(size=12)
 s = ttk.Style()
 s.configure('TNotebook.Tab', font=('helvetica','12'))
 
-main_notebook = ttk.Notebook(root, width=1400, height=900)
+main_notebook = ttk.Notebook(root, width=1700, height=900)
 notebook = ttk.Notebook(main_notebook)
 notebook2 = ttk.Notebook(main_notebook)
 notebook3 = ttk.Notebook(main_notebook)

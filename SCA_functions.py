@@ -4,6 +4,7 @@ import uhal
 import time
 import Tkinter as tk
 import GUI_getNode_functions as getNode_functions
+import GUI_global
 from random import randrange
 
 
@@ -49,31 +50,39 @@ def Connect(output_textbox, sentarg):
 # This is the template code that communicates with GBT-SCA
 #
 ##############################################################################
-def ExecuteSCACommand(output_textbox, gbtsca_num, header, dataField, scaHeader, useTrCounter = True):
-    # reset the last RxValue to return
-    RxLast = -1
+def ExecuteSCACommand(output_textbox, gbtsca_num, header, dataField, scaHeader):
+
+    # Setting up iHAL stuff
     connectionFilePath = "GUI_Real_connections.xml";
     deviceId = "KCU105real";
-
     connectionMgr = uhal.ConnectionManager("file://" + connectionFilePath);
     hw = connectionMgr.getDevice(deviceId);
 
-    # Send the SCA header 
-    trID = randrange(10)
-    if not useTrCounter:
-        trID = 0
+    # transaction ID cannot be 0 or be above 255 (0xff)
+    if GUI_global.trID == 254:
+        GUI_global.trID = 0;
+    GUI_global.trID += 1;
 
-    TxValue = header | trID;
-    ###print "1:", hex(trID), hex(TxValue)
-    getNode_functions.EC_Tx_SCA_Header(gbtsca_num, hw).write(int(TxValue | trID)); 
+
+    #print "transaction ID: ", GUI_global.trID
+    # reset the last two digits of the header and scaHeader
+    header = header - (header & 0xff);
+    header = header | GUI_global.trID;
+    scaHeader = scaHeader - (scaHeader & 0xff);
+    scaHeader = scaHeader | GUI_global.trID;
+    
+
+    #print "1: Writing to Header ", hex(GUI_global.trID), hex(header)
+    getNode_functions.EC_Tx_SCA_Header(gbtsca_num, hw).write(int(header)); 
     hw.dispatch();
     if output_textbox:
-        output_textbox.insert(tk.END, "\n write CMD & LEN & CH & Tr. ID = " + (hex(TxValue)))
+        output_textbox.insert(tk.END, "\n write CMD & LEN & CH & Tr. ID = " + (hex(header)))
     #else:
-    #    #print "\n write CMD & LEN & CH & Tr. ID = " + (hex(TxValue))
+        #print "\n write CMD & LEN & CH & Tr. ID = " + (hex(header))
 
     # Send the SCA data field
-    getNode_functions.EC_Tx_SCA_Data(gbtsca_num, hw).write(int(dataField | trID));
+    #dataField = 0x0; #dataField & 0xffffff00 | trID;
+    getNode_functions.EC_Tx_SCA_Data(gbtsca_num, hw).write(int(dataField));
     hw.dispatch();
     if output_textbox:
         output_textbox.insert(tk.END, "\n write Data = " + (hex(dataField)))
@@ -85,27 +94,32 @@ def ExecuteSCACommand(output_textbox, gbtsca_num, header, dataField, scaHeader, 
         output_textbox.insert(tk.END, "\n send SCA start CMD!")
     #else:
     #    print "\n send SCA start CMD!"
-
-    getNode_functions.SCA_Start_CMD(gbtsca_num, hw).write(int(dataField));
+    # Test getNode_functions.SCA_Start_CMD(gbtsca_num, hw).write(int(dataField));
+    getNode_functions.SCA_Start_CMD(gbtsca_num, hw).write(0x0);
     hw.dispatch();
-    ###print "2:", hex(trID), hex(dataField)
+    #print "2 After execution of the command:", hex(GUI_global.trID), hex(dataField)
 
+    # Check the transaction ID from reading out the header:
     retrycount = 0    
     RxValue = 0
 
-    while RxValue != (scaHeader | trID) and retrycount < 20:
+    waiting = True;
+    #
+
+    while RxValue != scaHeader and retrycount < 20:
         RxValue = getNode_functions.EC_Rx_SCA_Header(gbtsca_num, hw).read();
         hw.dispatch();
+        #print "In while loop: ", retrycount, hex(RxValue), hex(scaHeader);
         retrycount += 1;
 
-    ###print "3:", hex(scaHeader), hex(trID), hex(TxValue)
-
-    if RxValue != (scaHeader | trID):
+    #print "3:", hex(scaHeader), hex(GUI_global.trID), hex(header), hex(RxValue)
+     
+    if RxValue != scaHeader:
         if output_textbox:
-            output_textbox.insert(tk.END, "\n error! ",  RxValue, ", trcount =", trID, " and retrycount = ", retrycount)
+            output_textbox.insert(tk.END, "\n error! ",  hex(RxValue), ", trcount =", hex(GUI_global.trID), " and retrycount = ", retrycount)
         #else:
-        #    print "\n error! ",  RxValue, ", trcount =", trID, " and retrycount = ", retrycount
-        return [False, RxValue];
+        #    print "\n error! ",  hex(RxValue), ", trcount =", hex(trID), " and retrycount = ", retrycount
+            return [False, RxValue];
 
     # Read out data
     RxValue = getNode_functions.EC_Rx_SCA_Data(gbtsca_num, hw).read(); 
@@ -114,13 +128,13 @@ def ExecuteSCACommand(output_textbox, gbtsca_num, header, dataField, scaHeader, 
         output_textbox.insert(tk.END, "\n Data = " + (hex(RxValue)))
     #else:
     #    print "\n Data = " + (hex(RxValue))
-    RxLast = RxValue;
     return [True, RxValue];
 
 
 ##############################################################################
 def EnableGPIO(output_textbox, sentarg):
 
+    print sentarg
     # Register B
     if not ExecuteSCACommand(output_textbox, sentarg, 0x02040001, 0x04000000, 0x20001)[0]:
         return False;
@@ -157,7 +171,7 @@ def Bread(Bread_label, output_textbox, sentarg):
 def DIRread(DIRread_label, output_textbox, sentarg):
 
     # read GPIO Direction Register
-    output = ExecuteSCACommand(output_textbox, sentarg, 0x21010202, 0x0, 0x40202);
+    output = ExecuteSCACommand(output_textbox, sentarg, 0x21010202, 0x0, 0x40202); # confirmed 
     if output[0]:
         DIRread_label.configure(text=hex(output[1]))
         output_textbox.insert(tk.END, "\n Direction Register = " + (hex(output[1])))
@@ -199,7 +213,7 @@ def GPIOon(passedarg, output_textbox, sentarg):
     ###print "In GPIOon ", passedarg, sentarg
 
     # read GPIO Direction Register
-    output = ExecuteSCACommand(output_textbox, sentarg, 0x21010203, 0x0, 0x40203, False);
+    output = ExecuteSCACommand(output_textbox, sentarg, 0x21010203, 0x0, 0x40203);
     if not output[0]:
         return False
     output_textbox.insert(tk.END, "\n Direction Register = " + (hex(output[1])))
@@ -211,13 +225,13 @@ def GPIOon(passedarg, output_textbox, sentarg):
     output_textbox.insert(tk.END, "\n ************************************************")
 
     # write DIRECTION register set gpio 10 and 19 to hit bot gbt-sca A and B on cc2
-    output = ExecuteSCACommand(output_textbox, sentarg, 0x20040203, NewValue, 0x203, False);
+    output = ExecuteSCACommand(output_textbox, sentarg, 0x20040203, NewValue, 0x203);
     if not output[0]:
         return False
     output_textbox.insert(tk.END, "\n Response " + (hex(output[1])));
 
-    # read GPIO Direction Register
-    if not ExecuteSCACommand(output_textbox, sentarg, 0x21010203, 0x0, 0x40203, False)[0]:
+    # read GPIO Direction Register, 
+    if not ExecuteSCACommand(output_textbox, sentarg, 0x21010203, 0x0, 0x40203)[0]:
         return False
 
     ###print "GPIOon is successful"
@@ -227,7 +241,7 @@ def GPIOon(passedarg, output_textbox, sentarg):
 def GPIOset(passedarg, output_textbox, sentarg):
 
     # read GPIO Dataout Register
-    output = ExecuteSCACommand(output_textbox, sentarg, 0x11010202, 0x0, 0x40202, False);
+    output = ExecuteSCACommand(output_textbox, sentarg, 0x11010202, 0x0, 0x40202);
     if not output[0]:
         return False;
     RxValue = output[1]
@@ -243,10 +257,10 @@ def GPIOset(passedarg, output_textbox, sentarg):
     ###############################################################################
     # write Dataout register set gpio 10 and 19 to hit bot gbt-sca A and B on cc2
 
-    if not ExecuteSCACommand(output_textbox, sentarg, 0x10040201, NewValue, 0x201, False)[0]:
+    if not ExecuteSCACommand(output_textbox, sentarg, 0x10040201, NewValue, 0x201)[0]:
         return False
 
-    if not ExecuteSCACommand(output_textbox, sentarg, 0x11010202, 0x0, 0x40202, False)[0]:
+    if not ExecuteSCACommand(output_textbox, sentarg, 0x11010202, 0x0, 0x40202)[0]:
         return False
 
     return True
@@ -257,7 +271,7 @@ def GPIOclr(passedarg, output_textbox, sentarg):
         passedarg = hex(passedarg)
 
     # read GPIO Dataout Register
-    output = ExecuteSCACommand(output_textbox, sentarg, 0x11010202, 0x0, 0x40202, False);
+    output = ExecuteSCACommand(output_textbox, sentarg, 0x11010202, 0x0, 0x40202);
     if not output[0]:
         return False;
     RxValue = output[1]
@@ -270,10 +284,10 @@ def GPIOclr(passedarg, output_textbox, sentarg):
     
     # set GPIO_W_Dataout
     # write Dataout register set gpio 10 and 19 to hit bot gbt-sca A and B on cc2
-    if not ExecuteSCACommand(output_textbox, sentarg, 0x10040201, NewValue, 0x201, False)[0]:
+    if not ExecuteSCACommand(output_textbox, sentarg, 0x10040201, NewValue, 0x201)[0]:
         return False
 
-    if not ExecuteSCACommand(output_textbox, sentarg, 0x11010202, 0x0, 0x40202, False)[0]:
+    if not ExecuteSCACommand(output_textbox, sentarg, 0x11010202, 0x0, 0x40202)[0]:
         return False
 
     return True
@@ -285,7 +299,7 @@ def GPIOoff(passedarg, output_textbox, sentarg):
         passedarg = hex(passedarg)
 
     # read GPIO Direction Register
-    output = ExecuteSCACommand(output_textbox, sentarg, 0x21010202, 0x0, 0x40202, False);
+    output = ExecuteSCACommand(output_textbox, sentarg, 0x21010202, 0x0, 0x40202);
     if not output[0]:
         return False;
 
@@ -299,26 +313,24 @@ def GPIOoff(passedarg, output_textbox, sentarg):
     
     # set GPIO_W_Direction
     # write DIRECTION register set gpio 10 and 19 to hit bot gbt-sca A and B on cc2
-    if not ExecuteSCACommand(output_textbox, sentarg, 0x20040201, NewValue, 0x201, False)[0]:
+    if not ExecuteSCACommand(output_textbox, sentarg, 0x20040201, NewValue, 0x201)[0]:
         return False;
 
     # read GPIO Direction Register
-    if not ExecuteSCACommand(output_textbox, sentarg, 0x21010202, 0x0, 0x40202, False)[0]:
+    if not ExecuteSCACommand(output_textbox, sentarg, 0x21010202, 0x0, 0x40202)[0]:
         return False
 
     ###print "GPIOoff is successful"
     return True
 
 #######################################################################
-def SCAADCread(output_textbox, sentarg, i):
-
+def initialize_IC_EC(sentarg):
     connectionFilePath = "GUI_Real_connections.xml";
     deviceId = "KCU105real";
 
     connectionMgr = uhal.ConnectionManager("file://" + connectionFilePath);
     hw = connectionMgr.getDevice(deviceId);
 
-    wait = .005
     # initialize IC and EC moduls
     TxValue = 1  
     getNode_functions.Init_EC_IC_moduls(sentarg, hw).write(int(TxValue)); 
@@ -328,6 +340,21 @@ def SCAADCread(output_textbox, sentarg, i):
     TxValue = 0 
     getNode_functions.nFRAME(sentarg, hw).write(int(TxValue)); 
     hw.dispatch();
+    return True;
+
+
+#######################################################################
+def SCAADCread(output_textbox, sentarg, i):
+
+    wait = 0.005
+    connectionFilePath = "GUI_Real_connections.xml";
+    deviceId = "KCU105real";
+
+    connectionMgr = uhal.ConnectionManager("file://" + connectionFilePath);
+    hw = connectionMgr.getDevice(deviceId);
+
+    # initialize IC and EC modules
+    initialize_IC_EC(sentarg);
 
     ###############################################################################
     # set ADC_W_Curr
@@ -347,8 +374,7 @@ def SCAADCread(output_textbox, sentarg, i):
 
     output_textbox.insert(tk.END, "\n send SCA start CMD!")
     output_textbox.insert(tk.END, "\n Write ADC_CURR Register")
-    ###getNode_functions.SCA_Start_CMD(sentarg, hw).write(int(TxValue)); 
-    getNode_functions.SCA_Start_CMD(sentarg, hw).write(0); 
+    getNode_functions.SCA_Start_CMD(sentarg, hw).write(int(TxValue)); 
     hw.dispatch();
     time.sleep(wait) # wait 1 sec
     
@@ -485,12 +511,12 @@ def SCAADCread(output_textbox, sentarg, i):
 #    Init_EC_IC_moduls   = hw.getNode("A2")
 
 #    EC_Tx_Elink_Header  = hw.getNode("EC_Tx_Elink_Header")
-#    EC_Tx_SCA_Header 	= hw.getNode("EC_Tx_SCA_Header")
-#    EC_Tx_SCA_Data 	= hw.getNode("EC_Tx_SCA_Data")
-#    SCA_Rst_CMD 	= hw.getNode("SCA_Rst_CMD")
-#    SCA_Connect_CMD 	= hw.getNode("SCA_Connect_CMD")
-#    SCA_Test_CMD 	= hw.getNode("SCA_Test_CMD")
-#    SCA_Start_CMD 	= hw.getNode("SCA_Start_CMD")
+#    EC_Tx_SCA_Header = hw.getNode("EC_Tx_SCA_Header")
+#    EC_Tx_SCA_Data = hw.getNode("EC_Tx_SCA_Data")
+#    SCA_Rst_CMD = hw.getNode("SCA_Rst_CMD")
+#    SCA_Connect_CMD = hw.getNode("SCA_Connect_CMD")
+#    SCA_Test_CMD = hw.getNode("SCA_Test_CMD")
+#    SCA_Start_CMD = hw.getNode("SCA_Start_CMD")
 #    nFRAME              = hw.getNode("nFRAME")
 
 #    EC_Rx_Elink_Header = hw.getNode("ECTxElinkHRAM")
