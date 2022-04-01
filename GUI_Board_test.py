@@ -22,12 +22,12 @@ if __name__ == '__main__':
     GUI_global.trID = 1; 
 
     # PART 1: Argument parsing
-    if not(len(sys.argv) == 1 or len(sys.argv) == 2):
-        print "Incorrect usage!"
-        print "usage: read_write_single_register.py only"
-        sys.exit(1)
-    if len(sys.argv) == 2:
-        print(hex(int(sys.argv[1], 16)))
+#    if not(len(sys.argv) == 1 or len(sys.argv) == 2):
+#        print "Incorrect usage!"
+#        print "usage: read_write_single_register.py only"
+#        sys.exit(1)
+#    if len(sys.argv) == 2:
+#        print(hex(int(sys.argv[1], 16)))
  
     uhal.disableLogging()
 
@@ -237,76 +237,39 @@ for i in range(len(GBT_SCA1_label_text)):
 ##################
 ### IC5D LpGBT ###
 ##################
-LpGBT3_label = tk.Label(LpGBT1_GPIO_frame, text='IC3D LpGBT L0')
-LpGBT3_label.grid(column=0, row=0)
-LpGBT3_label['font'] = myfont
-
-LpGBT3_label_array = [
-    tk.Label(LpGBT1_GPIO_frame, text='N13'), tk.Label(LpGBT1_GPIO_frame, text='N12'),
-    tk.Label(LpGBT1_GPIO_frame, text='clkEnS'), tk.Label(LpGBT1_GPIO_frame, text='PCC A PG 1V8 2'),
-    tk.Label(LpGBT1_GPIO_frame, text='PCC A PG 1V2'), tk.Label(LpGBT1_GPIO_frame, text='PCC A PG 1V8 1'),
-    tk.Label(LpGBT1_GPIO_frame, text='calEnPE'), tk.Label(LpGBT1_GPIO_frame, text='calEnS'),
-    tk.Label(LpGBT1_GPIO_frame, text='eEnPE'), tk.Label(LpGBT1_GPIO_frame, text='eEnS'),
-    tk.Label(LpGBT1_GPIO_frame, text='clkEnPE'), tk.Label(LpGBT1_GPIO_frame, text='N8'),
-    tk.Label(LpGBT1_GPIO_frame, text='L7'), tk.Label(LpGBT1_GPIO_frame, text='L6'),
-    tk.Label(LpGBT1_GPIO_frame, text='L5'), tk.Label(LpGBT1_GPIO_frame, text='R3')
+LpGBT3_label_text = [
+    'IC3D LpGBT L0',
+    'N13', 'N12', 'clkEnS', 'PCC A PG 1V8 2',
+    'PCC A PG 1V2', 'PCC A PG 1V8 1', 'calEnPE', 'calEnS',
+    'eEnPE', 'eEnS', 'clkEnPE', 'N8',
+    'L7', 'L6', 'L5', 'R3'
 ]
-for i in range(len(LpGBT3_label_array)):
-    LpGBT3_label_array[i]['font'] = myfont
-    LpGBT3_label_array[i].grid(column=0, row=i+1)
 
-LpGBT3_button0 = tk.Button(LpGBT1_GPIO_frame, bg="white", command=lambda: button_functions.LpGBTon_off_button(LpGBT3_button0, output_textbox, 3, 0))
-LpGBT3_button1 = tk.Button(LpGBT1_GPIO_frame, bg="white", command=lambda: button_functions.LpGBTon_off_button(LpGBT3_button1, output_textbox, 3, 1))
-LpGBT3_button2 = tk.Button(LpGBT1_GPIO_frame, bg="white", command=lambda: button_functions.LpGBTon_off_button(LpGBT3_button2, output_textbox, 3, 2))
-LpGBT3_label3 = tk.Label(LpGBT1_GPIO_frame, width='10', text='output')
-LpGBT3_label4 = tk.Label(LpGBT1_GPIO_frame, width='10', text='output')
-LpGBT3_label5 = tk.Label(LpGBT1_GPIO_frame, width='10', text='output')
-LpGBT3_button6 = tk.Button(LpGBT1_GPIO_frame, bg="white", command=lambda: button_functions.LpGBTon_off_button(LpGBT3_button6, output_textbox, 3, 6))
-LpGBT3_button7 = tk.Button(LpGBT1_GPIO_frame, bg="white", command=lambda: button_functions.LpGBTon_off_button(LpGBT3_button7, output_textbox, 3, 7))
-LpGBT3_button8 = tk.Button(LpGBT1_GPIO_frame, bg="white", command=lambda: button_functions.LpGBTon_off_button(LpGBT3_button8, output_textbox, 3, 8))
-LpGBT3_button9 = tk.Button(LpGBT1_GPIO_frame, bg="white", command=lambda: button_functions.LpGBTon_off_button(LpGBT3_button9, output_textbox, 3, 9))
-LpGBT3_button10 = tk.Button(LpGBT1_GPIO_frame, bg="white", command=lambda: button_functions.LpGBTon_off_button(LpGBT3_button10, output_textbox, 3, 10))
-LpGBT3_button11 = tk.Button(LpGBT1_GPIO_frame, bg="white", command=lambda: button_functions.LpGBTon_off_button(LpGBT3_button11, output_textbox, 3, 11))
-LpGBT3_button12 = tk.Button(LpGBT1_GPIO_frame, bg="white", command=lambda: button_functions.LpGBTon_off_button(LpGBT3_button12, output_textbox, 3, 12))
-LpGBT3_button13 = tk.Button(LpGBT1_GPIO_frame, bg="white", command=lambda: button_functions.LpGBTon_off_button(LpGBT3_button13, output_textbox, 3, 13))
-LpGBT3_button14 = tk.Button(LpGBT1_GPIO_frame, bg="white", command=lambda: button_functions.LpGBTon_off_button(LpGBT3_button14, output_textbox, 3, 14))
-LpGBT3_button15 = tk.Button(LpGBT1_GPIO_frame, bg="white", command=lambda: button_functions.LpGBTon_off_button(LpGBT3_button15, output_textbox, 3, 15))
-
-LpGBT3_button_array = [
-    LpGBT3_button0, LpGBT3_button1, LpGBT3_button2, LpGBT3_label3, LpGBT3_label4, LpGBT3_label5,
-    LpGBT3_button6, LpGBT3_button7, LpGBT3_button8, LpGBT3_button9, LpGBT3_button10, LpGBT3_button11,
-    LpGBT3_button12, LpGBT3_button13, LpGBT3_button14, LpGBT3_button15
-]
-for i in range(len(LpGBT3_button_array)):
-    LpGBT3_button_array[i]['font'] = myfont
-    LpGBT3_button_array[i].grid(column=1, row=i+1)
-
-LpGBT3_button2_0 = tk.Button(LpGBT1_GPIO_frame, bg="white", command=lambda: button_functions.LpGBTset_clr_button(LpGBT3_button2_0, output_textbox, 3, 0))
-LpGBT3_button2_1 = tk.Button(LpGBT1_GPIO_frame, bg="white", command=lambda: button_functions.LpGBTset_clr_button(LpGBT3_button2_1, output_textbox, 3, 1))
-LpGBT3_button2_2 = tk.Button(LpGBT1_GPIO_frame, bg="white", command=lambda: button_functions.LpGBTset_clr_button(LpGBT3_button2_2, output_textbox, 3, 2))
-LpGBT3_label2_3 = tk.Label(LpGBT1_GPIO_frame, text="")
-LpGBT3_label2_4 = tk.Label(LpGBT1_GPIO_frame, text="")
-LpGBT3_label2_5 = tk.Label(LpGBT1_GPIO_frame, text="")
-LpGBT3_button2_6 = tk.Button(LpGBT1_GPIO_frame, bg="white", command=lambda: button_functions.LpGBTset_clr_button(LpGBT3_button2_6, output_textbox, 3, 6))
-LpGBT3_button2_7 = tk.Button(LpGBT1_GPIO_frame, bg="white", command=lambda: button_functions.LpGBTset_clr_button(LpGBT3_button2_7, output_textbox, 3, 7))
-LpGBT3_button2_8 = tk.Button(LpGBT1_GPIO_frame, bg="white", command=lambda: button_functions.LpGBTset_clr_button(LpGBT3_button2_8, output_textbox, 3, 8))
-LpGBT3_button2_9 = tk.Button(LpGBT1_GPIO_frame, bg="white", command=lambda: button_functions.LpGBTset_clr_button(LpGBT3_button2_9, output_textbox, 3, 9))
-LpGBT3_button2_10 = tk.Button(LpGBT1_GPIO_frame, bg="white", command=lambda: button_functions.LpGBTset_clr_button(LpGBT3_button2_10, output_textbox, 3, 10))
-LpGBT3_button2_11 = tk.Button(LpGBT1_GPIO_frame, bg="white", command=lambda: button_functions.LpGBTset_clr_button(LpGBT3_button2_11, output_textbox, 3, 11))
-LpGBT3_button2_12 = tk.Button(LpGBT1_GPIO_frame, bg="white", command=lambda: button_functions.LpGBTset_clr_button(LpGBT3_button2_12, output_textbox, 3, 12))
-LpGBT3_button2_13 = tk.Button(LpGBT1_GPIO_frame, bg="white", command=lambda: button_functions.LpGBTset_clr_button(LpGBT3_button2_13, output_textbox, 3, 13))
-LpGBT3_button2_14 = tk.Button(LpGBT1_GPIO_frame, bg="white", command=lambda: button_functions.LpGBTset_clr_button(LpGBT3_button2_14, output_textbox, 3, 14))
-LpGBT3_button2_15 = tk.Button(LpGBT1_GPIO_frame, bg="white", command=lambda: button_functions.LpGBTset_clr_button(LpGBT3_button2_15, output_textbox, 3, 15))
-
-LpGBT3_button_array2 = [
-    LpGBT3_button2_0, LpGBT3_button2_1, LpGBT3_button2_2, LpGBT3_label2_3, LpGBT3_label2_4,
-    LpGBT3_label2_5, LpGBT3_button2_6, LpGBT3_button2_7, LpGBT3_button2_8, LpGBT3_button2_9,
-    LpGBT3_button2_10, LpGBT3_button2_11, LpGBT3_button2_12, LpGBT3_button2_13, LpGBT3_button2_14,
-    LpGBT3_button2_15
-]
-for i in range(len(LpGBT3_button_array2)):
-    LpGBT3_button_array2[i]['font'] = myfont
-    LpGBT3_button_array2[i].grid(column=2, row=i+1)
+for i in range(len(LpGBT3_label_text)):
+    label = tk.Label(LpGBT1_GPIO_frame, text=LpGBT3_label_text[i])
+    label['font'] = myfont
+    label.grid(column=0, row=i)
+    if i > 0 and i != 4 and i != 5 and i !=6:
+        button = tk.Button(LpGBT1_GPIO_frame, bg="white", text="I")
+        button_0 = tk.Button(LpGBT1_GPIO_frame, bg="white", text="L")
+        button['font'] = myfont
+        button_0['font'] = myfont
+        button.grid(column=1, row=i)
+        button_0.grid(column=2, row=i)
+        value = i
+        button.configure(command=lambda value=value, i=i: button_functions.LpGBTon_off_button(value, i-1, output_textbox, 3, sys.argv[1]))
+        button_0.configure(command=lambda value=value, i=i: button_functions.LpGBTset_clr_button(value, i-1, output_textbox, 3, sys.argv[1]))
+        GUI_global.LpGBT3_buttonlabel_array += [button,]
+        GUI_global.LpGBT3_buttonlabel_array2 += [button_0,]
+    elif i > 0:
+        label = tk.Label(LpGBT1_GPIO_frame, text='output')
+        label_0 = tk.Label(LpGBT1_GPIO_frame, text='output')
+        label['font'] = myfont
+        label_0['font'] = myfont
+        label.grid(column=1, row=i)
+        label.grid(column=2, row=i)
+        GUI_global.LpGBT3_buttonlabel_array += [label,]
+        GUI_global.LpGBT3_buttonlabel_array2 += [label_0,]
 
 ##################
 ### IC2D LpGBT ###
@@ -329,22 +292,22 @@ for i in range(len(LpGBT2_label_array)):
     LpGBT2_label_array[i]['font'] = myfont
     LpGBT2_label_array[i].grid(column=0, row=i+1)
 
-LpGBT2_button0 = tk.Button(LpGBT2_GPIO_frame, bg="white", command=lambda: button_functions.LpGBTon_off_button(LpGBT2_button0, output_textbox, 2, 0))
-LpGBT2_button1 = tk.Button(LpGBT2_GPIO_frame, bg="white", command=lambda: button_functions.LpGBTon_off_button(LpGBT2_button1, output_textbox, 2, 1))
-LpGBT2_button2 = tk.Button(LpGBT2_GPIO_frame, bg="white", command=lambda: button_functions.LpGBTon_off_button(LpGBT2_button2, output_textbox, 2, 2))
-LpGBT2_button3 = tk.Button(LpGBT2_GPIO_frame, bg="white", command=lambda: button_functions.LpGBTon_off_button(LpGBT2_button3, output_textbox, 2, 3))
-LpGBT2_button4 = tk.Button(LpGBT2_GPIO_frame, bg="white", command=lambda: button_functions.LpGBTon_off_button(LpGBT2_button4, output_textbox, 2, 4))
-LpGBT2_button5 = tk.Button(LpGBT2_GPIO_frame, bg="white", command=lambda: button_functions.LpGBTon_off_button(LpGBT2_button5, output_textbox, 2, 5))
+LpGBT2_button0 = tk.Button(LpGBT2_GPIO_frame, bg="white", command=lambda: button_functions.LpGBTon_off_button(LpGBT2_button0, output_textbox, 2, 0, sys.argv[1]))
+LpGBT2_button1 = tk.Button(LpGBT2_GPIO_frame, bg="white", command=lambda: button_functions.LpGBTon_off_button(LpGBT2_button1, output_textbox, 2, 1, sys.argv[1]))
+LpGBT2_button2 = tk.Button(LpGBT2_GPIO_frame, bg="white", command=lambda: button_functions.LpGBTon_off_button(LpGBT2_button2, output_textbox, 2, 2, sys.argv[1]))
+LpGBT2_button3 = tk.Button(LpGBT2_GPIO_frame, bg="white", command=lambda: button_functions.LpGBTon_off_button(LpGBT2_button3, output_textbox, 2, 3, sys.argv[1]))
+LpGBT2_button4 = tk.Button(LpGBT2_GPIO_frame, bg="white", command=lambda: button_functions.LpGBTon_off_button(LpGBT2_button4, output_textbox, 2, 4, sys.argv[1]))
+LpGBT2_button5 = tk.Button(LpGBT2_GPIO_frame, bg="white", command=lambda: button_functions.LpGBTon_off_button(LpGBT2_button5, output_textbox, 2, 5, sys.argv[1]))
 LpGBT2_label6 = tk.Label(LpGBT2_GPIO_frame, width='10', text='output')
-LpGBT2_button7 = tk.Button(LpGBT2_GPIO_frame, bg="white", command=lambda: button_functions.LpGBTon_off_button(LpGBT2_button7, output_textbox, 2, 7))
-LpGBT2_button8 = tk.Button(LpGBT2_GPIO_frame, bg="white", command=lambda: button_functions.LpGBTon_off_button(LpGBT2_button8, output_textbox, 2, 8))
-LpGBT2_button9 = tk.Button(LpGBT2_GPIO_frame, bg="white", command=lambda: button_functions.LpGBTon_off_button(LpGBT2_button9, output_textbox, 2, 9))
-LpGBT2_button10 = tk.Button(LpGBT2_GPIO_frame, bg="white", command=lambda: button_functions.LpGBTon_off_button(LpGBT2_button10, output_textbox, 2, 10))
-LpGBT2_button11 = tk.Button(LpGBT2_GPIO_frame, bg="white", command=lambda: button_functions.LpGBTon_off_button(LpGBT2_button11, output_textbox, 2, 11))
+LpGBT2_button7 = tk.Button(LpGBT2_GPIO_frame, bg="white", command=lambda: button_functions.LpGBTon_off_button(LpGBT2_button7, output_textbox, 2, 7, sys.argv[1]))
+LpGBT2_button8 = tk.Button(LpGBT2_GPIO_frame, bg="white", command=lambda: button_functions.LpGBTon_off_button(LpGBT2_button8, output_textbox, 2, 8, sys.argv[1]))
+LpGBT2_button9 = tk.Button(LpGBT2_GPIO_frame, bg="white", command=lambda: button_functions.LpGBTon_off_button(LpGBT2_button9, output_textbox, 2, 9, sys.argv[1]))
+LpGBT2_button10 = tk.Button(LpGBT2_GPIO_frame, bg="white", command=lambda: button_functions.LpGBTon_off_button(LpGBT2_button10, output_textbox, 2, 10, sys.argv[1]))
+LpGBT2_button11 = tk.Button(LpGBT2_GPIO_frame, bg="white", command=lambda: button_functions.LpGBTon_off_button(LpGBT2_button11, output_textbox, 2, 11, sys.argv[1]))
 LpGBT2_label12 = tk.Label(LpGBT2_GPIO_frame, width='10', text='output')
-LpGBT2_button13 = tk.Button(LpGBT2_GPIO_frame, bg="white", command=lambda: button_functions.LpGBTon_off_button(LpGBT2_button13, output_textbox, 2, 13))
+LpGBT2_button13 = tk.Button(LpGBT2_GPIO_frame, bg="white", command=lambda: button_functions.LpGBTon_off_button(LpGBT2_button13, output_textbox, 2, 13, sys.argv[1]))
 LpGBT2_label14 = tk.Label(LpGBT2_GPIO_frame, width='10', text='output')
-LpGBT2_button15 = tk.Button(LpGBT2_GPIO_frame, bg="white", command=lambda: button_functions.LpGBTon_off_button(LpGBT2_button15, output_textbox, 2, 15))
+LpGBT2_button15 = tk.Button(LpGBT2_GPIO_frame, bg="white", command=lambda: button_functions.LpGBTon_off_button(LpGBT2_button15, output_textbox, 2, 15, sys.argv[1]))
 
 LpGBT2_button_array = [
     LpGBT2_button0, LpGBT2_button1, LpGBT2_button2, LpGBT2_button3, LpGBT2_button4, LpGBT2_button5,
