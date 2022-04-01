@@ -8,7 +8,7 @@
 </details>
 Once you are in the directory run:
 
-- python2 GUI_board_test.py
+- python2 GUI_board_test.py LpgbtV# &
 
 This will bring up the interface for communicating with the teststand
 
