@@ -179,42 +179,59 @@ def GPIOset_clr_button(NewValue, i, output_textbox, GBT_SCA_num):
 
 
 #######
-def LpGBTon_off_button(Button, output_textbox, LpGBT_num, bit_num):
-    if Button.cget('bg') == "white" or Button.cget('bg') == "red":    #Off state or bad to on
-	    proc = subprocess.Popen(['python3', 'LpGBT_functions.py', 'on', str(LpGBT_num), str(bit_num)], stdout=subprocess.PIPE)
-            out_value = str(proc.communicate()[0])
-            print out_value
-	    out_value = out_value.partition('\n')[0]
-	    if out_value == "worked":
-	        Button.configure(bg="green")
-	    else:
-	        Button.configure(bg="red")
-    elif Button.cget('bg') == "green":  #On state to turn off
-	    proc = subprocess.Popen(['python3', 'LpGBT_functions.py', 'off', str(LpGBT_num), str(bit_num)], stdout=subprocess.PIPE)
+def LpGBTon_off_button(NewValue, i, output_textbox, Lpgbt_num, lpgbt_version):
+    if i != 4 and i != 5 and i != 6:
+        Button = LpGBT3_buttonlabel_array[i]
+        if Lpgbt_num == 2:
+            Button = LpGBT2_buttonlabel_array[i]
+        
+        if Button.cget('bg') == "white" or Button.cget('bg') == "red":   # Off state to on or bad to on
+            proc = subprocess.Popen(['python3', 'LpGBT_functions.py', 'on', str(Lpgbt_num), str(NewValue), str(lpgbt_version)], stdout=subprocess.PIPE)
             out_value = str(proc.communicate()[0])
             out_value = out_value.partition('\n')[0]
-	    if out_value == "worked":
-	        Button.configure(bg="white")
-	    else:
-	        Button.configure(bg="red")
+            if out_value == "worked":
+                Button.configure(bg="green")
+            else:
+                Button.configure(bg="red")
+        elif Button.cget('bg') == "green":    # on state to turn off
+            proc = subprocess.Popen(['python3', 'LpGBT_functions.py', 'off', str(Lpgbt_num), str(NewValue), str(lpgbt_version)], stdout=subprocess.PIPE)
+            out_value = str(proc.communicate()[0])
+            out_value = out_value.partition('\n')[0]
+            if out_value == "worked":
+                Button.configure(bg="white")
+            else:
+                Button.configure(bg="red")
+    else:
+        Label = LpGBT3_buttonlabel_array[i]
+        if Lpgbt_num == 2:
+            Label = LpGBT2_buttonlabel_array[i]
 
-def LpGBTset_clr_button(Button, output_textbox, LpGBT_num, bit_num):
-    if Button.cget('bg') == "white" or Button.cget('bg') == "red":    #Off state or bad to on
-	    proc = subprocess.Popen(['python3', 'LpGBT_functions.py', 'set', str(LpGBT_num), str(bit_num)], stdout=subprocess.PIPE)
+def LpGBTset_clr_button(NewValue, i, output_textbox, Lpgbt_num, lpgbt_version):
+    if i != 4 and i != 5 and i != 6:
+        Button = LpGT3_buttonlabel_array2[i]
+        if Lpgbt_num == 2:
+            Button = LpGBT2_buttonlabel_array2[i]
+
+        if Button.cget('bg') == "white" or Button.cget('bg') == "red":    #Off state or bad to on
+	    proc = subprocess.Popen(['python3', 'LpGBT_functions.py', 'set', str(LpGBT_num), str(NewValue), str(lpgbt_version)], stdout=subprocess.PIPE)
             out_value = str(proc.communicate()[0])
             out_value = out_value.partition('\n')[0]
 	    if out_value == "worked":
 	        Button.configure(bg="green")
 	    else:
 	        Button.configure(bg="red")
-    elif Button.cget('bg') == "green":
-	    proc = subprocess.Popen(['python3', 'LpGBT_functions.py', 'clr', str(LpGBT_num), str(bit_num)], stdout=subprocess.PIPE)
+        elif Button.cget('bg') == "green":
+	    proc = subprocess.Popen(['python3', 'LpGBT_functions.py', 'clr', str(LpGBT_num), str(NewValue), str(lpgbt_version)], stdout=subprocess.PIPE)
             out_value = str(proc.communicate()[0])
             out_value = out_value.partition('\n')[0]
 	    if out_value == "worked":
 	        Button.configure(bg="white")
 	    else:
 	        Button.configure(bg="red")
+    else:
+        Label = LpGBT3_buttonlabel_array2[i]
+        if Lpgbt_num == 2:
+            Label = LpGBT2_buttonlabel_array2[i]
 
 ### Analog IO tab specific functions ###
 def AnIO_refresh(IC4B_label_array2, IC4B_label_array3, IC1B_label_array2, IC1B_label_array3, output_textbox):
