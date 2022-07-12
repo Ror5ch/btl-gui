@@ -47,12 +47,11 @@ def Connect():
         Gg.DATAOUTread_label.configure(text="DATAOUTread output")
         Gg.IDread_label.configure(text="IDread output")
         # reset GPIO GBT-SCA button colors
-	    for i in range(len(Gg.GBT_SCA4_button_array)):
-		    Gg.GBT_SCA4_button_array[i].configure(bg="white")
-	    for i in range(len(Gg.GBT_SCA4_button_array2)):
-		    Gg.GBT_SCA4_button_array2[i].configure(bg="white")
+	for i in range(len(Gg.GBT_SCA4_button_array)):
+	    Gg.GBT_SCA4_button_array[i].configure(bg="white")
+	for i in range(len(Gg.GBT_SCA4_button_array2)):
+	    Gg.GBT_SCA4_button_array2[i].configure(bg="white")
         # reset Analog IO label text
-        for i in range(len())
     else:
         Gg.Connect_button.configure(bg="red")
 
@@ -158,10 +157,10 @@ def Connect2():
         Gg.DIRread_label2.configure(text="DIRread output")
         Gg.DATAOUTread_label2.configure(text="DATAOUTread output")
         Gg.IDread_label2.configure(text="IDread output")
-	    for i in range(len(Gg.GBT_SCA1_button_array)):
-		    Gg.GBT_SCA1_button_array[i].configure(bg="white")
-	    for i in range(len(Gg.GBT_SCA1_button_array2)):
-		    Gg.GBT_SCA1_button_array2[i].configure(bg="white")
+	for i in range(len(Gg.GBT_SCA1_button_array)):
+	    Gg.GBT_SCA1_button_array[i].configure(bg="white")
+	for i in range(len(Gg.GBT_SCA1_button_array2)):
+	    Gg.GBT_SCA1_button_array2[i].configure(bg="white")
     else:
         Gg.Connect_button2.configure(bg="red")
 
